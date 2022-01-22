@@ -1,0 +1,32 @@
+type Tag @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  color: String
+  Notes: [Note] @manyToMany(relationName: "NoteTag")
+  Pages: [Page] @manyToMany(relationName: "PageTag")
+}
+
+type Note @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  title: String
+  body: String!
+  parent: [Note]
+  children: [Note] 
+  pageID: ID @index(name: "byPage")
+  Tags: [Tag] @manyToMany(relationName: "NoteTag")
+}
+
+type Notebook @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  title: String!
+  Pages: [Page] @hasMany(indexName: "byNotebook", fields: ["id"])
+}
+
+type Page @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  title: String!
+  notebookID: ID @index(name: "byNotebook")
+  Notes: [Note] @hasMany(indexName: "byPage", fields: ["id"])
+  Tags: [Tag] @manyToMany(relationName: "PageTag")
+}
+  

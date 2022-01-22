@@ -1,0 +1,6 @@
+{
+  "AppSyncApiName": "coven",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthModeLastUpdated": "2022-01-22T23:14:35.618Z"
+}

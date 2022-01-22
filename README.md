@@ -1,6 +1,6 @@
 ## Coven
 
-![Vercel](https://vercelbadge.vercel.app/api/ehouse/coven)
+[![amplifybutton](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/ehouse/coven)
 
 ## Getting Started
 
