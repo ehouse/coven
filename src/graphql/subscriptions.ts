@@ -15,8 +15,12 @@ export const onCreateTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       Pages {
         items {
@@ -25,11 +29,18 @@ export const onCreateTag = /* GraphQL */ `
           pageID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -46,8 +57,12 @@ export const onUpdateTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       Pages {
         items {
@@ -56,11 +71,18 @@ export const onUpdateTag = /* GraphQL */ `
           pageID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -77,8 +99,12 @@ export const onDeleteTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       Pages {
         items {
@@ -87,11 +113,18 @@ export const onDeleteTag = /* GraphQL */ `
           pageID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -101,60 +134,6 @@ export const onCreateNote = /* GraphQL */ `
       id
       title
       body
-      parent {
-        id
-        title
-        body
-        parent {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        children {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        pageID
-        Tags {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      children {
-        id
-        title
-        body
-        parent {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        children {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        pageID
-        Tags {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       pageID
       Tags {
         items {
@@ -163,11 +142,18 @@ export const onCreateNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -177,60 +163,6 @@ export const onUpdateNote = /* GraphQL */ `
       id
       title
       body
-      parent {
-        id
-        title
-        body
-        parent {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        children {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        pageID
-        Tags {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      children {
-        id
-        title
-        body
-        parent {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        children {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        pageID
-        Tags {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       pageID
       Tags {
         items {
@@ -239,11 +171,18 @@ export const onUpdateNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -253,60 +192,6 @@ export const onDeleteNote = /* GraphQL */ `
       id
       title
       body
-      parent {
-        id
-        title
-        body
-        parent {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        children {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        pageID
-        Tags {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      children {
-        id
-        title
-        body
-        parent {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        children {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        pageID
-        Tags {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       pageID
       Tags {
         items {
@@ -315,11 +200,18 @@ export const onDeleteNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -335,11 +227,18 @@ export const onCreateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -355,11 +254,18 @@ export const onUpdateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -375,11 +281,18 @@ export const onDeleteNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -397,8 +310,12 @@ export const onCreatePage = /* GraphQL */ `
           pageID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       Tags {
         items {
@@ -407,11 +324,18 @@ export const onCreatePage = /* GraphQL */ `
           pageID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -429,8 +353,12 @@ export const onUpdatePage = /* GraphQL */ `
           pageID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       Tags {
         items {
@@ -439,11 +367,18 @@ export const onUpdatePage = /* GraphQL */ `
           pageID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -461,8 +396,12 @@ export const onDeletePage = /* GraphQL */ `
           pageID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       Tags {
         items {
@@ -471,11 +410,18 @@ export const onDeletePage = /* GraphQL */ `
           pageID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -491,42 +437,38 @@ export const onCreateNoteTag = /* GraphQL */ `
         color
         Notes {
           nextToken
+          startedAt
         }
         Pages {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       note {
         id
         title
         body
-        parent {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        children {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
         pageID
         Tags {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -542,42 +484,38 @@ export const onUpdateNoteTag = /* GraphQL */ `
         color
         Notes {
           nextToken
+          startedAt
         }
         Pages {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       note {
         id
         title
         body
-        parent {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        children {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
         pageID
         Tags {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -593,42 +531,38 @@ export const onDeleteNoteTag = /* GraphQL */ `
         color
         Notes {
           nextToken
+          startedAt
         }
         Pages {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       note {
         id
         title
         body
-        parent {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        children {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
         pageID
         Tags {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -644,12 +578,17 @@ export const onCreatePageTag = /* GraphQL */ `
         color
         Notes {
           nextToken
+          startedAt
         }
         Pages {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       page {
         id
@@ -657,15 +596,23 @@ export const onCreatePageTag = /* GraphQL */ `
         notebookID
         Notes {
           nextToken
+          startedAt
         }
         Tags {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -681,12 +628,17 @@ export const onUpdatePageTag = /* GraphQL */ `
         color
         Notes {
           nextToken
+          startedAt
         }
         Pages {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       page {
         id
@@ -694,15 +646,23 @@ export const onUpdatePageTag = /* GraphQL */ `
         notebookID
         Notes {
           nextToken
+          startedAt
         }
         Tags {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -718,12 +678,17 @@ export const onDeletePageTag = /* GraphQL */ `
         color
         Notes {
           nextToken
+          startedAt
         }
         Pages {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       page {
         id
@@ -731,15 +696,23 @@ export const onDeletePageTag = /* GraphQL */ `
         notebookID
         Notes {
           nextToken
+          startedAt
         }
         Tags {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;

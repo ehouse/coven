@@ -1,6 +1,6 @@
 projects:
   coven:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/coven/build/schema.graphql
     includes:
       - src/graphql/**/*.ts
     excludes:

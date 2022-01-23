@@ -3,7 +3,7 @@
   "serviceConfiguration": {
     "apiName": "coven",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/tmp/amplify-85449f10-4947-41e1-99a3-069a6f05170f/amplify/backend/api/coven/schema.graphql",
+    "gqlSchemaPath": "/tmp/amplify-58817e2b-d910-42f8-9ae9-5ba60c33d5ea/amplify/backend/api/coven/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
       "keyDescription": "api key description",

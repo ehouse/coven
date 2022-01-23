@@ -15,8 +15,12 @@ export const getTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       Pages {
         items {
@@ -25,11 +29,18 @@ export const getTag = /* GraphQL */ `
           pageID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -46,14 +57,56 @@ export const listTags = /* GraphQL */ `
         color
         Notes {
           nextToken
+          startedAt
         }
         Pages {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncTags = /* GraphQL */ `
+  query SyncTags(
+    $filter: ModelTagFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncTags(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        name
+        color
+        Notes {
+          nextToken
+          startedAt
+        }
+        Pages {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -63,60 +116,6 @@ export const getNote = /* GraphQL */ `
       id
       title
       body
-      parent {
-        id
-        title
-        body
-        parent {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        children {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        pageID
-        Tags {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      children {
-        id
-        title
-        body
-        parent {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        children {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        pageID
-        Tags {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       pageID
       Tags {
         items {
@@ -125,11 +124,18 @@ export const getNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -144,30 +150,52 @@ export const listNotes = /* GraphQL */ `
         id
         title
         body
-        parent {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        children {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
         pageID
         Tags {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncNotes = /* GraphQL */ `
+  query SyncNotes(
+    $filter: ModelNoteFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncNotes(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        title
+        body
+        pageID
+        Tags {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -183,11 +211,18 @@ export const getNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -203,11 +238,47 @@ export const listNotebooks = /* GraphQL */ `
         title
         Pages {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncNotebooks = /* GraphQL */ `
+  query SyncNotebooks(
+    $filter: ModelNotebookFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncNotebooks(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        title
+        Pages {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -225,8 +296,12 @@ export const getPage = /* GraphQL */ `
           pageID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       Tags {
         items {
@@ -235,11 +310,18 @@ export const getPage = /* GraphQL */ `
           pageID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -256,14 +338,56 @@ export const listPages = /* GraphQL */ `
         notebookID
         Notes {
           nextToken
+          startedAt
         }
         Tags {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncPages = /* GraphQL */ `
+  query SyncPages(
+    $filter: ModelPageFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncPages(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        title
+        notebookID
+        Notes {
+          nextToken
+          startedAt
+        }
+        Tags {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -279,42 +403,38 @@ export const getNoteTag = /* GraphQL */ `
         color
         Notes {
           nextToken
+          startedAt
         }
         Pages {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       note {
         id
         title
         body
-        parent {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
-        children {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-        }
         pageID
         Tags {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -335,6 +455,9 @@ export const listNoteTags = /* GraphQL */ `
           color
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         note {
           id
@@ -343,11 +466,67 @@ export const listNoteTags = /* GraphQL */ `
           pageID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncNoteTags = /* GraphQL */ `
+  query SyncNoteTags(
+    $filter: ModelNoteTagFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncNoteTags(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        tagID
+        noteID
+        tag {
+          id
+          name
+          color
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        note {
+          id
+          title
+          body
+          pageID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -363,12 +542,17 @@ export const getPageTag = /* GraphQL */ `
         color
         Notes {
           nextToken
+          startedAt
         }
         Pages {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       page {
         id
@@ -376,15 +560,23 @@ export const getPageTag = /* GraphQL */ `
         notebookID
         Notes {
           nextToken
+          startedAt
         }
         Tags {
           nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -405,6 +597,9 @@ export const listPageTags = /* GraphQL */ `
           color
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         page {
           id
@@ -412,11 +607,66 @@ export const listPageTags = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncPageTags = /* GraphQL */ `
+  query SyncPageTags(
+    $filter: ModelPageTagFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncPageTags(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        tagID
+        pageID
+        tag {
+          id
+          name
+          color
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        page {
+          id
+          title
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
     }
   }
 `;

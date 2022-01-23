@@ -8,13 +8,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-amplify/ui-react": "^2.1.9",
     "@mantine/core": "^3.2.2",
     "@mantine/hooks": "^3.2.2",
     "@mantine/notifications": "^3.2.2",
     "@mantine/rte": "^3.2.2",
+    "aws-amplify": "^4.3.12",
     "next": "12.0.4",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-markdown": "^8.0.0"
   },
   "devDependencies": {
     "@types/node": "16.11.9",
