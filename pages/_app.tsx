@@ -22,13 +22,13 @@ function App(props: AppProps) {
     const [notebooks, setNotebooks] = useState<string[]>([]);
 
     useEffect(() => {
-        const query = API.graphql({ query: queries.listNotebooks });
-        if (query instanceof Promise) {
-            query.then((results) => {
-                setNotebooks(results.data.listNotebooks.items.map((notebook) => (notebook.title)));
-            });
-        }
+        fetchNotebooks();
     }, []);
+
+    async function fetchNotebooks() {
+        const serverState = await API.graphql({ query: queries.listNotebooks });
+        setNotebooks(serverState.data.listNotebooks.items.map((notebook) => (notebook.title)));
+    }
 
     return (
         <>

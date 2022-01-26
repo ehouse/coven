@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { AppShell, Burger, Header, MediaQuery, Navbar, List, Title, useMantineTheme } from '@mantine/core';
+import { AppShell, Burger, Button, Center, Header, MediaQuery, Navbar, List, Title, useMantineTheme } from '@mantine/core';
+
+import CreateNotebook from './createNotebook';
 
 interface Props {
     notebookNames: string[];
@@ -8,6 +10,8 @@ interface Props {
 
 function Layout(props: Props) {
     const [opened, setOpened] = useState(false);
+    const [modelVisibile, setModelVisibile] = useState(false);
+
     const theme = useMantineTheme();
 
     const { notebookNames } = props;
@@ -20,15 +24,22 @@ function Layout(props: Props) {
                 padding="md"
                 hiddenBreakpoint="sm"
                 hidden={!opened}
-                width={{ sm: 200, lg: 300 }}
+                width={{ sm: 200, lg: 250 }}
             >
-                <Navbar.Section>
-                    <Title order={3}>Notebook</Title>
+                <Navbar.Section grow mt="lg">
+                    <Title order={3}>Notebooks</Title>
                     <List>
                         {notebookNames.map((name) => (
                             <List.Item key={name}>{name}</List.Item>
                         ))}
                     </List>
+                </Navbar.Section>
+                <Navbar.Section>
+                    <Button fullWidth
+                        onClick={() => setModelVisibile(true)}
+                    >
+                        Create Notebook
+                    </Button>
                 </Navbar.Section>
             </Navbar>
         }
@@ -51,6 +62,7 @@ function Layout(props: Props) {
             </Header>
         }
     >
+        <CreateNotebook opened={modelVisibile} setOpened={setModelVisibile} />
         {props.children}
     </AppShell>;
 }
