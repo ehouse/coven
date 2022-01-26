@@ -2,18 +2,24 @@ import { Amplify, API, withSSRContext } from "aws-amplify";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import awsExports from "../../src/aws-exports";
-import { deleteNote } from "../../src/graphql/mutations";
-import { getNote, listNotes } from "../../src/graphql/queries";
+import * as mutations from "../../src/graphql/mutations";
+import * as queries from "../../src/graphql/queries";
+
+import type { GetStaticProps, GetStaticPaths, NextPage } from 'next';
+import type { ListNotesQuery, Note } from '../../src/API';
+
 
 import styles from "../../styles/Home.module.css";
 
-Amplify.configure({ ...awsExports, ssr: true });
+interface Props {
+    note: Note;
+}
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
     const SSR = withSSRContext();
-    const { data } = await SSR.API.graphql({ query: listNotes });
-    const paths = data.listNotes.items.map((note) => ({
+    const { data } = await SSR.API.graphql({ query: queries.listNotes });
+
+    const paths = data.listNotes.items.map((note: Note) => ({
         params: { id: note.id },
     }));
 
@@ -21,12 +27,17 @@ export async function getStaticPaths() {
         fallback: true,
         paths,
     };
-}
+};
 
-export async function getStaticProps({ params }) {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
     const SSR = withSSRContext();
+
+    if (!params) {
+        throw Error("Missing note ID");
+    }
+
     const { data } = await SSR.API.graphql({
-        query: getNote,
+        query: queries.getNote,
         variables: {
             id: params.id,
         },
@@ -37,9 +48,9 @@ export async function getStaticProps({ params }) {
             note: data.getNote,
         },
     };
-}
+};
 
-export default function Note({ note }) {
+const NotePage: NextPage<Props> = ({ note }) => {
     const router = useRouter();
 
     if (router.isFallback) {
@@ -54,7 +65,7 @@ export default function Note({ note }) {
         try {
             await API.graphql({
                 authMode: "AMAZON_COGNITO_USER_POOLS",
-                query: deleteNote,
+                query: mutations.deleteNote,
                 variables: {
                     input: { id: note.id },
                 },
@@ -76,7 +87,7 @@ export default function Note({ note }) {
             <main className={styles.main}>
                 <h1 className={styles.title}>{note.title}</h1>
 
-                <p className={styles.description}>{note.body}</p>
+                <p className={styles.description}>{note.content}</p>
             </main>
 
             <footer className={styles.footer}>
@@ -84,4 +95,6 @@ export default function Note({ note }) {
             </footer>
         </div>
     );
-}
+};
+
+export default NotePage;

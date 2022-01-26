@@ -4,13 +4,13 @@ import { schema } from './schema';
 
 
 
-const { Tag, Note, Page, Notebook, NoteTag, PageTag } = initSchema(schema);
+const { Relationship, Note, Tag, Notebook, NoteRelationship, NoteTag } = initSchema(schema);
 
 export {
-  Tag,
+  Relationship,
   Note,
-  Page,
+  Tag,
   Notebook,
-  NoteTag,
-  PageTag
+  NoteRelationship,
+  NoteTag
 };

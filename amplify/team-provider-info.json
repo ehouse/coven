@@ -16,5 +16,30 @@
         "covenfee3faa5": {}
       }
     }
+  },
+  "devel": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-coven-devel-130850-authRole",
+      "UnauthRoleArn": "arn:aws:iam::532123707589:role/amplify-coven-devel-130850-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::532123707589:role/amplify-coven-devel-130850-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-coven-devel-130850-deployment",
+      "UnauthRoleName": "amplify-coven-devel-130850-unauthRole",
+      "StackName": "amplify-coven-devel-130850",
+      "StackId": "arn:aws:cloudformation:us-east-1:532123707589:stack/amplify-coven-devel-130850/89e4abe0-7c77-11ec-a142-0a83d726a431",
+      "AmplifyAppId": "d2npvy8u725cf1"
+    },
+    "categories": {
+      "auth": {
+        "covenfee3faa5": {},
+        "userPoolGroups": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d2npvy8u725cf1",
+          "type": "manual"
+        }
+      }
+    }
   }
 }

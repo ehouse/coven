@@ -1,7 +1,7 @@
 export const schema = {
     "models": {
-        "Tag": {
-            "name": "Tag",
+        "Relationship": {
+            "name": "Relationship",
             "fields": {
                 "id": {
                     "name": "id",
@@ -10,47 +10,40 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "type": {
+                    "name": "type",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "name": {
                     "name": "name",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
-                "color": {
-                    "name": "color",
+                "notes": {
+                    "name": "notes",
+                    "isArray": true,
+                    "type": {
+                        "model": "NoteRelationship"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "relationship"
+                    }
+                },
+                "notebookID": {
+                    "name": "notebookID",
                     "isArray": false,
-                    "type": "String",
+                    "type": "ID",
                     "isRequired": false,
                     "attributes": []
-                },
-                "Notes": {
-                    "name": "Notes",
-                    "isArray": true,
-                    "type": {
-                        "model": "NoteTag"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "tag"
-                    }
-                },
-                "Pages": {
-                    "name": "Pages",
-                    "isArray": true,
-                    "type": {
-                        "model": "PageTag"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "tag"
-                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -70,18 +63,27 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "Tags",
+            "pluralName": "Relationships",
             "attributes": [
                 {
                     "type": "model",
                     "properties": {}
                 },
                 {
+                    "type": "key",
+                    "properties": {
+                        "name": "byNotebook",
+                        "fields": [
+                            "notebookID"
+                        ]
+                    }
+                },
+                {
                     "type": "auth",
                     "properties": {
                         "rules": [
                             {
-                                "allow": "public",
+                                "allow": "private",
                                 "operations": [
                                     "create",
                                     "update",
@@ -111,17 +113,17 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "body": {
-                    "name": "body",
+                "content": {
+                    "name": "content",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
-                "pageID": {
-                    "name": "pageID",
+                "hidden": {
+                    "name": "hidden",
                     "isArray": false,
-                    "type": "ID",
+                    "type": "Boolean",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -130,6 +132,27 @@ export const schema = {
                     "isArray": true,
                     "type": {
                         "model": "NoteTag"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "note"
+                    }
+                },
+                "notebookID": {
+                    "name": "notebookID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "Relationships": {
+                    "name": "Relationships",
+                    "isArray": true,
+                    "type": {
+                        "model": "NoteRelationship"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -166,9 +189,9 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "byPage",
+                        "name": "byNotebook",
                         "fields": [
-                            "pageID"
+                            "notebookID"
                         ]
                     }
                 },
@@ -177,7 +200,7 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "public",
+                                "allow": "private",
                                 "operations": [
                                     "create",
                                     "update",
@@ -190,8 +213,8 @@ export const schema = {
                 }
             ]
         },
-        "Page": {
-            "name": "Page",
+        "Tag": {
+            "name": "Tag",
             "fields": {
                 "id": {
                     "name": "id",
@@ -200,17 +223,24 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "title": {
-                    "name": "title",
+                "name": {
+                    "name": "name",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
-                "notebookID": {
-                    "name": "notebookID",
+                "color": {
+                    "name": "color",
                     "isArray": false,
-                    "type": "ID",
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "content": {
+                    "name": "content",
+                    "isArray": false,
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -218,29 +248,22 @@ export const schema = {
                     "name": "Notes",
                     "isArray": true,
                     "type": {
-                        "model": "Note"
+                        "model": "NoteTag"
                     },
                     "isRequired": false,
                     "attributes": [],
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
-                        "associatedWith": "pageID"
+                        "associatedWith": "tag"
                     }
                 },
-                "Tags": {
-                    "name": "Tags",
-                    "isArray": true,
-                    "type": {
-                        "model": "PageTag"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "page"
-                    }
+                "notebookID": {
+                    "name": "notebookID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -260,7 +283,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "Pages",
+            "pluralName": "Tags",
             "attributes": [
                 {
                     "type": "model",
@@ -280,7 +303,7 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "public",
+                                "allow": "private",
                                 "operations": [
                                     "create",
                                     "update",
@@ -310,11 +333,62 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Pages": {
-                    "name": "Pages",
+                "description": {
+                    "name": "description",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "editors": {
+                    "name": "editors",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
+                "readers": {
+                    "name": "readers",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
+                "Tags": {
+                    "name": "Tags",
                     "isArray": true,
                     "type": {
-                        "model": "Page"
+                        "model": "Tag"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "notebookID"
+                    }
+                },
+                "Notes": {
+                    "name": "Notes",
+                    "isArray": true,
+                    "type": {
+                        "model": "Note"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "notebookID"
+                    }
+                },
+                "Relationships": {
+                    "name": "Relationships",
+                    "isArray": true,
+                    "type": {
+                        "model": "Relationship"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -353,7 +427,7 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "public",
+                                "allow": "private",
                                 "operations": [
                                     "create",
                                     "update",
@@ -366,8 +440,8 @@ export const schema = {
                 }
             ]
         },
-        "NoteTag": {
-            "name": "NoteTag",
+        "NoteRelationship": {
+            "name": "NoteRelationship",
             "fields": {
                 "id": {
                     "name": "id",
@@ -376,17 +450,17 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "tag": {
-                    "name": "tag",
+                "relationship": {
+                    "name": "relationship",
                     "isArray": false,
                     "type": {
-                        "model": "Tag"
+                        "model": "Relationship"
                     },
                     "isRequired": true,
                     "attributes": [],
                     "association": {
                         "connectionType": "BELONGS_TO",
-                        "targetName": "tagID"
+                        "targetName": "relationshipID"
                     }
                 },
                 "note": {
@@ -420,7 +494,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "NoteTags",
+            "pluralName": "NoteRelationships",
             "attributes": [
                 {
                     "type": "model",
@@ -428,8 +502,8 @@ export const schema = {
                 }
             ]
         },
-        "PageTag": {
-            "name": "PageTag",
+        "NoteTag": {
+            "name": "NoteTag",
             "fields": {
                 "id": {
                     "name": "id",
@@ -437,6 +511,19 @@ export const schema = {
                     "type": "ID",
                     "isRequired": true,
                     "attributes": []
+                },
+                "note": {
+                    "name": "note",
+                    "isArray": false,
+                    "type": {
+                        "model": "Note"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "noteID"
+                    }
                 },
                 "tag": {
                     "name": "tag",
@@ -449,19 +536,6 @@ export const schema = {
                     "association": {
                         "connectionType": "BELONGS_TO",
                         "targetName": "tagID"
-                    }
-                },
-                "page": {
-                    "name": "page",
-                    "isArray": false,
-                    "type": {
-                        "model": "Page"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "pageID"
                     }
                 },
                 "createdAt": {
@@ -482,7 +556,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "PageTags",
+            "pluralName": "NoteTags",
             "attributes": [
                 {
                     "type": "model",
@@ -493,5 +567,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "be3aa6ee36692b89775a9faa738a7fb2"
+    "version": "fd10cfec921263fd53a069e59de6b4c0"
 };

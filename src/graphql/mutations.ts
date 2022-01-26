@@ -2,6 +2,102 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createRelationship = /* GraphQL */ `
+  mutation CreateRelationship(
+    $input: CreateRelationshipInput!
+    $condition: ModelRelationshipConditionInput
+  ) {
+    createRelationship(input: $input, condition: $condition) {
+      id
+      type
+      name
+      notes {
+        items {
+          id
+          relationshipID
+          noteID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      notebookID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateRelationship = /* GraphQL */ `
+  mutation UpdateRelationship(
+    $input: UpdateRelationshipInput!
+    $condition: ModelRelationshipConditionInput
+  ) {
+    updateRelationship(input: $input, condition: $condition) {
+      id
+      type
+      name
+      notes {
+        items {
+          id
+          relationshipID
+          noteID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      notebookID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteRelationship = /* GraphQL */ `
+  mutation DeleteRelationship(
+    $input: DeleteRelationshipInput!
+    $condition: ModelRelationshipConditionInput
+  ) {
+    deleteRelationship(input: $input, condition: $condition) {
+      id
+      type
+      name
+      notes {
+        items {
+          id
+          relationshipID
+          noteID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      notebookID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createTag = /* GraphQL */ `
   mutation CreateTag(
     $input: CreateTagInput!
@@ -11,6 +107,7 @@ export const createTag = /* GraphQL */ `
       id
       name
       color
+      content
       Notes {
         items {
           id
@@ -25,20 +122,7 @@ export const createTag = /* GraphQL */ `
         nextToken
         startedAt
       }
-      Pages {
-        items {
-          id
-          tagID
-          pageID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        nextToken
-        startedAt
-      }
+      notebookID
       createdAt
       updatedAt
       _version
@@ -56,6 +140,7 @@ export const updateTag = /* GraphQL */ `
       id
       name
       color
+      content
       Notes {
         items {
           id
@@ -70,20 +155,7 @@ export const updateTag = /* GraphQL */ `
         nextToken
         startedAt
       }
-      Pages {
-        items {
-          id
-          tagID
-          pageID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        nextToken
-        startedAt
-      }
+      notebookID
       createdAt
       updatedAt
       _version
@@ -101,6 +173,7 @@ export const deleteTag = /* GraphQL */ `
       id
       name
       color
+      content
       Notes {
         items {
           id
@@ -115,20 +188,7 @@ export const deleteTag = /* GraphQL */ `
         nextToken
         startedAt
       }
-      Pages {
-        items {
-          id
-          tagID
-          pageID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        nextToken
-        startedAt
-      }
+      notebookID
       createdAt
       updatedAt
       _version
@@ -145,12 +205,27 @@ export const createNote = /* GraphQL */ `
     createNote(input: $input, condition: $condition) {
       id
       title
-      body
-      pageID
+      content
+      hidden
       Tags {
         items {
           id
           tagID
+          noteID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      notebookID
+      Relationships {
+        items {
+          id
+          relationshipID
           noteID
           createdAt
           updatedAt
@@ -177,12 +252,27 @@ export const updateNote = /* GraphQL */ `
     updateNote(input: $input, condition: $condition) {
       id
       title
-      body
-      pageID
+      content
+      hidden
       Tags {
         items {
           id
           tagID
+          noteID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      notebookID
+      Relationships {
+        items {
+          id
+          relationshipID
           noteID
           createdAt
           updatedAt
@@ -209,12 +299,27 @@ export const deleteNote = /* GraphQL */ `
     deleteNote(input: $input, condition: $condition) {
       id
       title
-      body
-      pageID
+      content
+      hidden
       Tags {
         items {
           id
           tagID
+          noteID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      notebookID
+      Relationships {
+        items {
+          id
+          relationshipID
           noteID
           createdAt
           updatedAt
@@ -241,10 +346,46 @@ export const createNotebook = /* GraphQL */ `
     createNotebook(input: $input, condition: $condition) {
       id
       title
-      Pages {
+      description
+      editors
+      readers
+      Tags {
+        items {
+          id
+          name
+          color
+          content
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Notes {
         items {
           id
           title
+          content
+          hidden
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Relationships {
+        items {
+          id
+          type
+          name
           notebookID
           createdAt
           updatedAt
@@ -271,10 +412,46 @@ export const updateNotebook = /* GraphQL */ `
     updateNotebook(input: $input, condition: $condition) {
       id
       title
-      Pages {
+      description
+      editors
+      readers
+      Tags {
+        items {
+          id
+          name
+          color
+          content
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Notes {
         items {
           id
           title
+          content
+          hidden
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Relationships {
+        items {
+          id
+          type
+          name
           notebookID
           createdAt
           updatedAt
@@ -301,10 +478,46 @@ export const deleteNotebook = /* GraphQL */ `
     deleteNotebook(input: $input, condition: $condition) {
       id
       title
-      Pages {
+      description
+      editors
+      readers
+      Tags {
+        items {
+          id
+          name
+          color
+          content
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Notes {
         items {
           id
           title
+          content
+          hidden
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Relationships {
+        items {
+          id
+          type
+          name
           notebookID
           createdAt
           updatedAt
@@ -323,43 +536,49 @@ export const deleteNotebook = /* GraphQL */ `
     }
   }
 `;
-export const createPage = /* GraphQL */ `
-  mutation CreatePage(
-    $input: CreatePageInput!
-    $condition: ModelPageConditionInput
+export const createNoteRelationship = /* GraphQL */ `
+  mutation CreateNoteRelationship(
+    $input: CreateNoteRelationshipInput!
+    $condition: ModelNoteRelationshipConditionInput
   ) {
-    createPage(input: $input, condition: $condition) {
+    createNoteRelationship(input: $input, condition: $condition) {
       id
-      title
-      notebookID
-      Notes {
-        items {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
+      relationshipID
+      noteID
+      relationship {
+        id
+        type
+        name
+        notes {
+          nextToken
+          startedAt
         }
-        nextToken
-        startedAt
+        notebookID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
-      Tags {
-        items {
-          id
-          tagID
-          pageID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
+      note {
+        id
+        title
+        content
+        hidden
+        Tags {
+          nextToken
+          startedAt
         }
-        nextToken
-        startedAt
+        notebookID
+        Relationships {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
@@ -369,43 +588,49 @@ export const createPage = /* GraphQL */ `
     }
   }
 `;
-export const updatePage = /* GraphQL */ `
-  mutation UpdatePage(
-    $input: UpdatePageInput!
-    $condition: ModelPageConditionInput
+export const updateNoteRelationship = /* GraphQL */ `
+  mutation UpdateNoteRelationship(
+    $input: UpdateNoteRelationshipInput!
+    $condition: ModelNoteRelationshipConditionInput
   ) {
-    updatePage(input: $input, condition: $condition) {
+    updateNoteRelationship(input: $input, condition: $condition) {
       id
-      title
-      notebookID
-      Notes {
-        items {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
+      relationshipID
+      noteID
+      relationship {
+        id
+        type
+        name
+        notes {
+          nextToken
+          startedAt
         }
-        nextToken
-        startedAt
+        notebookID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
-      Tags {
-        items {
-          id
-          tagID
-          pageID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
+      note {
+        id
+        title
+        content
+        hidden
+        Tags {
+          nextToken
+          startedAt
         }
-        nextToken
-        startedAt
+        notebookID
+        Relationships {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
@@ -415,43 +640,49 @@ export const updatePage = /* GraphQL */ `
     }
   }
 `;
-export const deletePage = /* GraphQL */ `
-  mutation DeletePage(
-    $input: DeletePageInput!
-    $condition: ModelPageConditionInput
+export const deleteNoteRelationship = /* GraphQL */ `
+  mutation DeleteNoteRelationship(
+    $input: DeleteNoteRelationshipInput!
+    $condition: ModelNoteRelationshipConditionInput
   ) {
-    deletePage(input: $input, condition: $condition) {
+    deleteNoteRelationship(input: $input, condition: $condition) {
       id
-      title
-      notebookID
-      Notes {
-        items {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
+      relationshipID
+      noteID
+      relationship {
+        id
+        type
+        name
+        notes {
+          nextToken
+          startedAt
         }
-        nextToken
-        startedAt
+        notebookID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
-      Tags {
-        items {
-          id
-          tagID
-          pageID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
+      note {
+        id
+        title
+        content
+        hidden
+        Tags {
+          nextToken
+          startedAt
         }
-        nextToken
-        startedAt
+        notebookID
+        Relationships {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
@@ -474,14 +705,12 @@ export const createNoteTag = /* GraphQL */ `
         id
         name
         color
+        content
         Notes {
           nextToken
           startedAt
         }
-        Pages {
-          nextToken
-          startedAt
-        }
+        notebookID
         createdAt
         updatedAt
         _version
@@ -491,9 +720,14 @@ export const createNoteTag = /* GraphQL */ `
       note {
         id
         title
-        body
-        pageID
+        content
+        hidden
         Tags {
+          nextToken
+          startedAt
+        }
+        notebookID
+        Relationships {
           nextToken
           startedAt
         }
@@ -524,14 +758,12 @@ export const updateNoteTag = /* GraphQL */ `
         id
         name
         color
+        content
         Notes {
           nextToken
           startedAt
         }
-        Pages {
-          nextToken
-          startedAt
-        }
+        notebookID
         createdAt
         updatedAt
         _version
@@ -541,9 +773,14 @@ export const updateNoteTag = /* GraphQL */ `
       note {
         id
         title
-        body
-        pageID
+        content
+        hidden
         Tags {
+          nextToken
+          startedAt
+        }
+        notebookID
+        Relationships {
           nextToken
           startedAt
         }
@@ -574,14 +811,12 @@ export const deleteNoteTag = /* GraphQL */ `
         id
         name
         color
+        content
         Notes {
           nextToken
           startedAt
         }
-        Pages {
-          nextToken
-          startedAt
-        }
+        notebookID
         createdAt
         updatedAt
         _version
@@ -591,168 +826,14 @@ export const deleteNoteTag = /* GraphQL */ `
       note {
         id
         title
-        body
-        pageID
+        content
+        hidden
         Tags {
           nextToken
           startedAt
         }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const createPageTag = /* GraphQL */ `
-  mutation CreatePageTag(
-    $input: CreatePageTagInput!
-    $condition: ModelPageTagConditionInput
-  ) {
-    createPageTag(input: $input, condition: $condition) {
-      id
-      tagID
-      pageID
-      tag {
-        id
-        name
-        color
-        Notes {
-          nextToken
-          startedAt
-        }
-        Pages {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      page {
-        id
-        title
         notebookID
-        Notes {
-          nextToken
-          startedAt
-        }
-        Tags {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const updatePageTag = /* GraphQL */ `
-  mutation UpdatePageTag(
-    $input: UpdatePageTagInput!
-    $condition: ModelPageTagConditionInput
-  ) {
-    updatePageTag(input: $input, condition: $condition) {
-      id
-      tagID
-      pageID
-      tag {
-        id
-        name
-        color
-        Notes {
-          nextToken
-          startedAt
-        }
-        Pages {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      page {
-        id
-        title
-        notebookID
-        Notes {
-          nextToken
-          startedAt
-        }
-        Tags {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const deletePageTag = /* GraphQL */ `
-  mutation DeletePageTag(
-    $input: DeletePageTagInput!
-    $condition: ModelPageTagConditionInput
-  ) {
-    deletePageTag(input: $input, condition: $condition) {
-      id
-      tagID
-      pageID
-      tag {
-        id
-        name
-        color
-        Notes {
-          nextToken
-          startedAt
-        }
-        Pages {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      page {
-        id
-        title
-        notebookID
-        Notes {
-          nextToken
-          startedAt
-        }
-        Tags {
+        Relationships {
           nextToken
           startedAt
         }

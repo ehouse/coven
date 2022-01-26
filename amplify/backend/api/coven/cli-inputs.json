@@ -3,11 +3,10 @@
   "serviceConfiguration": {
     "apiName": "coven",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/tmp/amplify-58817e2b-d910-42f8-9ae9-5ba60c33d5ea/amplify/backend/api/coven/schema.graphql",
+    "gqlSchemaPath": "/tmp/amplify-e9415dbf-4497-44d8-ad36-e3217c264f83/amplify/backend/api/coven/schema.graphql",
     "defaultAuthType": {
-      "mode": "API_KEY",
-      "keyDescription": "api key description",
-      "expirationTime": 30
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authcovenfee3faa5"
     },
     "conflictResolution": {
       "defaultResolutionStrategy": {
@@ -15,6 +14,11 @@
       }
     },
     "additionalAuthTypes": [
+      {
+        "mode": "API_KEY",
+        "keyDescription": "api key description",
+        "expirationTime": 30
+      },
       {
         "mode": "AWS_IAM"
       }

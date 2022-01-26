@@ -2,12 +2,102 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getRelationship = /* GraphQL */ `
+  query GetRelationship($id: ID!) {
+    getRelationship(id: $id) {
+      id
+      type
+      name
+      notes {
+        items {
+          id
+          relationshipID
+          noteID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      notebookID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listRelationships = /* GraphQL */ `
+  query ListRelationships(
+    $filter: ModelRelationshipFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRelationships(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        type
+        name
+        notes {
+          nextToken
+          startedAt
+        }
+        notebookID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncRelationships = /* GraphQL */ `
+  query SyncRelationships(
+    $filter: ModelRelationshipFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncRelationships(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        type
+        name
+        notes {
+          nextToken
+          startedAt
+        }
+        notebookID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getTag = /* GraphQL */ `
   query GetTag($id: ID!) {
     getTag(id: $id) {
       id
       name
       color
+      content
       Notes {
         items {
           id
@@ -22,20 +112,7 @@ export const getTag = /* GraphQL */ `
         nextToken
         startedAt
       }
-      Pages {
-        items {
-          id
-          tagID
-          pageID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        nextToken
-        startedAt
-      }
+      notebookID
       createdAt
       updatedAt
       _version
@@ -55,14 +132,12 @@ export const listTags = /* GraphQL */ `
         id
         name
         color
+        content
         Notes {
           nextToken
           startedAt
         }
-        Pages {
-          nextToken
-          startedAt
-        }
+        notebookID
         createdAt
         updatedAt
         _version
@@ -91,14 +166,12 @@ export const syncTags = /* GraphQL */ `
         id
         name
         color
+        content
         Notes {
           nextToken
           startedAt
         }
-        Pages {
-          nextToken
-          startedAt
-        }
+        notebookID
         createdAt
         updatedAt
         _version
@@ -115,12 +188,27 @@ export const getNote = /* GraphQL */ `
     getNote(id: $id) {
       id
       title
-      body
-      pageID
+      content
+      hidden
       Tags {
         items {
           id
           tagID
+          noteID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      notebookID
+      Relationships {
+        items {
+          id
+          relationshipID
           noteID
           createdAt
           updatedAt
@@ -149,9 +237,14 @@ export const listNotes = /* GraphQL */ `
       items {
         id
         title
-        body
-        pageID
+        content
+        hidden
         Tags {
+          nextToken
+          startedAt
+        }
+        notebookID
+        Relationships {
           nextToken
           startedAt
         }
@@ -182,9 +275,14 @@ export const syncNotes = /* GraphQL */ `
       items {
         id
         title
-        body
-        pageID
+        content
+        hidden
         Tags {
+          nextToken
+          startedAt
+        }
+        notebookID
+        Relationships {
           nextToken
           startedAt
         }
@@ -204,10 +302,46 @@ export const getNotebook = /* GraphQL */ `
     getNotebook(id: $id) {
       id
       title
-      Pages {
+      description
+      editors
+      readers
+      Tags {
+        items {
+          id
+          name
+          color
+          content
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Notes {
         items {
           id
           title
+          content
+          hidden
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      Relationships {
+        items {
+          id
+          type
+          name
           notebookID
           createdAt
           updatedAt
@@ -236,7 +370,18 @@ export const listNotebooks = /* GraphQL */ `
       items {
         id
         title
-        Pages {
+        description
+        editors
+        readers
+        Tags {
+          nextToken
+          startedAt
+        }
+        Notes {
+          nextToken
+          startedAt
+        }
+        Relationships {
           nextToken
           startedAt
         }
@@ -267,7 +412,18 @@ export const syncNotebooks = /* GraphQL */ `
       items {
         id
         title
-        Pages {
+        description
+        editors
+        readers
+        Tags {
+          nextToken
+          startedAt
+        }
+        Notes {
+          nextToken
+          startedAt
+        }
+        Relationships {
           nextToken
           startedAt
         }
@@ -282,40 +438,46 @@ export const syncNotebooks = /* GraphQL */ `
     }
   }
 `;
-export const getPage = /* GraphQL */ `
-  query GetPage($id: ID!) {
-    getPage(id: $id) {
+export const getNoteRelationship = /* GraphQL */ `
+  query GetNoteRelationship($id: ID!) {
+    getNoteRelationship(id: $id) {
       id
-      title
-      notebookID
-      Notes {
-        items {
-          id
-          title
-          body
-          pageID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
+      relationshipID
+      noteID
+      relationship {
+        id
+        type
+        name
+        notes {
+          nextToken
+          startedAt
         }
-        nextToken
-        startedAt
+        notebookID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
-      Tags {
-        items {
-          id
-          tagID
-          pageID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
+      note {
+        id
+        title
+        content
+        hidden
+        Tags {
+          nextToken
+          startedAt
         }
-        nextToken
-        startedAt
+        notebookID
+        Relationships {
+          nextToken
+          startedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       createdAt
       updatedAt
@@ -325,24 +487,43 @@ export const getPage = /* GraphQL */ `
     }
   }
 `;
-export const listPages = /* GraphQL */ `
-  query ListPages(
-    $filter: ModelPageFilterInput
+export const listNoteRelationships = /* GraphQL */ `
+  query ListNoteRelationships(
+    $filter: ModelNoteRelationshipFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listPages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listNoteRelationships(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
         id
-        title
-        notebookID
-        Notes {
-          nextToken
-          startedAt
+        relationshipID
+        noteID
+        relationship {
+          id
+          type
+          name
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
-        Tags {
-          nextToken
-          startedAt
+        note {
+          id
+          title
+          content
+          hidden
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
@@ -355,14 +536,14 @@ export const listPages = /* GraphQL */ `
     }
   }
 `;
-export const syncPages = /* GraphQL */ `
-  query SyncPages(
-    $filter: ModelPageFilterInput
+export const syncNoteRelationships = /* GraphQL */ `
+  query SyncNoteRelationships(
+    $filter: ModelNoteRelationshipFilterInput
     $limit: Int
     $nextToken: String
     $lastSync: AWSTimestamp
   ) {
-    syncPages(
+    syncNoteRelationships(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -370,15 +551,30 @@ export const syncPages = /* GraphQL */ `
     ) {
       items {
         id
-        title
-        notebookID
-        Notes {
-          nextToken
-          startedAt
+        relationshipID
+        noteID
+        relationship {
+          id
+          type
+          name
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
-        Tags {
-          nextToken
-          startedAt
+        note {
+          id
+          title
+          content
+          hidden
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
         }
         createdAt
         updatedAt
@@ -401,14 +597,12 @@ export const getNoteTag = /* GraphQL */ `
         id
         name
         color
+        content
         Notes {
           nextToken
           startedAt
         }
-        Pages {
-          nextToken
-          startedAt
-        }
+        notebookID
         createdAt
         updatedAt
         _version
@@ -418,9 +612,14 @@ export const getNoteTag = /* GraphQL */ `
       note {
         id
         title
-        body
-        pageID
+        content
+        hidden
         Tags {
+          nextToken
+          startedAt
+        }
+        notebookID
+        Relationships {
           nextToken
           startedAt
         }
@@ -453,6 +652,8 @@ export const listNoteTags = /* GraphQL */ `
           id
           name
           color
+          content
+          notebookID
           createdAt
           updatedAt
           _version
@@ -462,8 +663,9 @@ export const listNoteTags = /* GraphQL */ `
         note {
           id
           title
-          body
-          pageID
+          content
+          hidden
+          notebookID
           createdAt
           updatedAt
           _version
@@ -502,6 +704,8 @@ export const syncNoteTags = /* GraphQL */ `
           id
           name
           color
+          content
+          notebookID
           createdAt
           updatedAt
           _version
@@ -511,147 +715,8 @@ export const syncNoteTags = /* GraphQL */ `
         note {
           id
           title
-          body
-          pageID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const getPageTag = /* GraphQL */ `
-  query GetPageTag($id: ID!) {
-    getPageTag(id: $id) {
-      id
-      tagID
-      pageID
-      tag {
-        id
-        name
-        color
-        Notes {
-          nextToken
-          startedAt
-        }
-        Pages {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      page {
-        id
-        title
-        notebookID
-        Notes {
-          nextToken
-          startedAt
-        }
-        Tags {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const listPageTags = /* GraphQL */ `
-  query ListPageTags(
-    $filter: ModelPageTagFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPageTags(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        tagID
-        pageID
-        tag {
-          id
-          name
-          color
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        page {
-          id
-          title
-          notebookID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const syncPageTags = /* GraphQL */ `
-  query SyncPageTags(
-    $filter: ModelPageTagFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncPageTags(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tagID
-        pageID
-        tag {
-          id
-          name
-          color
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        page {
-          id
-          title
+          content
+          hidden
           notebookID
           createdAt
           updatedAt

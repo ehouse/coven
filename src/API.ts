@@ -2,19 +2,21 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateTagInput = {
+export type CreateRelationshipInput = {
   id?: string | null,
-  name: string,
-  color?: string | null,
+  type?: string | null,
+  name?: string | null,
+  notebookID?: string | null,
   _version?: number | null,
 };
 
-export type ModelTagConditionInput = {
+export type ModelRelationshipConditionInput = {
+  type?: ModelStringInput | null,
   name?: ModelStringInput | null,
-  color?: ModelStringInput | null,
-  and?: Array< ModelTagConditionInput | null > | null,
-  or?: Array< ModelTagConditionInput | null > | null,
-  not?: ModelTagConditionInput | null,
+  notebookID?: ModelIDInput | null,
+  and?: Array< ModelRelationshipConditionInput | null > | null,
+  or?: Array< ModelRelationshipConditionInput | null > | null,
+  not?: ModelRelationshipConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -57,13 +59,66 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type Tag = {
-  __typename: "Tag",
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
+export type Relationship = {
+  __typename: "Relationship",
   id: string,
-  name: string,
-  color?: string | null,
-  Notes?: ModelNoteTagConnection | null,
-  Pages?: ModelPageTagConnection | null,
+  type?: string | null,
+  name?: string | null,
+  notes?: ModelNoteRelationshipConnection | null,
+  notebookID?: string | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type ModelNoteRelationshipConnection = {
+  __typename: "ModelNoteRelationshipConnection",
+  items:  Array<NoteRelationship | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type NoteRelationship = {
+  __typename: "NoteRelationship",
+  id: string,
+  relationshipID: string,
+  noteID: string,
+  relationship: Relationship,
+  note: Note,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type Note = {
+  __typename: "Note",
+  id: string,
+  title?: string | null,
+  content: string,
+  hidden?: boolean | null,
+  Tags?: ModelNoteTagConnection | null,
+  notebookID: string,
+  Relationships?: ModelNoteRelationshipConnection | null,
   createdAt: string,
   updatedAt: string,
   _version: number,
@@ -92,13 +147,14 @@ export type NoteTag = {
   _lastChangedAt: number,
 };
 
-export type Note = {
-  __typename: "Note",
+export type Tag = {
+  __typename: "Tag",
   id: string,
-  title?: string | null,
-  body: string,
-  pageID?: string | null,
-  Tags?: ModelNoteTagConnection | null,
+  name: string,
+  color?: string | null,
+  content?: string | null,
+  Notes?: ModelNoteTagConnection | null,
+  notebookID: string,
   createdAt: string,
   updatedAt: string,
   _version: number,
@@ -106,52 +162,44 @@ export type Note = {
   _lastChangedAt: number,
 };
 
-export type ModelPageTagConnection = {
-  __typename: "ModelPageTagConnection",
-  items:  Array<PageTag | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
-export type PageTag = {
-  __typename: "PageTag",
+export type UpdateRelationshipInput = {
   id: string,
-  tagID: string,
-  pageID: string,
-  tag: Tag,
-  page: Page,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-};
-
-export type Page = {
-  __typename: "Page",
-  id: string,
-  title: string,
+  type?: string | null,
+  name?: string | null,
   notebookID?: string | null,
-  Notes?: ModelNoteConnection | null,
-  Tags?: ModelPageTagConnection | null,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
+  _version?: number | null,
 };
 
-export type ModelNoteConnection = {
-  __typename: "ModelNoteConnection",
-  items:  Array<Note | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
+export type DeleteRelationshipInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateTagInput = {
+  id?: string | null,
+  name: string,
+  color?: string | null,
+  content?: string | null,
+  notebookID: string,
+  _version?: number | null,
+};
+
+export type ModelTagConditionInput = {
+  name?: ModelStringInput | null,
+  color?: ModelStringInput | null,
+  content?: ModelStringInput | null,
+  notebookID?: ModelIDInput | null,
+  and?: Array< ModelTagConditionInput | null > | null,
+  or?: Array< ModelTagConditionInput | null > | null,
+  not?: ModelTagConditionInput | null,
 };
 
 export type UpdateTagInput = {
   id: string,
   name?: string | null,
   color?: string | null,
+  content?: string | null,
+  notebookID?: string | null,
   _version?: number | null,
 };
 
@@ -163,41 +211,35 @@ export type DeleteTagInput = {
 export type CreateNoteInput = {
   id?: string | null,
   title?: string | null,
-  body: string,
-  pageID?: string | null,
+  content: string,
+  hidden?: boolean | null,
+  notebookID: string,
   _version?: number | null,
 };
 
 export type ModelNoteConditionInput = {
   title?: ModelStringInput | null,
-  body?: ModelStringInput | null,
-  pageID?: ModelIDInput | null,
+  content?: ModelStringInput | null,
+  hidden?: ModelBooleanInput | null,
+  notebookID?: ModelIDInput | null,
   and?: Array< ModelNoteConditionInput | null > | null,
   or?: Array< ModelNoteConditionInput | null > | null,
   not?: ModelNoteConditionInput | null,
 };
 
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
 };
 
 export type UpdateNoteInput = {
   id: string,
   title?: string | null,
-  body?: string | null,
-  pageID?: string | null,
+  content?: string | null,
+  hidden?: boolean | null,
+  notebookID?: string | null,
   _version?: number | null,
 };
 
@@ -209,11 +251,17 @@ export type DeleteNoteInput = {
 export type CreateNotebookInput = {
   id?: string | null,
   title: string,
+  description?: string | null,
+  editors?: Array< string | null > | null,
+  readers?: Array< string | null > | null,
   _version?: number | null,
 };
 
 export type ModelNotebookConditionInput = {
   title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  editors?: ModelStringInput | null,
+  readers?: ModelStringInput | null,
   and?: Array< ModelNotebookConditionInput | null > | null,
   or?: Array< ModelNotebookConditionInput | null > | null,
   not?: ModelNotebookConditionInput | null,
@@ -223,7 +271,12 @@ export type Notebook = {
   __typename: "Notebook",
   id: string,
   title: string,
-  Pages?: ModelPageConnection | null,
+  description?: string | null,
+  editors?: Array< string | null > | null,
+  readers?: Array< string | null > | null,
+  Tags?: ModelTagConnection | null,
+  Notes?: ModelNoteConnection | null,
+  Relationships?: ModelRelationshipConnection | null,
   createdAt: string,
   updatedAt: string,
   _version: number,
@@ -231,9 +284,23 @@ export type Notebook = {
   _lastChangedAt: number,
 };
 
-export type ModelPageConnection = {
-  __typename: "ModelPageConnection",
-  items:  Array<Page | null >,
+export type ModelTagConnection = {
+  __typename: "ModelTagConnection",
+  items:  Array<Tag | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelNoteConnection = {
+  __typename: "ModelNoteConnection",
+  items:  Array<Note | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelRelationshipConnection = {
+  __typename: "ModelRelationshipConnection",
+  items:  Array<Relationship | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -241,6 +308,9 @@ export type ModelPageConnection = {
 export type UpdateNotebookInput = {
   id: string,
   title?: string | null,
+  description?: string | null,
+  editors?: Array< string | null > | null,
+  readers?: Array< string | null > | null,
   _version?: number | null,
 };
 
@@ -249,29 +319,29 @@ export type DeleteNotebookInput = {
   _version?: number | null,
 };
 
-export type CreatePageInput = {
+export type CreateNoteRelationshipInput = {
   id?: string | null,
-  title: string,
-  notebookID?: string | null,
+  relationshipID: string,
+  noteID: string,
   _version?: number | null,
 };
 
-export type ModelPageConditionInput = {
-  title?: ModelStringInput | null,
-  notebookID?: ModelIDInput | null,
-  and?: Array< ModelPageConditionInput | null > | null,
-  or?: Array< ModelPageConditionInput | null > | null,
-  not?: ModelPageConditionInput | null,
+export type ModelNoteRelationshipConditionInput = {
+  relationshipID?: ModelIDInput | null,
+  noteID?: ModelIDInput | null,
+  and?: Array< ModelNoteRelationshipConditionInput | null > | null,
+  or?: Array< ModelNoteRelationshipConditionInput | null > | null,
+  not?: ModelNoteRelationshipConditionInput | null,
 };
 
-export type UpdatePageInput = {
+export type UpdateNoteRelationshipInput = {
   id: string,
-  title?: string | null,
-  notebookID?: string | null,
+  relationshipID?: string | null,
+  noteID?: string | null,
   _version?: number | null,
 };
 
-export type DeletePageInput = {
+export type DeleteNoteRelationshipInput = {
   id: string,
   _version?: number | null,
 };
@@ -303,54 +373,33 @@ export type DeleteNoteTagInput = {
   _version?: number | null,
 };
 
-export type CreatePageTagInput = {
-  id?: string | null,
-  tagID: string,
-  pageID: string,
-  _version?: number | null,
-};
-
-export type ModelPageTagConditionInput = {
-  tagID?: ModelIDInput | null,
-  pageID?: ModelIDInput | null,
-  and?: Array< ModelPageTagConditionInput | null > | null,
-  or?: Array< ModelPageTagConditionInput | null > | null,
-  not?: ModelPageTagConditionInput | null,
-};
-
-export type UpdatePageTagInput = {
-  id: string,
-  tagID?: string | null,
-  pageID?: string | null,
-  _version?: number | null,
-};
-
-export type DeletePageTagInput = {
-  id: string,
-  _version?: number | null,
+export type ModelRelationshipFilterInput = {
+  id?: ModelIDInput | null,
+  type?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  notebookID?: ModelIDInput | null,
+  and?: Array< ModelRelationshipFilterInput | null > | null,
+  or?: Array< ModelRelationshipFilterInput | null > | null,
+  not?: ModelRelationshipFilterInput | null,
 };
 
 export type ModelTagFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
   color?: ModelStringInput | null,
+  content?: ModelStringInput | null,
+  notebookID?: ModelIDInput | null,
   and?: Array< ModelTagFilterInput | null > | null,
   or?: Array< ModelTagFilterInput | null > | null,
   not?: ModelTagFilterInput | null,
 };
 
-export type ModelTagConnection = {
-  __typename: "ModelTagConnection",
-  items:  Array<Tag | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
 export type ModelNoteFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
-  body?: ModelStringInput | null,
-  pageID?: ModelIDInput | null,
+  content?: ModelStringInput | null,
+  hidden?: ModelBooleanInput | null,
+  notebookID?: ModelIDInput | null,
   and?: Array< ModelNoteFilterInput | null > | null,
   or?: Array< ModelNoteFilterInput | null > | null,
   not?: ModelNoteFilterInput | null,
@@ -359,6 +408,9 @@ export type ModelNoteFilterInput = {
 export type ModelNotebookFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  editors?: ModelStringInput | null,
+  readers?: ModelStringInput | null,
   and?: Array< ModelNotebookFilterInput | null > | null,
   or?: Array< ModelNotebookFilterInput | null > | null,
   not?: ModelNotebookFilterInput | null,
@@ -371,13 +423,13 @@ export type ModelNotebookConnection = {
   startedAt?: number | null,
 };
 
-export type ModelPageFilterInput = {
+export type ModelNoteRelationshipFilterInput = {
   id?: ModelIDInput | null,
-  title?: ModelStringInput | null,
-  notebookID?: ModelIDInput | null,
-  and?: Array< ModelPageFilterInput | null > | null,
-  or?: Array< ModelPageFilterInput | null > | null,
-  not?: ModelPageFilterInput | null,
+  relationshipID?: ModelIDInput | null,
+  noteID?: ModelIDInput | null,
+  and?: Array< ModelNoteRelationshipFilterInput | null > | null,
+  or?: Array< ModelNoteRelationshipFilterInput | null > | null,
+  not?: ModelNoteRelationshipFilterInput | null,
 };
 
 export type ModelNoteTagFilterInput = {
@@ -389,13 +441,112 @@ export type ModelNoteTagFilterInput = {
   not?: ModelNoteTagFilterInput | null,
 };
 
-export type ModelPageTagFilterInput = {
-  id?: ModelIDInput | null,
-  tagID?: ModelIDInput | null,
-  pageID?: ModelIDInput | null,
-  and?: Array< ModelPageTagFilterInput | null > | null,
-  or?: Array< ModelPageTagFilterInput | null > | null,
-  not?: ModelPageTagFilterInput | null,
+export type CreateRelationshipMutationVariables = {
+  input: CreateRelationshipInput,
+  condition?: ModelRelationshipConditionInput | null,
+};
+
+export type CreateRelationshipMutation = {
+  createRelationship?:  {
+    __typename: "Relationship",
+    id: string,
+    type?: string | null,
+    name?: string | null,
+    notes?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
+        id: string,
+        relationshipID: string,
+        noteID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateRelationshipMutationVariables = {
+  input: UpdateRelationshipInput,
+  condition?: ModelRelationshipConditionInput | null,
+};
+
+export type UpdateRelationshipMutation = {
+  updateRelationship?:  {
+    __typename: "Relationship",
+    id: string,
+    type?: string | null,
+    name?: string | null,
+    notes?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
+        id: string,
+        relationshipID: string,
+        noteID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteRelationshipMutationVariables = {
+  input: DeleteRelationshipInput,
+  condition?: ModelRelationshipConditionInput | null,
+};
+
+export type DeleteRelationshipMutation = {
+  deleteRelationship?:  {
+    __typename: "Relationship",
+    id: string,
+    type?: string | null,
+    name?: string | null,
+    notes?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
+        id: string,
+        relationshipID: string,
+        noteID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
 };
 
 export type CreateTagMutationVariables = {
@@ -409,6 +560,7 @@ export type CreateTagMutation = {
     id: string,
     name: string,
     color?: string | null,
+    content?: string | null,
     Notes?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
@@ -425,22 +577,7 @@ export type CreateTagMutation = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    Pages?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    notebookID: string,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -460,6 +597,7 @@ export type UpdateTagMutation = {
     id: string,
     name: string,
     color?: string | null,
+    content?: string | null,
     Notes?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
@@ -476,22 +614,7 @@ export type UpdateTagMutation = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    Pages?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    notebookID: string,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -511,6 +634,7 @@ export type DeleteTagMutation = {
     id: string,
     name: string,
     color?: string | null,
+    content?: string | null,
     Notes?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
@@ -527,22 +651,7 @@ export type DeleteTagMutation = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    Pages?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    notebookID: string,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -561,14 +670,31 @@ export type CreateNoteMutation = {
     __typename: "Note",
     id: string,
     title?: string | null,
-    body: string,
-    pageID?: string | null,
+    content: string,
+    hidden?: boolean | null,
     Tags?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
         __typename: "NoteTag",
         id: string,
         tagID: string,
+        noteID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID: string,
+    Relationships?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
+        id: string,
+        relationshipID: string,
         noteID: string,
         createdAt: string,
         updatedAt: string,
@@ -597,14 +723,31 @@ export type UpdateNoteMutation = {
     __typename: "Note",
     id: string,
     title?: string | null,
-    body: string,
-    pageID?: string | null,
+    content: string,
+    hidden?: boolean | null,
     Tags?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
         __typename: "NoteTag",
         id: string,
         tagID: string,
+        noteID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID: string,
+    Relationships?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
+        id: string,
+        relationshipID: string,
         noteID: string,
         createdAt: string,
         updatedAt: string,
@@ -633,14 +776,31 @@ export type DeleteNoteMutation = {
     __typename: "Note",
     id: string,
     title?: string | null,
-    body: string,
-    pageID?: string | null,
+    content: string,
+    hidden?: boolean | null,
     Tags?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
         __typename: "NoteTag",
         id: string,
         tagID: string,
+        noteID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID: string,
+    Relationships?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
+        id: string,
+        relationshipID: string,
         noteID: string,
         createdAt: string,
         updatedAt: string,
@@ -669,12 +829,52 @@ export type CreateNotebookMutation = {
     __typename: "Notebook",
     id: string,
     title: string,
-    Pages?:  {
-      __typename: "ModelPageConnection",
+    description?: string | null,
+    editors?: Array< string | null > | null,
+    readers?: Array< string | null > | null,
+    Tags?:  {
+      __typename: "ModelTagConnection",
       items:  Array< {
-        __typename: "Page",
+        __typename: "Tag",
         id: string,
-        title: string,
+        name: string,
+        color?: string | null,
+        content?: string | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Notes?:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        title?: string | null,
+        content: string,
+        hidden?: boolean | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Relationships?:  {
+      __typename: "ModelRelationshipConnection",
+      items:  Array< {
+        __typename: "Relationship",
+        id: string,
+        type?: string | null,
+        name?: string | null,
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
@@ -703,12 +903,52 @@ export type UpdateNotebookMutation = {
     __typename: "Notebook",
     id: string,
     title: string,
-    Pages?:  {
-      __typename: "ModelPageConnection",
+    description?: string | null,
+    editors?: Array< string | null > | null,
+    readers?: Array< string | null > | null,
+    Tags?:  {
+      __typename: "ModelTagConnection",
       items:  Array< {
-        __typename: "Page",
+        __typename: "Tag",
         id: string,
-        title: string,
+        name: string,
+        color?: string | null,
+        content?: string | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Notes?:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        title?: string | null,
+        content: string,
+        hidden?: boolean | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Relationships?:  {
+      __typename: "ModelRelationshipConnection",
+      items:  Array< {
+        __typename: "Relationship",
+        id: string,
+        type?: string | null,
+        name?: string | null,
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
@@ -737,12 +977,52 @@ export type DeleteNotebookMutation = {
     __typename: "Notebook",
     id: string,
     title: string,
-    Pages?:  {
-      __typename: "ModelPageConnection",
+    description?: string | null,
+    editors?: Array< string | null > | null,
+    readers?: Array< string | null > | null,
+    Tags?:  {
+      __typename: "ModelTagConnection",
       items:  Array< {
-        __typename: "Page",
+        __typename: "Tag",
         id: string,
-        title: string,
+        name: string,
+        color?: string | null,
+        content?: string | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Notes?:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        title?: string | null,
+        content: string,
+        hidden?: boolean | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Relationships?:  {
+      __typename: "ModelRelationshipConnection",
+      items:  Array< {
+        __typename: "Relationship",
+        id: string,
+        type?: string | null,
+        name?: string | null,
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
@@ -761,50 +1041,57 @@ export type DeleteNotebookMutation = {
   } | null,
 };
 
-export type CreatePageMutationVariables = {
-  input: CreatePageInput,
-  condition?: ModelPageConditionInput | null,
+export type CreateNoteRelationshipMutationVariables = {
+  input: CreateNoteRelationshipInput,
+  condition?: ModelNoteRelationshipConditionInput | null,
 };
 
-export type CreatePageMutation = {
-  createPage?:  {
-    __typename: "Page",
+export type CreateNoteRelationshipMutation = {
+  createNoteRelationship?:  {
+    __typename: "NoteRelationship",
     id: string,
-    title: string,
-    notebookID?: string | null,
-    Notes?:  {
-      __typename: "ModelNoteConnection",
-      items:  Array< {
-        __typename: "Note",
-        id: string,
-        title?: string | null,
-        body: string,
-        pageID?: string | null,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    Tags?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    relationshipID: string,
+    noteID: string,
+    relationship:  {
+      __typename: "Relationship",
+      id: string,
+      type?: string | null,
+      name?: string | null,
+      notes?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    note:  {
+      __typename: "Note",
+      id: string,
+      title?: string | null,
+      content: string,
+      hidden?: boolean | null,
+      Tags?:  {
+        __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -813,50 +1100,57 @@ export type CreatePageMutation = {
   } | null,
 };
 
-export type UpdatePageMutationVariables = {
-  input: UpdatePageInput,
-  condition?: ModelPageConditionInput | null,
+export type UpdateNoteRelationshipMutationVariables = {
+  input: UpdateNoteRelationshipInput,
+  condition?: ModelNoteRelationshipConditionInput | null,
 };
 
-export type UpdatePageMutation = {
-  updatePage?:  {
-    __typename: "Page",
+export type UpdateNoteRelationshipMutation = {
+  updateNoteRelationship?:  {
+    __typename: "NoteRelationship",
     id: string,
-    title: string,
-    notebookID?: string | null,
-    Notes?:  {
-      __typename: "ModelNoteConnection",
-      items:  Array< {
-        __typename: "Note",
-        id: string,
-        title?: string | null,
-        body: string,
-        pageID?: string | null,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    Tags?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    relationshipID: string,
+    noteID: string,
+    relationship:  {
+      __typename: "Relationship",
+      id: string,
+      type?: string | null,
+      name?: string | null,
+      notes?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    note:  {
+      __typename: "Note",
+      id: string,
+      title?: string | null,
+      content: string,
+      hidden?: boolean | null,
+      Tags?:  {
+        __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -865,50 +1159,57 @@ export type UpdatePageMutation = {
   } | null,
 };
 
-export type DeletePageMutationVariables = {
-  input: DeletePageInput,
-  condition?: ModelPageConditionInput | null,
+export type DeleteNoteRelationshipMutationVariables = {
+  input: DeleteNoteRelationshipInput,
+  condition?: ModelNoteRelationshipConditionInput | null,
 };
 
-export type DeletePageMutation = {
-  deletePage?:  {
-    __typename: "Page",
+export type DeleteNoteRelationshipMutation = {
+  deleteNoteRelationship?:  {
+    __typename: "NoteRelationship",
     id: string,
-    title: string,
-    notebookID?: string | null,
-    Notes?:  {
-      __typename: "ModelNoteConnection",
-      items:  Array< {
-        __typename: "Note",
-        id: string,
-        title?: string | null,
-        body: string,
-        pageID?: string | null,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    Tags?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    relationshipID: string,
+    noteID: string,
+    relationship:  {
+      __typename: "Relationship",
+      id: string,
+      type?: string | null,
+      name?: string | null,
+      notes?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    note:  {
+      __typename: "Note",
+      id: string,
+      title?: string | null,
+      content: string,
+      hidden?: boolean | null,
+      Tags?:  {
+        __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -933,16 +1234,13 @@ export type CreateNoteTagMutation = {
       id: string,
       name: string,
       color?: string | null,
+      content?: string | null,
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
+      notebookID: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -953,10 +1251,16 @@ export type CreateNoteTagMutation = {
       __typename: "Note",
       id: string,
       title?: string | null,
-      body: string,
-      pageID?: string | null,
+      content: string,
+      hidden?: boolean | null,
       Tags?:  {
         __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -990,16 +1294,13 @@ export type UpdateNoteTagMutation = {
       id: string,
       name: string,
       color?: string | null,
+      content?: string | null,
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
+      notebookID: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1010,10 +1311,16 @@ export type UpdateNoteTagMutation = {
       __typename: "Note",
       id: string,
       title?: string | null,
-      body: string,
-      pageID?: string | null,
+      content: string,
+      hidden?: boolean | null,
       Tags?:  {
         __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -1047,16 +1354,13 @@ export type DeleteNoteTagMutation = {
       id: string,
       name: string,
       color?: string | null,
+      content?: string | null,
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
+      notebookID: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1067,10 +1371,16 @@ export type DeleteNoteTagMutation = {
       __typename: "Note",
       id: string,
       title?: string | null,
-      body: string,
-      pageID?: string | null,
+      content: string,
+      hidden?: boolean | null,
       Tags?:  {
         __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -1088,59 +1398,33 @@ export type DeleteNoteTagMutation = {
   } | null,
 };
 
-export type CreatePageTagMutationVariables = {
-  input: CreatePageTagInput,
-  condition?: ModelPageTagConditionInput | null,
+export type GetRelationshipQueryVariables = {
+  id: string,
 };
 
-export type CreatePageTagMutation = {
-  createPageTag?:  {
-    __typename: "PageTag",
+export type GetRelationshipQuery = {
+  getRelationship?:  {
+    __typename: "Relationship",
     id: string,
-    tagID: string,
-    pageID: string,
-    tag:  {
-      __typename: "Tag",
-      id: string,
-      name: string,
-      color?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    page:  {
-      __typename: "Page",
-      id: string,
-      title: string,
-      notebookID?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Tags?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
+    type?: string | null,
+    name?: string | null,
+    notes?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
+        id: string,
+        relationshipID: string,
+        noteID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID?: string | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -1149,125 +1433,66 @@ export type CreatePageTagMutation = {
   } | null,
 };
 
-export type UpdatePageTagMutationVariables = {
-  input: UpdatePageTagInput,
-  condition?: ModelPageTagConditionInput | null,
+export type ListRelationshipsQueryVariables = {
+  filter?: ModelRelationshipFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
 };
 
-export type UpdatePageTagMutation = {
-  updatePageTag?:  {
-    __typename: "PageTag",
-    id: string,
-    tagID: string,
-    pageID: string,
-    tag:  {
-      __typename: "Tag",
+export type ListRelationshipsQuery = {
+  listRelationships?:  {
+    __typename: "ModelRelationshipConnection",
+    items:  Array< {
+      __typename: "Relationship",
       id: string,
-      name: string,
-      color?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteTagConnection",
+      type?: string | null,
+      name?: string | null,
+      notes?:  {
+        __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    page:  {
-      __typename: "Page",
-      id: string,
-      title: string,
       notebookID?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Tags?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
-export type DeletePageTagMutationVariables = {
-  input: DeletePageTagInput,
-  condition?: ModelPageTagConditionInput | null,
+export type SyncRelationshipsQueryVariables = {
+  filter?: ModelRelationshipFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
 };
 
-export type DeletePageTagMutation = {
-  deletePageTag?:  {
-    __typename: "PageTag",
-    id: string,
-    tagID: string,
-    pageID: string,
-    tag:  {
-      __typename: "Tag",
+export type SyncRelationshipsQuery = {
+  syncRelationships?:  {
+    __typename: "ModelRelationshipConnection",
+    items:  Array< {
+      __typename: "Relationship",
       id: string,
-      name: string,
-      color?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteTagConnection",
+      type?: string | null,
+      name?: string | null,
+      notes?:  {
+        __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    page:  {
-      __typename: "Page",
-      id: string,
-      title: string,
       notebookID?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Tags?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
@@ -1281,6 +1506,7 @@ export type GetTagQuery = {
     id: string,
     name: string,
     color?: string | null,
+    content?: string | null,
     Notes?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
@@ -1297,22 +1523,7 @@ export type GetTagQuery = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    Pages?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    notebookID: string,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -1335,16 +1546,13 @@ export type ListTagsQuery = {
       id: string,
       name: string,
       color?: string | null,
+      content?: string | null,
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
+      notebookID: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1371,16 +1579,13 @@ export type SyncTagsQuery = {
       id: string,
       name: string,
       color?: string | null,
+      content?: string | null,
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
+      notebookID: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1401,14 +1606,31 @@ export type GetNoteQuery = {
     __typename: "Note",
     id: string,
     title?: string | null,
-    body: string,
-    pageID?: string | null,
+    content: string,
+    hidden?: boolean | null,
     Tags?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
         __typename: "NoteTag",
         id: string,
         tagID: string,
+        noteID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID: string,
+    Relationships?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
+        id: string,
+        relationshipID: string,
         noteID: string,
         createdAt: string,
         updatedAt: string,
@@ -1440,10 +1662,16 @@ export type ListNotesQuery = {
       __typename: "Note",
       id: string,
       title?: string | null,
-      body: string,
-      pageID?: string | null,
+      content: string,
+      hidden?: boolean | null,
       Tags?:  {
         __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -1472,10 +1700,16 @@ export type SyncNotesQuery = {
       __typename: "Note",
       id: string,
       title?: string | null,
-      body: string,
-      pageID?: string | null,
+      content: string,
+      hidden?: boolean | null,
       Tags?:  {
         __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -1499,12 +1733,52 @@ export type GetNotebookQuery = {
     __typename: "Notebook",
     id: string,
     title: string,
-    Pages?:  {
-      __typename: "ModelPageConnection",
+    description?: string | null,
+    editors?: Array< string | null > | null,
+    readers?: Array< string | null > | null,
+    Tags?:  {
+      __typename: "ModelTagConnection",
       items:  Array< {
-        __typename: "Page",
+        __typename: "Tag",
         id: string,
-        title: string,
+        name: string,
+        color?: string | null,
+        content?: string | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Notes?:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        title?: string | null,
+        content: string,
+        hidden?: boolean | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Relationships?:  {
+      __typename: "ModelRelationshipConnection",
+      items:  Array< {
+        __typename: "Relationship",
+        id: string,
+        type?: string | null,
+        name?: string | null,
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
@@ -1536,8 +1810,21 @@ export type ListNotebooksQuery = {
       __typename: "Notebook",
       id: string,
       title: string,
-      Pages?:  {
-        __typename: "ModelPageConnection",
+      description?: string | null,
+      editors?: Array< string | null > | null,
+      readers?: Array< string | null > | null,
+      Tags?:  {
+        __typename: "ModelTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      Notes?:  {
+        __typename: "ModelNoteConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      Relationships?:  {
+        __typename: "ModelRelationshipConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -1566,8 +1853,21 @@ export type SyncNotebooksQuery = {
       __typename: "Notebook",
       id: string,
       title: string,
-      Pages?:  {
-        __typename: "ModelPageConnection",
+      description?: string | null,
+      editors?: Array< string | null > | null,
+      readers?: Array< string | null > | null,
+      Tags?:  {
+        __typename: "ModelTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      Notes?:  {
+        __typename: "ModelNoteConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      Relationships?:  {
+        __typename: "ModelRelationshipConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -1582,49 +1882,56 @@ export type SyncNotebooksQuery = {
   } | null,
 };
 
-export type GetPageQueryVariables = {
+export type GetNoteRelationshipQueryVariables = {
   id: string,
 };
 
-export type GetPageQuery = {
-  getPage?:  {
-    __typename: "Page",
+export type GetNoteRelationshipQuery = {
+  getNoteRelationship?:  {
+    __typename: "NoteRelationship",
     id: string,
-    title: string,
-    notebookID?: string | null,
-    Notes?:  {
-      __typename: "ModelNoteConnection",
-      items:  Array< {
-        __typename: "Note",
-        id: string,
-        title?: string | null,
-        body: string,
-        pageID?: string | null,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    Tags?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    relationshipID: string,
+    noteID: string,
+    relationship:  {
+      __typename: "Relationship",
+      id: string,
+      type?: string | null,
+      name?: string | null,
+      notes?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    note:  {
+      __typename: "Note",
+      id: string,
+      title?: string | null,
+      content: string,
+      hidden?: boolean | null,
+      Tags?:  {
+        __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -1633,30 +1940,45 @@ export type GetPageQuery = {
   } | null,
 };
 
-export type ListPagesQueryVariables = {
-  filter?: ModelPageFilterInput | null,
+export type ListNoteRelationshipsQueryVariables = {
+  filter?: ModelNoteRelationshipFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListPagesQuery = {
-  listPages?:  {
-    __typename: "ModelPageConnection",
+export type ListNoteRelationshipsQuery = {
+  listNoteRelationships?:  {
+    __typename: "ModelNoteRelationshipConnection",
     items:  Array< {
-      __typename: "Page",
+      __typename: "NoteRelationship",
       id: string,
-      title: string,
-      notebookID?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Tags?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
+      relationshipID: string,
+      noteID: string,
+      relationship:  {
+        __typename: "Relationship",
+        id: string,
+        type?: string | null,
+        name?: string | null,
+        notebookID?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      },
+      note:  {
+        __typename: "Note",
+        id: string,
+        title?: string | null,
+        content: string,
+        hidden?: boolean | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      },
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1668,31 +1990,46 @@ export type ListPagesQuery = {
   } | null,
 };
 
-export type SyncPagesQueryVariables = {
-  filter?: ModelPageFilterInput | null,
+export type SyncNoteRelationshipsQueryVariables = {
+  filter?: ModelNoteRelationshipFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
   lastSync?: number | null,
 };
 
-export type SyncPagesQuery = {
-  syncPages?:  {
-    __typename: "ModelPageConnection",
+export type SyncNoteRelationshipsQuery = {
+  syncNoteRelationships?:  {
+    __typename: "ModelNoteRelationshipConnection",
     items:  Array< {
-      __typename: "Page",
+      __typename: "NoteRelationship",
       id: string,
-      title: string,
-      notebookID?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Tags?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
+      relationshipID: string,
+      noteID: string,
+      relationship:  {
+        __typename: "Relationship",
+        id: string,
+        type?: string | null,
+        name?: string | null,
+        notebookID?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      },
+      note:  {
+        __typename: "Note",
+        id: string,
+        title?: string | null,
+        content: string,
+        hidden?: boolean | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      },
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1719,16 +2056,13 @@ export type GetNoteTagQuery = {
       id: string,
       name: string,
       color?: string | null,
+      content?: string | null,
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
+      notebookID: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -1739,10 +2073,16 @@ export type GetNoteTagQuery = {
       __typename: "Note",
       id: string,
       title?: string | null,
-      body: string,
-      pageID?: string | null,
+      content: string,
+      hidden?: boolean | null,
       Tags?:  {
         __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -1779,6 +2119,8 @@ export type ListNoteTagsQuery = {
         id: string,
         name: string,
         color?: string | null,
+        content?: string | null,
+        notebookID: string,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -1789,8 +2131,9 @@ export type ListNoteTagsQuery = {
         __typename: "Note",
         id: string,
         title?: string | null,
-        body: string,
-        pageID?: string | null,
+        content: string,
+        hidden?: boolean | null,
+        notebookID: string,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -1828,6 +2171,8 @@ export type SyncNoteTagsQuery = {
         id: string,
         name: string,
         color?: string | null,
+        content?: string | null,
+        notebookID: string,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -1838,8 +2183,9 @@ export type SyncNoteTagsQuery = {
         __typename: "Note",
         id: string,
         title?: string | null,
-        body: string,
-        pageID?: string | null,
+        content: string,
+        hidden?: boolean | null,
+        notebookID: string,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -1857,58 +2203,29 @@ export type SyncNoteTagsQuery = {
   } | null,
 };
 
-export type GetPageTagQueryVariables = {
-  id: string,
-};
-
-export type GetPageTagQuery = {
-  getPageTag?:  {
-    __typename: "PageTag",
+export type OnCreateRelationshipSubscription = {
+  onCreateRelationship?:  {
+    __typename: "Relationship",
     id: string,
-    tagID: string,
-    pageID: string,
-    tag:  {
-      __typename: "Tag",
-      id: string,
-      name: string,
-      color?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    page:  {
-      __typename: "Page",
-      id: string,
-      title: string,
-      notebookID?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Tags?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
+    type?: string | null,
+    name?: string | null,
+    notes?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
+        id: string,
+        relationshipID: string,
+        noteID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID?: string | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -1917,98 +2234,65 @@ export type GetPageTagQuery = {
   } | null,
 };
 
-export type ListPageTagsQueryVariables = {
-  filter?: ModelPageTagFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListPageTagsQuery = {
-  listPageTags?:  {
-    __typename: "ModelPageTagConnection",
-    items:  Array< {
-      __typename: "PageTag",
-      id: string,
-      tagID: string,
-      pageID: string,
-      tag:  {
-        __typename: "Tag",
+export type OnUpdateRelationshipSubscription = {
+  onUpdateRelationship?:  {
+    __typename: "Relationship",
+    id: string,
+    type?: string | null,
+    name?: string | null,
+    notes?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
         id: string,
-        name: string,
-        color?: string | null,
+        relationshipID: string,
+        noteID: string,
         createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
-      },
-      page:  {
-        __typename: "Page",
-        id: string,
-        title: string,
-        notebookID?: string | null,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      },
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type SyncPageTagsQueryVariables = {
-  filter?: ModelPageTagFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncPageTagsQuery = {
-  syncPageTags?:  {
-    __typename: "ModelPageTagConnection",
-    items:  Array< {
-      __typename: "PageTag",
-      id: string,
-      tagID: string,
-      pageID: string,
-      tag:  {
-        __typename: "Tag",
+export type OnDeleteRelationshipSubscription = {
+  onDeleteRelationship?:  {
+    __typename: "Relationship",
+    id: string,
+    type?: string | null,
+    name?: string | null,
+    notes?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
         id: string,
-        name: string,
-        color?: string | null,
+        relationshipID: string,
+        noteID: string,
         createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
-      },
-      page:  {
-        __typename: "Page",
-        id: string,
-        title: string,
-        notebookID?: string | null,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      },
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -2018,6 +2302,7 @@ export type OnCreateTagSubscription = {
     id: string,
     name: string,
     color?: string | null,
+    content?: string | null,
     Notes?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
@@ -2034,22 +2319,7 @@ export type OnCreateTagSubscription = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    Pages?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    notebookID: string,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -2064,6 +2334,7 @@ export type OnUpdateTagSubscription = {
     id: string,
     name: string,
     color?: string | null,
+    content?: string | null,
     Notes?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
@@ -2080,22 +2351,7 @@ export type OnUpdateTagSubscription = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    Pages?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    notebookID: string,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -2110,6 +2366,7 @@ export type OnDeleteTagSubscription = {
     id: string,
     name: string,
     color?: string | null,
+    content?: string | null,
     Notes?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
@@ -2126,22 +2383,7 @@ export type OnDeleteTagSubscription = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    Pages?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    notebookID: string,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -2155,14 +2397,31 @@ export type OnCreateNoteSubscription = {
     __typename: "Note",
     id: string,
     title?: string | null,
-    body: string,
-    pageID?: string | null,
+    content: string,
+    hidden?: boolean | null,
     Tags?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
         __typename: "NoteTag",
         id: string,
         tagID: string,
+        noteID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID: string,
+    Relationships?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
+        id: string,
+        relationshipID: string,
         noteID: string,
         createdAt: string,
         updatedAt: string,
@@ -2186,14 +2445,31 @@ export type OnUpdateNoteSubscription = {
     __typename: "Note",
     id: string,
     title?: string | null,
-    body: string,
-    pageID?: string | null,
+    content: string,
+    hidden?: boolean | null,
     Tags?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
         __typename: "NoteTag",
         id: string,
         tagID: string,
+        noteID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID: string,
+    Relationships?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
+        id: string,
+        relationshipID: string,
         noteID: string,
         createdAt: string,
         updatedAt: string,
@@ -2217,14 +2493,31 @@ export type OnDeleteNoteSubscription = {
     __typename: "Note",
     id: string,
     title?: string | null,
-    body: string,
-    pageID?: string | null,
+    content: string,
+    hidden?: boolean | null,
     Tags?:  {
       __typename: "ModelNoteTagConnection",
       items:  Array< {
         __typename: "NoteTag",
         id: string,
         tagID: string,
+        noteID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    notebookID: string,
+    Relationships?:  {
+      __typename: "ModelNoteRelationshipConnection",
+      items:  Array< {
+        __typename: "NoteRelationship",
+        id: string,
+        relationshipID: string,
         noteID: string,
         createdAt: string,
         updatedAt: string,
@@ -2248,12 +2541,52 @@ export type OnCreateNotebookSubscription = {
     __typename: "Notebook",
     id: string,
     title: string,
-    Pages?:  {
-      __typename: "ModelPageConnection",
+    description?: string | null,
+    editors?: Array< string | null > | null,
+    readers?: Array< string | null > | null,
+    Tags?:  {
+      __typename: "ModelTagConnection",
       items:  Array< {
-        __typename: "Page",
+        __typename: "Tag",
         id: string,
-        title: string,
+        name: string,
+        color?: string | null,
+        content?: string | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Notes?:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        title?: string | null,
+        content: string,
+        hidden?: boolean | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Relationships?:  {
+      __typename: "ModelRelationshipConnection",
+      items:  Array< {
+        __typename: "Relationship",
+        id: string,
+        type?: string | null,
+        name?: string | null,
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
@@ -2277,12 +2610,52 @@ export type OnUpdateNotebookSubscription = {
     __typename: "Notebook",
     id: string,
     title: string,
-    Pages?:  {
-      __typename: "ModelPageConnection",
+    description?: string | null,
+    editors?: Array< string | null > | null,
+    readers?: Array< string | null > | null,
+    Tags?:  {
+      __typename: "ModelTagConnection",
       items:  Array< {
-        __typename: "Page",
+        __typename: "Tag",
         id: string,
-        title: string,
+        name: string,
+        color?: string | null,
+        content?: string | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Notes?:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        title?: string | null,
+        content: string,
+        hidden?: boolean | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Relationships?:  {
+      __typename: "ModelRelationshipConnection",
+      items:  Array< {
+        __typename: "Relationship",
+        id: string,
+        type?: string | null,
+        name?: string | null,
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
@@ -2306,12 +2679,52 @@ export type OnDeleteNotebookSubscription = {
     __typename: "Notebook",
     id: string,
     title: string,
-    Pages?:  {
-      __typename: "ModelPageConnection",
+    description?: string | null,
+    editors?: Array< string | null > | null,
+    readers?: Array< string | null > | null,
+    Tags?:  {
+      __typename: "ModelTagConnection",
       items:  Array< {
-        __typename: "Page",
+        __typename: "Tag",
         id: string,
-        title: string,
+        name: string,
+        color?: string | null,
+        content?: string | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Notes?:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        title?: string | null,
+        content: string,
+        hidden?: boolean | null,
+        notebookID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    Relationships?:  {
+      __typename: "ModelRelationshipConnection",
+      items:  Array< {
+        __typename: "Relationship",
+        id: string,
+        type?: string | null,
+        name?: string | null,
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
@@ -2330,45 +2743,52 @@ export type OnDeleteNotebookSubscription = {
   } | null,
 };
 
-export type OnCreatePageSubscription = {
-  onCreatePage?:  {
-    __typename: "Page",
+export type OnCreateNoteRelationshipSubscription = {
+  onCreateNoteRelationship?:  {
+    __typename: "NoteRelationship",
     id: string,
-    title: string,
-    notebookID?: string | null,
-    Notes?:  {
-      __typename: "ModelNoteConnection",
-      items:  Array< {
-        __typename: "Note",
-        id: string,
-        title?: string | null,
-        body: string,
-        pageID?: string | null,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    Tags?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    relationshipID: string,
+    noteID: string,
+    relationship:  {
+      __typename: "Relationship",
+      id: string,
+      type?: string | null,
+      name?: string | null,
+      notes?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    note:  {
+      __typename: "Note",
+      id: string,
+      title?: string | null,
+      content: string,
+      hidden?: boolean | null,
+      Tags?:  {
+        __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -2377,45 +2797,52 @@ export type OnCreatePageSubscription = {
   } | null,
 };
 
-export type OnUpdatePageSubscription = {
-  onUpdatePage?:  {
-    __typename: "Page",
+export type OnUpdateNoteRelationshipSubscription = {
+  onUpdateNoteRelationship?:  {
+    __typename: "NoteRelationship",
     id: string,
-    title: string,
-    notebookID?: string | null,
-    Notes?:  {
-      __typename: "ModelNoteConnection",
-      items:  Array< {
-        __typename: "Note",
-        id: string,
-        title?: string | null,
-        body: string,
-        pageID?: string | null,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    Tags?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    relationshipID: string,
+    noteID: string,
+    relationship:  {
+      __typename: "Relationship",
+      id: string,
+      type?: string | null,
+      name?: string | null,
+      notes?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    note:  {
+      __typename: "Note",
+      id: string,
+      title?: string | null,
+      content: string,
+      hidden?: boolean | null,
+      Tags?:  {
+        __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -2424,45 +2851,52 @@ export type OnUpdatePageSubscription = {
   } | null,
 };
 
-export type OnDeletePageSubscription = {
-  onDeletePage?:  {
-    __typename: "Page",
+export type OnDeleteNoteRelationshipSubscription = {
+  onDeleteNoteRelationship?:  {
+    __typename: "NoteRelationship",
     id: string,
-    title: string,
-    notebookID?: string | null,
-    Notes?:  {
-      __typename: "ModelNoteConnection",
-      items:  Array< {
-        __typename: "Note",
-        id: string,
-        title?: string | null,
-        body: string,
-        pageID?: string | null,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    Tags?:  {
-      __typename: "ModelPageTagConnection",
-      items:  Array< {
-        __typename: "PageTag",
-        id: string,
-        tagID: string,
-        pageID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      } | null >,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
+    relationshipID: string,
+    noteID: string,
+    relationship:  {
+      __typename: "Relationship",
+      id: string,
+      type?: string | null,
+      name?: string | null,
+      notes?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    note:  {
+      __typename: "Note",
+      id: string,
+      title?: string | null,
+      content: string,
+      hidden?: boolean | null,
+      Tags?:  {
+        __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -2482,16 +2916,13 @@ export type OnCreateNoteTagSubscription = {
       id: string,
       name: string,
       color?: string | null,
+      content?: string | null,
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
+      notebookID: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -2502,10 +2933,16 @@ export type OnCreateNoteTagSubscription = {
       __typename: "Note",
       id: string,
       title?: string | null,
-      body: string,
-      pageID?: string | null,
+      content: string,
+      hidden?: boolean | null,
       Tags?:  {
         __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -2534,16 +2971,13 @@ export type OnUpdateNoteTagSubscription = {
       id: string,
       name: string,
       color?: string | null,
+      content?: string | null,
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
+      notebookID: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -2554,10 +2988,16 @@ export type OnUpdateNoteTagSubscription = {
       __typename: "Note",
       id: string,
       title?: string | null,
-      body: string,
-      pageID?: string | null,
+      content: string,
+      hidden?: boolean | null,
       Tags?:  {
         __typename: "ModelNoteTagConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -2586,16 +3026,13 @@ export type OnDeleteNoteTagSubscription = {
       id: string,
       name: string,
       color?: string | null,
+      content?: string | null,
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
+      notebookID: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -2606,178 +3043,16 @@ export type OnDeleteNoteTagSubscription = {
       __typename: "Note",
       id: string,
       title?: string | null,
-      body: string,
-      pageID?: string | null,
+      content: string,
+      hidden?: boolean | null,
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnCreatePageTagSubscription = {
-  onCreatePageTag?:  {
-    __typename: "PageTag",
-    id: string,
-    tagID: string,
-    pageID: string,
-    tag:  {
-      __typename: "Tag",
-      id: string,
-      name: string,
-      color?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    page:  {
-      __typename: "Page",
-      id: string,
-      title: string,
-      notebookID?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Tags?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnUpdatePageTagSubscription = {
-  onUpdatePageTag?:  {
-    __typename: "PageTag",
-    id: string,
-    tagID: string,
-    pageID: string,
-    tag:  {
-      __typename: "Tag",
-      id: string,
-      name: string,
-      color?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    page:  {
-      __typename: "Page",
-      id: string,
-      title: string,
-      notebookID?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Tags?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnDeletePageTagSubscription = {
-  onDeletePageTag?:  {
-    __typename: "PageTag",
-    id: string,
-    tagID: string,
-    pageID: string,
-    tag:  {
-      __typename: "Tag",
-      id: string,
-      name: string,
-      color?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Pages?:  {
-        __typename: "ModelPageTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    page:  {
-      __typename: "Page",
-      id: string,
-      title: string,
-      notebookID?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Tags?:  {
-        __typename: "ModelPageTagConnection",
+      notebookID: string,
+      Relationships?:  {
+        __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
