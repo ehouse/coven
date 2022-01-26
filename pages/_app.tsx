@@ -1,9 +1,12 @@
-import type { AppProps } from 'next/app';
-
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { MantineProvider } from '@mantine/core';
 
 import Layout from '../src/components/layout';
+import { API } from 'aws-amplify';
+import * as queries from "../src/graphql/queries";
+
+import type { AppProps } from 'next/app';
 
 // Setup auth code for all pages
 import Amplify from 'aws-amplify';
@@ -16,6 +19,16 @@ Amplify.configure({
 
 function App(props: AppProps) {
     const { Component, pageProps } = props;
+    const [notebooks, setNotebooks] = useState<string[]>([]);
+
+    useEffect(() => {
+        const query = API.graphql({ query: queries.listNotebooks });
+        if (query instanceof Promise) {
+            query.then((results) => {
+                setNotebooks(results.data.listNotebooks.items.map((notebook) => (notebook.title)));
+            });
+        }
+    }, []);
 
     return (
         <>
@@ -28,11 +41,10 @@ function App(props: AppProps) {
                 withGlobalStyles
                 withNormalizeCSS
                 theme={{
-                    /** Put your mantine theme override here */
                     colorScheme: 'light',
                 }}
             >
-                <Layout>
+                <Layout notebookNames={notebooks}>
                     <Component {...pageProps} />
                 </Layout>
             </MantineProvider>
