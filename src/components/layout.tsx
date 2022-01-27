@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { AppShell, Burger, Button, Center, Header, MediaQuery, Navbar, List, Title, useMantineTheme } from '@mantine/core';
+import { AppShell, Burger, Button, Container, Group, Grid, Badge, Header, MediaQuery, Navbar, List, Title, ThemeIcon, useMantineTheme } from '@mantine/core';
+import { GitHubLogoIcon } from '@radix-ui/react-icons'
 
 import CreateNotebook from './createNotebook';
 
@@ -10,7 +11,7 @@ interface Props {
 
 function Layout(props: Props) {
     const [opened, setOpened] = useState(false);
-    const [modelVisibile, setModelVisibile] = useState(false);
+    const [modelVisible, setModelVisible] = useState(false);
 
     const theme = useMantineTheme();
 
@@ -36,7 +37,7 @@ function Layout(props: Props) {
                 </Navbar.Section>
                 <Navbar.Section>
                     <Button fullWidth
-                        onClick={() => setModelVisibile(true)}
+                        onClick={() => setModelVisible(true)}
                     >
                         Create Notebook
                     </Button>
@@ -56,13 +57,19 @@ function Layout(props: Props) {
                             mr="xl"
                         />
                     </MediaQuery>
-
                     <Title>Coven</Title>
+                    <Badge variant="outline" color={"gray"} sx={{ paddingRight: 4 }} size="lg" rightSection={
+                        <ThemeIcon color="dark" size={"sm"} radius={"lg"}>
+                            <GitHubLogoIcon />
+                        </ThemeIcon>
+                    }>
+                        Github
+                    </Badge>
                 </div>
             </Header>
         }
     >
-        <CreateNotebook opened={modelVisibile} setOpened={setModelVisibile} />
+        <CreateNotebook opened={modelVisible} setOpened={setModelVisible} />
         {props.children}
     </AppShell>;
 }

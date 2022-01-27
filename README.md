@@ -1,15 +1,20 @@
 ## Coven
 
-[![amplifybutton](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/ehouse/coven)
-
 ## Getting Started
 
-First, run the development server:
+First step is to install and setup Amplify CLI. It's needed to create the infrastructure needed to test/deploy an instance of the project.
 
 ```bash
+npm install -g @aws-amplify/cli
+amplify pull
+```
+Setup a new user (or reuse an existing IAM) and create a new credential key/pair. Otherwise use all of the default settings, making sure to pull down the backend environment.
+
+Once that is run it should create the files necessary to mock the API/Database.
+
+```bash
+## Start the development webserver
 npm run dev
-# or
-yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
