@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal, Button, Group } from '@mantine/core';
+import { Modal, Button, Group, TextInput, Textarea } from '@mantine/core';
 
 interface Props {
     opened: boolean;
@@ -7,15 +7,33 @@ interface Props {
 }
 
 function CreateNotebook(props: Props) {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+
+
     return (
         <Modal
             opened={props.opened}
             onClose={() => props.setOpened(false)}
             title="Create Notebook"
         >
-            This is the Create Notebook Model
+            <TextInput
+                value={title}
+                placeholder="title"
+                label="Notebook Title"
+                required
+                onChange={(event) => setTitle(event.currentTarget.value)}
+            />
+            <Textarea
+                placeholder="Describe the Notebook"
+                label="Description"
+                value={description}
+                onChange={(event) => setDescription(event.currentTarget.value)}
+            />
+            <Button type="submit" disabled={title.length === 0} >
+                Create
+            </Button>
         </Modal>
-
     );
 }
 

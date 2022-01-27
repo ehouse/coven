@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AppShell, Burger, Button, Container, Group, Grid, Badge, Header, MediaQuery, Navbar, List, Title, ThemeIcon, useMantineTheme } from '@mantine/core';
-import { GitHubLogoIcon } from '@radix-ui/react-icons'
+import { IoLogoGithub } from "react-icons/io5";
 
 import CreateNotebook from './createNotebook';
 
@@ -58,13 +58,20 @@ function Layout(props: Props) {
                         />
                     </MediaQuery>
                     <Title>Coven</Title>
-                    <Badge variant="outline" color={"gray"} sx={{ paddingRight: 4 }} size="lg" rightSection={
-                        <ThemeIcon color="dark" size={"sm"} radius={"lg"}>
-                            <GitHubLogoIcon />
-                        </ThemeIcon>
-                    }>
-                        Github
-                    </Badge>
+                    <div style={{ width: '100%' }}>
+                        <Group position="right" >
+                            <Button
+                                color="dark"
+                                component="a"
+                                href="https://github.com/ehouse/coven"
+                                target="_blank"
+                                variant="outline"
+                                leftIcon={<IoLogoGithub size={'1.8em'} />}
+                            >
+                                Source Code
+                            </Button>
+                        </Group>
+                    </div>
                 </div>
             </Header>
         }
