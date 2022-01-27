@@ -1,21 +1,27 @@
 import { useState } from 'react';
 import { AppShell, Burger, Button, Container, Group, Grid, Badge, Header, MediaQuery, Navbar, List, Title, ThemeIcon, useMantineTheme } from '@mantine/core';
 import { IoLogoGithub } from "react-icons/io5";
+import Amplify, { Auth, API } from 'aws-amplify';
 
+import { Notebook } from "../graphql";
 import CreateNotebook from './createNotebook';
 
+// Setup and import the auth config
+import config from '../aws-exports';
+Amplify.configure({
+    ...config,
+});
+
 interface Props {
-    notebookNames: string[];
+    notebooks: Notebook[];
     children: React.ReactNode;
 }
 
-function Layout(props: Props) {
+function MainLayout(props: Props) {
     const [opened, setOpened] = useState(false);
     const [modelVisible, setModelVisible] = useState(false);
 
     const theme = useMantineTheme();
-
-    const { notebookNames } = props;
 
     return <AppShell
         navbarOffsetBreakpoint="sm"
@@ -30,8 +36,8 @@ function Layout(props: Props) {
                 <Navbar.Section grow mt="lg">
                     <Title order={3}>Notebooks</Title>
                     <List>
-                        {notebookNames.map((name) => (
-                            <List.Item key={name}>{name}</List.Item>
+                        {props.notebooks.map(({ title }) => (
+                            <List.Item key={title}>{title}</List.Item>
                         ))}
                     </List>
                 </Navbar.Section>
@@ -81,4 +87,4 @@ function Layout(props: Props) {
     </AppShell>;
 }
 
-export default Layout;
+export default MainLayout;

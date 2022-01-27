@@ -1,6 +1,8 @@
 ## Coven
 
-## Getting Started
+ [![amplifybutton](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/ehouse/coven)
+
+### Getting Started
 
 First step is to install and setup Amplify CLI. It's needed to create the infrastructure needed to test/deploy an instance of the project.
 
@@ -19,7 +21,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Learn More
+### Learn More
 
 To learn more about Next.js, take a look at the following resources:
 

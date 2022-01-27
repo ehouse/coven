@@ -1,4 +1,4 @@
-import { Amplify, API, withSSRContext } from "aws-amplify";
+import { Amplify, API } from "aws-amplify";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
