@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { MantineProvider } from '@mantine/core';
-
-import Layout from '../src/components/layout';
 import { API } from 'aws-amplify';
-import * as queries from "../src/graphql/queries";
+
+import Layout from '../components/layout';
+import { listNotebooks, ListNotebooksQuery } from "../graphql";
 
 import type { AppProps } from 'next/app';
 
 // Setup auth code for all pages
 import Amplify from 'aws-amplify';
-import config from '../src/aws-exports';
+import config from '../aws-exports';
 Amplify.configure({
     ...config,
     ssr: true
@@ -25,9 +25,13 @@ function App(props: AppProps) {
         fetchNotebooks();
     }, []);
 
+    // Async function to handle the destructuring of the graphql query 
     async function fetchNotebooks() {
-        const serverState = await API.graphql({ query: queries.listNotebooks });
-        setNotebooks(serverState.data.listNotebooks.items.map((notebook) => (notebook.title)));
+        const serverState = (await API.graphql({ query: listNotebooks, authMode: "AMAZON_COGNITO_USER_POOLS" })) as { data: ListNotebooksQuery };
+        const results = serverState.data.listNotebooks
+        if (results) {
+            setNotebooks(results.items.map((notebook) => (notebook?.title ?? '')));
+        }
     }
 
     return (

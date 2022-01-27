@@ -2,11 +2,11 @@ import { Amplify, API, withSSRContext } from "aws-amplify";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import * as mutations from "../../src/graphql/mutations";
-import * as queries from "../../src/graphql/queries";
+import * as mutations from "../../graphql/mutations";
+import * as queries from "../../graphql/queries";
 
 import type { GetStaticProps, GetStaticPaths, NextPage } from 'next';
-import type { ListNotesQuery, Note } from '../../src/API';
+import type { ListNotesQuery, Note } from '../../graphql';
 
 
 import styles from "../../styles/Home.module.css";
@@ -17,7 +17,7 @@ interface Props {
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const SSR = withSSRContext();
-    const { data } = await SSR.API.graphql({ query: queries.listNotes });
+    const { data } = await SSR.API.graphql({ query: queries.listNotes, authMode: "AMAZON_COGNITO_USER_POOLS" });
 
     const paths = data.listNotes.items.map((note: Note) => ({
         params: { id: note.id },

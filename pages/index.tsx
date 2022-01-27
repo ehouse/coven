@@ -2,11 +2,11 @@ import Head from "next/head";
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { Amplify, API, withSSRContext } from "aws-amplify";
 
-import * as mutations from "../src/graphql/mutations";
-import * as queries from "../src/graphql/queries";
+import * as mutations from "../graphql/mutations";
+import * as queries from "../graphql/queries";
 
 import type { NextPage, GetServerSideProps } from 'next';
-import type { CreateNoteMutation, Notebook } from '../src/API';
+import type { CreateNoteMutation, Notebook } from '../graphql/API';
 
 import '@aws-amplify/ui-react/styles.css';
 
