@@ -15,12 +15,7 @@
       "auth": {
         "spidernotes4e585cb3": {}
       },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d1acpcz63vcx15",
-          "type": "manual"
-        }
-      }
+      "hosting": {}
     }
   },
   "dev": {
@@ -38,12 +33,6 @@
     "categories": {
       "auth": {
         "spidernotes4e585cb3": {}
-      },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d1acpcz63vcx15",
-          "type": "manual"
-        }
       }
     }
   }
