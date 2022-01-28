@@ -1,51 +1,19 @@
 {
   "devel": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-coven-devel-130850-authRole",
-      "UnauthRoleArn": "arn:aws:iam::532123707589:role/amplify-coven-devel-130850-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::532123707589:role/amplify-coven-devel-130850-authRole",
+      "AuthRoleName": "amplify-covennotes-devel-10814-authRole",
+      "UnauthRoleArn": "arn:aws:iam::532123707589:role/amplify-covennotes-devel-10814-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::532123707589:role/amplify-covennotes-devel-10814-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-coven-devel-130850-deployment",
-      "UnauthRoleName": "amplify-coven-devel-130850-unauthRole",
-      "StackName": "amplify-coven-devel-130850",
-      "StackId": "arn:aws:cloudformation:us-east-1:532123707589:stack/amplify-coven-devel-130850/89e4abe0-7c77-11ec-a142-0a83d726a431",
-      "AmplifyAppId": "d2npvy8u725cf1"
+      "DeploymentBucketName": "amplify-covennotes-devel-10814-deployment",
+      "UnauthRoleName": "amplify-covennotes-devel-10814-unauthRole",
+      "StackName": "amplify-covennotes-devel-10814",
+      "StackId": "arn:aws:cloudformation:us-east-1:532123707589:stack/amplify-covennotes-devel-10814/afb31ff0-8000-11ec-8242-0e2a25b59409",
+      "AmplifyAppId": "d9l5t6yz5b4ag"
     },
     "categories": {
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d2npvy8u725cf1",
-          "type": "manual"
-        }
-      },
       "auth": {
-        "covenfee3faa5": {},
-        "userPoolGroups": {}
-      }
-    }
-  },
-  "staging": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-coven-staging-150743-authRole",
-      "UnauthRoleArn": "arn:aws:iam::532123707589:role/amplify-coven-staging-150743-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::532123707589:role/amplify-coven-staging-150743-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-coven-staging-150743-deployment",
-      "UnauthRoleName": "amplify-coven-staging-150743-unauthRole",
-      "StackName": "amplify-coven-staging-150743",
-      "StackId": "arn:aws:cloudformation:us-east-1:532123707589:stack/amplify-coven-staging-150743/ce9115c0-7fac-11ec-b2cd-124b8f7e7c13",
-      "AmplifyAppId": "d2npvy8u725cf1"
-    },
-    "categories": {
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d2npvy8u725cf1",
-          "type": "manual"
-        }
-      },
-      "auth": {
-        "covenfee3faa5": {},
-        "userPoolGroups": {}
+        "covennotes811b7239": {}
       }
     }
   }

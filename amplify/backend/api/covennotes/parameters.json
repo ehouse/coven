@@ -1,11 +1,10 @@
 {
-  "AppSyncApiName": "coven",
+  "AppSyncApiName": "covennotes",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false,
-  "AuthModeLastUpdated": "2022-01-24T17:10:06.577Z",
   "AuthCognitoUserPoolId": {
     "Fn::GetAtt": [
-      "authcovenfee3faa5",
+      "authcovennotes811b7239",
       "Outputs.UserPoolId"
     ]
   }

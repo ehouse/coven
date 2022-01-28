@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "covennotes",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/home/ehouse/Projects/coven/amplify/backend/api/covennotes/schema.graphql",
+    "defaultAuthType": {
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authcovennotes811b7239"
+    }
+  }
+}

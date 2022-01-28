@@ -10,6 +10,17 @@ projects:
         codeGenTarget: graphql/typescript
         generatedFileName: API.ts
         docsFilePath: graphql
+  covennotes:
+    schemaPath: graphql/schema.json
+    includes:
+      - graphql/**/*.ts
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: typescript
+        generatedFileName: API.ts
+        docsFilePath: graphql
 extensions:
   amplify:
     version: 3
