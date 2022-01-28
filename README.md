@@ -1,4 +1,4 @@
-## Coven
+## Coven - SpiderNotes
 
  [![amplifybutton](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/ehouse/coven)
 
@@ -9,6 +9,7 @@ First step is to install and setup Amplify CLI. It's needed to create the infras
 ```bash
 npm install -g @aws-amplify/cli
 amplify pull
+amplify env checkout dev
 ```
 Setup a new user (or reuse an existing IAM) and create a new credential key/pair. Otherwise use all of the default settings, making sure to pull down the backend environment.
 

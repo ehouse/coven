@@ -1,26 +1,4 @@
 projects:
-  coven:
-    schemaPath: amplify/backend/api/coven/build/schema.graphql
-    includes:
-      - graphql/**/*.ts
-    excludes:
-      - ./amplify/**
-    extensions:
-      amplify:
-        codeGenTarget: graphql/typescript
-        generatedFileName: API.ts
-        docsFilePath: graphql
-  covennotes:
-    schemaPath: graphql/schema.json
-    includes:
-      - graphql/**/*.ts
-    excludes:
-      - ./amplify/**
-    extensions:
-      amplify:
-        codeGenTarget: typescript
-        generatedFileName: API.ts
-        docsFilePath: graphql
   spidernotes:
     schemaPath: graphql/schema.json
     includes:
@@ -29,7 +7,7 @@ projects:
       - ./amplify/**
     extensions:
       amplify:
-        codeGenTarget: typescript
+        codeGenTarget: graphql/typescript
         generatedFileName: API.ts
         docsFilePath: graphql
 extensions:

@@ -63,7 +63,7 @@ function MainLayout(props: Props) {
                             mr="xl"
                         />
                     </MediaQuery>
-                    <Title>Coven</Title>
+                    <Title>SpiderNotes</Title>
                     <div style={{ width: '100%' }}>
                         <Group position="right" >
                             <Button

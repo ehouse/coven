@@ -10,6 +10,10 @@ function CreateNotebookModel(props: Props) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
+    function createNotebook(){
+
+    }
+
     return (
         <Modal
             opened={props.opened}
@@ -30,7 +34,7 @@ function CreateNotebookModel(props: Props) {
                     value={description}
                     onChange={(event) => setDescription(event.currentTarget.value)}
                 />
-                <Button type="submit" disabled={title.length === 0} >
+                <Button type="submit" disabled={title.length === 0} onClick={createNotebook} >
                     Create
                 </Button>
             </SimpleGrid>
