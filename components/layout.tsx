@@ -4,7 +4,7 @@ import { IoLogoGithub } from "react-icons/io5";
 import Amplify, { Auth, API } from 'aws-amplify';
 
 import { Notebook } from "../graphql";
-import CreateNotebook from './createNotebook';
+import CreateNotebookModel from './createNotebookModel';
 
 // Setup and import the auth config
 import config from '../aws-exports';
@@ -82,7 +82,7 @@ function MainLayout(props: Props) {
             </Header>
         }
     >
-        <CreateNotebook opened={modelVisible} setOpened={setModelVisible} />
+        <CreateNotebookModel opened={modelVisible} setOpened={setModelVisible} />
         {props.children}
     </AppShell>;
 }
