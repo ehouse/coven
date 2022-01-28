@@ -1,10 +1,10 @@
 {
-  "AppSyncApiName": "covennotes",
+  "AppSyncApiName": "spidernotes",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false,
   "AuthCognitoUserPoolId": {
     "Fn::GetAtt": [
-      "authcovennotes811b7239",
+      "authspidernotes4e585cb3",
       "Outputs.UserPoolId"
     ]
   }

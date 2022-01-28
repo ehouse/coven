@@ -1,19 +1,49 @@
 {
-  "dev": {
+  "main": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-covennotes-dev-20943-authRole",
-      "UnauthRoleArn": "arn:aws:iam::532123707589:role/amplify-covennotes-dev-20943-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::532123707589:role/amplify-covennotes-dev-20943-authRole",
+      "AuthRoleName": "amplify-spidernotes-main-140916-authRole",
+      "UnauthRoleArn": "arn:aws:iam::532123707589:role/amplify-spidernotes-main-140916-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::532123707589:role/amplify-spidernotes-main-140916-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-covennotes-dev-20943-deployment",
-      "UnauthRoleName": "amplify-covennotes-dev-20943-unauthRole",
-      "StackName": "amplify-covennotes-dev-20943",
-      "StackId": "arn:aws:cloudformation:us-east-1:532123707589:stack/amplify-covennotes-dev-20943/469d7cf0-8009-11ec-a28a-0ebbecda60a1",
-      "AmplifyAppId": "d9l5t6yz5b4ag"
+      "DeploymentBucketName": "amplify-spidernotes-main-140916-deployment",
+      "UnauthRoleName": "amplify-spidernotes-main-140916-unauthRole",
+      "StackName": "amplify-spidernotes-main-140916",
+      "StackId": "arn:aws:cloudformation:us-east-1:532123707589:stack/amplify-spidernotes-main-140916/c9f99390-806d-11ec-a346-0e6548286fa1",
+      "AmplifyAppId": "d1acpcz63vcx15"
     },
     "categories": {
       "auth": {
-        "covennotes811b7239": {}
+        "spidernotes4e585cb3": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1acpcz63vcx15",
+          "type": "manual"
+        }
+      }
+    }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-spidernotes-dev-141326-authRole",
+      "UnauthRoleArn": "arn:aws:iam::532123707589:role/amplify-spidernotes-dev-141326-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::532123707589:role/amplify-spidernotes-dev-141326-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-spidernotes-dev-141326-deployment",
+      "UnauthRoleName": "amplify-spidernotes-dev-141326-unauthRole",
+      "StackName": "amplify-spidernotes-dev-141326",
+      "StackId": "arn:aws:cloudformation:us-east-1:532123707589:stack/amplify-spidernotes-dev-141326/5fb2e440-806e-11ec-b6eb-1201a0a44b75",
+      "AmplifyAppId": "d1acpcz63vcx15"
+    },
+    "categories": {
+      "auth": {
+        "spidernotes4e585cb3": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1acpcz63vcx15",
+          "type": "manual"
+        }
       }
     }
   }

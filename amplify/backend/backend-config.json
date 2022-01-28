@@ -1,6 +1,6 @@
 {
   "auth": {
-    "covennotes811b7239": {
+    "spidernotes4e585cb3": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -8,9 +8,7 @@
       "frontendAuthConfig": {
         "socialProviders": [],
         "usernameAttributes": [],
-        "signupAttributes": [
-          "EMAIL"
-        ],
+        "signupAttributes": [],
         "passwordProtectionSettings": {
           "passwordPolicyMinLength": 8,
           "passwordPolicyCharacters": []
@@ -26,7 +24,7 @@
     }
   },
   "api": {
-    "covennotes": {
+    "spidernotes": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -34,7 +32,7 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authcovennotes811b7239"
+              "userPoolId": "authspidernotes4e585cb3"
             }
           },
           "additionalAuthenticationProviders": []
@@ -42,6 +40,11 @@
       }
     }
   },
-  "hosting": {},
-  "function": {}
+  "hosting": {
+    "amplifyhosting": {
+      "service": "amplifyhosting",
+      "providerPlugin": "awscloudformation",
+      "type": "manual"
+    }
+  }
 }
