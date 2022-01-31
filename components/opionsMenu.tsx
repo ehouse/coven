@@ -19,18 +19,17 @@ function OptionsMenu() {
         }
     };
 
-    const openDeleteModal = () =>
-        modals.openConfirmModal({
-            title: <Title order={4}>{`Delete ${siteState.state.activeNotebook.title}?`}</Title>,
-            labels: { confirm: 'Delete', cancel: "Cancel" },
-            confirmProps: { color: 'red' },
-            onConfirm: () => deleteNotebook(),
-            children: (<>
-                <Text>Are you sure? This action is permanent.</Text>
-                <Space h={'md'} />
-                <Text>This will delete the notebook and all assiocated data along with it. Once it is deleted it is gone for good.</Text>
-            </>)
-        });
+    const openDeleteModal = () => modals.openConfirmModal({
+        title: <Title order={4}>{`Delete ${siteState.state.activeNotebook.title}?`}</Title>,
+        labels: { confirm: 'Delete', cancel: "Cancel" },
+        confirmProps: { color: 'red' },
+        onConfirm: () => deleteNotebook(),
+        children: (<>
+            <Text>Are you sure? This action is permanent.</Text>
+            <Space h={'md'} />
+            <Text>This will delete the notebook and all assiocated data along with it. Once it is deleted it is gone for good.</Text>
+        </>)
+    });
 
     return (
         <Menu placement="end">

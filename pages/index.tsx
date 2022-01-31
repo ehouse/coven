@@ -3,15 +3,13 @@ import '@aws-amplify/ui-react/styles.css';
 import { Affix } from '@mantine/core';
 import Amplify from 'aws-amplify';
 import type { NextPage } from 'next';
-import { useReducer } from 'react';
+import React, { useReducer } from 'react';
 import type { Notebook } from '../API';
 import config from '../aws-exports';
 import MainLayout from '../components/layout';
 import OptionsMenu from '../components/opionsMenu';
-import type { SiteReducerAction, SiteReducerState } from '../types';
-import React from 'react';
 import { SiteStateContext } from '../context';
-
+import type { SiteReducerAction, SiteReducerState } from '../types';
 
 Amplify.configure({
     ...config
@@ -22,8 +20,9 @@ function reducer(state: SiteReducerState, action: SiteReducerAction) {
         case "setNotebooks":
             return { ...state, "notebooks": action.payload };
 
-        case "addNotebook":
-            return { ...state, "notebooks": action.payload };
+        case "createNotebook":
+            const data = [...state.notebooks, action.payload];
+            return { ...state, "notebooks": data };
 
         case "deleteNotebook":
             const filteredSet = state.notebooks.filter((item) => item.id !== action.payload);

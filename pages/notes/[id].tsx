@@ -6,7 +6,6 @@ import * as mutations from "../../graphql/mutations";
 import * as queries from "../../graphql/queries";
 
 import type { GetStaticProps, GetStaticPaths, NextPage } from 'next';
-import type { ListNotesQuery, Note } from '../../graphql';
 
 
 // import styles from "../../styles/Home.module.css";
@@ -96,7 +95,7 @@ import type { ListNotesQuery, Note } from '../../graphql';
 //         </div>
 //     );
 // };
-function NotePage(){
-    return <div />
+function Page() {
+    return <div />;
 }
-export default NotePage;
+export default Page;

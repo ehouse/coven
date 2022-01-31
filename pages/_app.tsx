@@ -2,6 +2,7 @@ import { MantineProvider } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { CreateNotebookModal } from '../components/modals';
 
 function App(props: AppProps) {
     const { Component, pageProps } = props;
@@ -20,7 +21,7 @@ function App(props: AppProps) {
                     colorScheme: 'light',
                 }}
             >
-                <ModalsProvider>
+                <ModalsProvider modals={{ createNotebookModal: CreateNotebookModal }} >
                     <Component {...pageProps} />
                 </ModalsProvider>
             </MantineProvider>
