@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { DeleteNotebookMutation } from '../API';
 import config from '../aws-exports';
 import * as mutations from '../graphql/mutations';
+import { MutateNotebooksQuery, Notebook } from "../API";
 
 Amplify.configure({
     ...config
@@ -11,6 +12,7 @@ Amplify.configure({
 
 interface Props {
     opened: boolean;
+    notebook: Notebook;
     handler: { append: (...items: unknown[]) => void; };
     setOpened: (arg0: boolean) => void;
 }
@@ -39,7 +41,7 @@ function EditNotebookModel(props: Props) {
         <Modal
             opened={props.opened}
             onClose={() => props.setOpened(false)}
-            title="Create Notebook"
+            title="Edit Notebook"
         >
             <SimpleGrid cols={1}>
                 <TextInput
@@ -56,11 +58,11 @@ function EditNotebookModel(props: Props) {
                     onChange={(event) => setDescription(event.currentTarget.value)}
                 />
                 <Group position={'right'}>
-                    <Button type="submit" disabled={title.length === 0} loading={loading} onClick={deleteNotebook} >
+                    <Button type="submit" loading={loading} onClick={() => props.setOpened(false)} >
                         Cancel
                     </Button>
                     <Button type="submit" disabled={title.length === 0} loading={loading} onClick={deleteNotebook} >
-                        Delete
+                        Submit
                     </Button>
                 </Group>
             </SimpleGrid>

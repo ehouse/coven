@@ -1,14 +1,16 @@
-import { AppShell, Burger, Button, Group, Header, MediaQuery, Navbar, Space, Text, ThemeIcon, Title, UnstyledButton, useMantineTheme } from '@mantine/core';
+import { AppShell, ActionIcon, Burger, Divider, Button, Group, Header, MediaQuery, Navbar, ScrollArea, Space, Text, ThemeIcon, Title, UnstyledButton, useMantineTheme } from '@mantine/core';
 import { useListState } from '@mantine/hooks';
 import Amplify, { API, Cache, graphqlOperation } from 'aws-amplify';
 import type { Dispatch } from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import { IoBookOutline, IoLogoGithub } from "react-icons/io5";
+import { IoBookOutline, IoLogoGithub, IoSettingsOutline } from "react-icons/io5";
 import { ListNotebooksQuery, Notebook } from "../API";
 import config from '../aws-exports';
 import * as queries from '../graphql/queries';
 import type { SiteReducerAction, SiteReducerState } from '../types';
-import CreateNotebookModel from './createNotebookModal';
+import CreateNotebookModal from './createNotebookModal';
+import EditNotebookModal from './editNotebookModal';
+
 
 Amplify.configure({
     ...config,
@@ -27,18 +29,30 @@ interface NotebookBadgeProps {
 }
 
 function NotebookBadge(props: NotebookBadgeProps) {
+    const [modelVisible, setModelVisible] = useState(false);
+
     const theme = useMantineTheme();
-    return <UnstyledButton onClick={() => props.siteDispatch({ type: 'setActiveNotebook', payload: props.notebook })}>
-        <Group>
-            <ThemeIcon size={40} radius="md" color={props.isSelected ? "red" : "blue"}>
-                <IoBookOutline />
-            </ThemeIcon >
-            <div>
-                <Text weight={"500"}>{props.notebook.title}</Text>
-                <Text size="xs" color="gray">{props.notebook.description}</Text>
-            </div>
-        </Group>
-    </UnstyledButton>;
+    return <div>
+        <UnstyledButton onClick={() => props.siteDispatch({ type: 'setActiveNotebook', payload: props.notebook })}>
+            <Group>
+                <ThemeIcon size={40} radius="md" color={props.isSelected ? "red" : "blue"}>
+                    <IoBookOutline />
+                </ThemeIcon >
+                <div>
+                    <Text weight={"500"}>{props.notebook.title}</Text>
+                    <Text size="xs" color="gray">{props.notebook.description}</Text>
+                </div>
+
+            </Group>
+        </UnstyledButton>
+        {props.isSelected && <>
+            <EditNotebookModal opened={modelVisible} setOpened={setModelVisible} />
+            <ActionIcon style={{ float: 'right' }} onClick={() => setModelVisible(true)}>
+                <IoSettingsOutline />
+            </ActionIcon>
+        </>
+        }
+    </div>;
 }
 
 function MainLayout(props: Props) {
@@ -65,6 +79,7 @@ function MainLayout(props: Props) {
     }, [setNotebookState]);
 
     useEffect(() => {
+        Cache.clear();
         const cacheHit = Cache.getItem(`listNotebooks`);
         if (cacheHit) {
             setNotebookState(cacheHit);
@@ -76,23 +91,27 @@ function MainLayout(props: Props) {
     return <AppShell
         navbarOffsetBreakpoint="sm"
         fixed
+        styles={(theme) => ({
+            main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
+        })}
         navbar={
-            <Navbar
-                padding="md"
-                hiddenBreakpoint="sm"
-                hidden={!opened}
-                width={{ sm: 200, lg: 300 }}
-            >
-                <Navbar.Section grow>
-                    <Title order={3}>Notebooks</Title>
-                    <Space h="md" />
-                    <Group direction="column" spacing="xs">
+            <Navbar padding={10} width={{ base: 300 }}>
+                <Navbar.Section>
+                    <Title mb={'sm'} order={3}>🕷️ SpiderNotes</Title>
+                    <Divider />
+                </Navbar.Section>
+                <Navbar.Section
+                    grow
+                    component={ScrollArea}
+                    sx={{ paddingRight: 10 }}
+                >
+                    <Group spacing={'xs'}>
                         {notebooks.map((n) => (
                             <div key={n.title}
                                 style={{
                                     backgroundColor: theme.colors.gray[0],
                                     boxShadow: theme.shadows['xs'],
-                                    padding: '.2rem 0',
+                                    padding: '.2rem',
                                     width: '100%'
                                 }}>
                                 <NotebookBadge
@@ -105,47 +124,19 @@ function MainLayout(props: Props) {
                     </Group>
                 </Navbar.Section>
                 <Navbar.Section>
-                    <Button fullWidth
+                    <Divider />
+                    <Button mt={'sm'}
+                        fullWidth
+                        disabled={notebooks.length >= 25}
                         onClick={() => setModelVisible(true)}
                     >
                         Create Notebook
                     </Button>
                 </Navbar.Section>
-            </Navbar>
-        }
-        header={
-            <Header height={70} padding="md">
-                {/* Handle other responsive styles with MediaQuery component or createStyles function */}
-                <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-                    <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-                        <Burger
-                            opened={opened}
-                            onClick={() => setOpened((o) => !o)}
-                            size="sm"
-                            color={theme.colors.gray[6]}
-                            mr="xl"
-                        />
-                    </MediaQuery>
-                    <Title>SpiderNotes</Title>
-                    <div style={{ width: '100%' }}>
-                        <Group position="right" >
-                            <Button
-                                color="dark"
-                                component="a"
-                                href="https://github.com/ehouse/coven"
-                                target="_blank"
-                                variant="outline"
-                                leftIcon={<IoLogoGithub size={'1.8em'} />}
-                            >
-                                Source Code
-                            </Button>
-                        </Group>
-                    </div>
-                </div>
-            </Header>
+            </ Navbar>
         }
     >
-        <CreateNotebookModel handler={notebookHandlers} opened={modelVisible} setOpened={setModelVisible} />
+        <CreateNotebookModal handler={notebookHandlers} opened={modelVisible} setOpened={setModelVisible} />
         {props.children}
     </AppShell>;
 }

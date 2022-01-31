@@ -32,7 +32,7 @@ function CreateNotebookModel(props: Props) {
             } else {
                 // Add the new post to the parent list
                 props.handler.append(data);
-                Cache.setItem(`listNotebook`, data);
+                Cache.setItem(`listNotebooks`, data);
             }
             // Clear out model settings
             setLoading(false);
