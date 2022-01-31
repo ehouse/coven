@@ -1,15 +1,14 @@
-import { AppShell, ActionIcon, Burger, Divider, Button, Group, Header, MediaQuery, Navbar, ScrollArea, Space, Text, ThemeIcon, Title, UnstyledButton, useMantineTheme } from '@mantine/core';
+import { AppShell, Button, Divider, Group, Navbar, ScrollArea, Text, ThemeIcon, Title, UnstyledButton, useMantineTheme } from '@mantine/core';
 import { useListState } from '@mantine/hooks';
 import Amplify, { API, Cache, graphqlOperation } from 'aws-amplify';
 import type { Dispatch } from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import { IoBookOutline, IoLogoGithub, IoSettingsOutline } from "react-icons/io5";
+import { IoBookOutline } from "react-icons/io5";
 import { ListNotebooksQuery, Notebook } from "../API";
 import config from '../aws-exports';
 import * as queries from '../graphql/queries';
 import type { SiteReducerAction, SiteReducerState } from '../types';
 import CreateNotebookModal from './createNotebookModal';
-import EditNotebookModal from './editNotebookModal';
 
 
 Amplify.configure({
@@ -42,16 +41,8 @@ function NotebookBadge(props: NotebookBadgeProps) {
                     <Text weight={"500"}>{props.notebook.title}</Text>
                     <Text size="xs" color="gray">{props.notebook.description}</Text>
                 </div>
-
             </Group>
         </UnstyledButton>
-        {props.isSelected && <>
-            <EditNotebookModal opened={modelVisible} setOpened={setModelVisible} />
-            <ActionIcon style={{ float: 'right' }} onClick={() => setModelVisible(true)}>
-                <IoSettingsOutline />
-            </ActionIcon>
-        </>
-        }
     </div>;
 }
 
@@ -79,7 +70,6 @@ function MainLayout(props: Props) {
     }, [setNotebookState]);
 
     useEffect(() => {
-        Cache.clear();
         const cacheHit = Cache.getItem(`listNotebooks`);
         if (cacheHit) {
             setNotebookState(cacheHit);

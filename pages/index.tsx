@@ -1,15 +1,15 @@
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+import { Affix, Divider, Menu } from '@mantine/core';
+import { ChatBubbleIcon, GearIcon, TrashIcon } from '@modulz/radix-icons';
 import Amplify from 'aws-amplify';
 import type { NextPage } from 'next';
 import { useReducer } from 'react';
 import type { Notebook } from '../API';
 import config from '../aws-exports';
 import MainLayout from '../components/layout';
-import type { SiteReducerState, SiteReducerAction } from '../types';
+import type { SiteReducerAction, SiteReducerState } from '../types';
 
-import { Affix, Menu, Divider, Text } from '@mantine/core';
-import { GearIcon, ChatBubbleIcon, ImageIcon, MagnifyingGlassIcon, TrashIcon, PinRightIcon } from '@modulz/radix-icons';
 
 Amplify.configure({
     ...config
@@ -33,20 +33,12 @@ function Demo() {
         <Menu placement="end">
             <Menu.Label>Application</Menu.Label>
             <Menu.Item icon={<GearIcon />}>Settings</Menu.Item>
-            <Menu.Item icon={<ChatBubbleIcon />}>Messages</Menu.Item>
-            <Menu.Item icon={<ImageIcon />}>Gallery</Menu.Item>
-            <Menu.Item
-                icon={<MagnifyingGlassIcon />}
-                rightSection={<Text size="xs" color="dimmed">⌘K</Text>}
-            >
-                Search
-            </Menu.Item>
+            <Menu.Item icon={<ChatBubbleIcon />}>Permissions</Menu.Item>
 
             <Divider />
 
             <Menu.Label>Danger zone</Menu.Label>
-            <Menu.Item icon={<PinRightIcon />}>Transfer my data</Menu.Item>,
-            <Menu.Item color="red" icon={<TrashIcon />}>Delete my account</Menu.Item>
+            <Menu.Item color="red" icon={<TrashIcon />}>Delete Notebook</Menu.Item>
         </Menu>
     );
 }
