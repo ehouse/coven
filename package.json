@@ -11,6 +11,7 @@
     "@aws-amplify/ui-react": "^2.1.9",
     "@mantine/core": "^3.6.4",
     "@mantine/hooks": "3.6.4",
+    "@mantine/modals": "^3.6.4",
     "@mantine/next": "3.6.4",
     "@modulz/radix-icons": "^4.0.0",
     "aws-amplify": "^4.3.12",

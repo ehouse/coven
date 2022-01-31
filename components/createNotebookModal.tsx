@@ -1,5 +1,5 @@
 import { Button, Group, Modal, SimpleGrid, Textarea, TextInput } from '@mantine/core';
-import Amplify, { API, Cache, graphqlOperation } from 'aws-amplify';
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import { useState } from 'react';
 import { CreateNotebookMutation, Notebook } from '../API';
 import config from '../aws-exports';
@@ -32,7 +32,6 @@ function CreateNotebookModel(props: Props) {
             } else {
                 // Add the new post to the parent list
                 props.handler.append(data);
-                Cache.setItem(`listNotebooks`, data);
             }
             // Clear out model settings
             setLoading(false);

@@ -3,15 +3,11 @@
   "serviceConfiguration": {
     "apiName": "spidernotes",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/Users/thehouse/Projects/coven/amplify/backend/api/spidernotes/schema.graphql",
+    "gqlSchemaPath": "/home/ehouse/Projects/coven/amplify/backend/api/spidernotes/schema.graphql",
     "defaultAuthType": {
       "mode": "AMAZON_COGNITO_USER_POOLS",
       "cognitoUserPoolId": "authspidernotes4e585cb3"
     },
-    "conflictResolution": {
-      "defaultResolutionStrategy": {
-        "type": "AUTOMERGE"
-      }
-    }
+    "conflictResolution": {}
   }
 }

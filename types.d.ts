@@ -1,6 +1,10 @@
 export interface SiteReducerState {
-    activeNotebook: Notebook;
+    notebooks: Notebook[]
+    activeNotebook: Notebook | null;
 }
 
 export type SiteReducerAction =
-    { type: 'setActiveNotebook', payload: Notebook; };
+    | { type: 'setNotebooks', payload: Notebook[]; }
+    | { type: 'addNotebook', payload: Notebook; }
+    | { type: 'deleteNotebook', payload: string; }
+    | { type: 'setActiveNotebook', payload: Notebook; };

@@ -1,4 +1,5 @@
 import { MantineProvider } from '@mantine/core';
+import { ModalsProvider } from '@mantine/modals';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
@@ -19,7 +20,9 @@ function App(props: AppProps) {
                     colorScheme: 'light',
                 }}
             >
-                <Component {...pageProps} />
+                <ModalsProvider>
+                    <Component {...pageProps} />
+                </ModalsProvider>
             </MantineProvider>
         </>
     );

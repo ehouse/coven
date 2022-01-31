@@ -1,38 +1,27 @@
 import { AppShell, Button, Divider, Group, Navbar, ScrollArea, Text, ThemeIcon, Title, UnstyledButton, useMantineTheme } from '@mantine/core';
 import { useListState } from '@mantine/hooks';
-import Amplify, { API, Cache, graphqlOperation } from 'aws-amplify';
-import type { Dispatch } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { IoBookOutline } from "react-icons/io5";
 import { ListNotebooksQuery, Notebook } from "../API";
 import config from '../aws-exports';
+import { SiteStateContext } from '../context';
 import * as queries from '../graphql/queries';
-import type { SiteReducerAction, SiteReducerState } from '../types';
 import CreateNotebookModal from './createNotebookModal';
-
-
-Amplify.configure({
-    ...config,
-});
-
 interface Props {
     children: React.ReactNode;
-    siteState: SiteReducerState;
-    siteDispatch: Dispatch<SiteReducerAction>;
 }
-
 interface NotebookBadgeProps {
-    siteDispatch: Dispatch<SiteReducerAction>;
+    setActiveNotebook: (arg0: Notebook) => void;
     notebook: Notebook;
     isSelected: boolean;
 }
 
 function NotebookBadge(props: NotebookBadgeProps) {
-    const [modelVisible, setModelVisible] = useState(false);
-
     const theme = useMantineTheme();
+
     return <div>
-        <UnstyledButton onClick={() => props.siteDispatch({ type: 'setActiveNotebook', payload: props.notebook })}>
+        <UnstyledButton onClick={() => props.setActiveNotebook(props.notebook)}>
             <Group>
                 <ThemeIcon size={40} radius="md" color={props.isSelected ? "red" : "blue"}>
                     <IoBookOutline />
@@ -47,12 +36,12 @@ function NotebookBadge(props: NotebookBadgeProps) {
 }
 
 function MainLayout(props: Props) {
-    const [opened, setOpened] = useState(false);
     const [modelVisible, setModelVisible] = useState(false);
+    const { state, dispatch } = useContext(SiteStateContext);
     const [notebooks, notebookHandlers] = useListState<Notebook>();
 
     const theme = useMantineTheme();
-    const setNotebookState = notebookHandlers.setState;
+    const setActiveNotebook = useCallback((notebook: Notebook) => (dispatch({ type: 'setActiveNotebook', payload: notebook })), [dispatch]);
 
     // Async function to handle the destructuring of the graphql query
     const fetchNotebooks = useCallback(() => {
@@ -62,21 +51,16 @@ function MainLayout(props: Props) {
             // Ugly hack until they fix this
             // https://github.com/aws-amplify/amplify-js/issues/6369
             const results = result.data.listNotebooks?.items as unknown as Notebook[];
-            setNotebookState(results);
-            Cache.setItem(`listNotebooks`, results);
+            console.log(results);
+            dispatch({ type: 'setNotebooks', payload: results });
         }).catch((e) => {
             console.log("Error when collecting Notebooks", e);
         });
-    }, [setNotebookState]);
+    }, [dispatch]);
 
     useEffect(() => {
-        const cacheHit = Cache.getItem(`listNotebooks`);
-        if (cacheHit) {
-            setNotebookState(cacheHit);
-        } else {
-            fetchNotebooks();
-        }
-    }, [fetchNotebooks, setNotebookState]);
+        fetchNotebooks();
+    }, [fetchNotebooks, dispatch]);
 
     return <AppShell
         navbarOffsetBreakpoint="sm"
@@ -95,8 +79,8 @@ function MainLayout(props: Props) {
                     component={ScrollArea}
                     sx={{ paddingRight: 10 }}
                 >
-                    <Group spacing={'xs'}>
-                        {notebooks.map((n) => (
+                    <Group mt={'sm'} spacing={'xs'}>
+                        {state.notebooks.map((n) => (
                             <div key={n.title}
                                 style={{
                                     backgroundColor: theme.colors.gray[0],
@@ -106,8 +90,8 @@ function MainLayout(props: Props) {
                                 }}>
                                 <NotebookBadge
                                     notebook={n}
-                                    isSelected={props.siteState.activeNotebook.id === n.id}
-                                    siteDispatch={props.siteDispatch}
+                                    isSelected={state.activeNotebook?.id === n.id}
+                                    setActiveNotebook={setActiveNotebook}
                                 />
                             </div>
                         ))}
@@ -117,7 +101,7 @@ function MainLayout(props: Props) {
                     <Divider />
                     <Button mt={'sm'}
                         fullWidth
-                        disabled={notebooks.length >= 25}
+                        disabled={state.notebooks.length >= 25}
                         onClick={() => setModelVisible(true)}
                     >
                         Create Notebook

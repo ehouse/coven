@@ -7,7 +7,6 @@ export type CreateRelationshipInput = {
   type?: string | null,
   name?: string | null,
   notebookID?: string | null,
-  _version?: number | null,
 };
 
 export type ModelRelationshipConditionInput = {
@@ -84,16 +83,12 @@ export type Relationship = {
   notebookID?: string | null,
   createdAt: string,
   updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
 };
 
 export type ModelNoteRelationshipConnection = {
   __typename: "ModelNoteRelationshipConnection",
   items:  Array<NoteRelationship | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type NoteRelationship = {
@@ -105,9 +100,6 @@ export type NoteRelationship = {
   note: Note,
   createdAt: string,
   updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
 };
 
 export type Note = {
@@ -121,16 +113,12 @@ export type Note = {
   Relationships?: ModelNoteRelationshipConnection | null,
   createdAt: string,
   updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
 };
 
 export type ModelNoteTagConnection = {
   __typename: "ModelNoteTagConnection",
   items:  Array<NoteTag | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type NoteTag = {
@@ -142,9 +130,6 @@ export type NoteTag = {
   note: Note,
   createdAt: string,
   updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
 };
 
 export type Tag = {
@@ -157,9 +142,6 @@ export type Tag = {
   notebookID: string,
   createdAt: string,
   updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
 };
 
 export type UpdateRelationshipInput = {
@@ -167,12 +149,10 @@ export type UpdateRelationshipInput = {
   type?: string | null,
   name?: string | null,
   notebookID?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteRelationshipInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateTagInput = {
@@ -181,7 +161,6 @@ export type CreateTagInput = {
   color?: string | null,
   content?: string | null,
   notebookID: string,
-  _version?: number | null,
 };
 
 export type ModelTagConditionInput = {
@@ -200,12 +179,10 @@ export type UpdateTagInput = {
   color?: string | null,
   content?: string | null,
   notebookID?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteTagInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateNoteInput = {
@@ -214,7 +191,6 @@ export type CreateNoteInput = {
   content: string,
   hidden?: boolean | null,
   notebookID: string,
-  _version?: number | null,
 };
 
 export type ModelNoteConditionInput = {
@@ -240,12 +216,10 @@ export type UpdateNoteInput = {
   content?: string | null,
   hidden?: boolean | null,
   notebookID?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteNoteInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateNotebookInput = {
@@ -254,7 +228,6 @@ export type CreateNotebookInput = {
   description?: string | null,
   editors?: Array< string | null > | null,
   readers?: Array< string | null > | null,
-  _version?: number | null,
 };
 
 export type ModelNotebookConditionInput = {
@@ -279,30 +252,24 @@ export type Notebook = {
   Relationships?: ModelRelationshipConnection | null,
   createdAt: string,
   updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
 };
 
 export type ModelTagConnection = {
   __typename: "ModelTagConnection",
   items:  Array<Tag | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type ModelNoteConnection = {
   __typename: "ModelNoteConnection",
   items:  Array<Note | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type ModelRelationshipConnection = {
   __typename: "ModelRelationshipConnection",
   items:  Array<Relationship | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type UpdateNotebookInput = {
@@ -311,19 +278,16 @@ export type UpdateNotebookInput = {
   description?: string | null,
   editors?: Array< string | null > | null,
   readers?: Array< string | null > | null,
-  _version?: number | null,
 };
 
 export type DeleteNotebookInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateNoteRelationshipInput = {
   id?: string | null,
   relationshipID: string,
   noteID: string,
-  _version?: number | null,
 };
 
 export type ModelNoteRelationshipConditionInput = {
@@ -338,19 +302,16 @@ export type UpdateNoteRelationshipInput = {
   id: string,
   relationshipID?: string | null,
   noteID?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteNoteRelationshipInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateNoteTagInput = {
   id?: string | null,
   tagID: string,
   noteID: string,
-  _version?: number | null,
 };
 
 export type ModelNoteTagConditionInput = {
@@ -365,12 +326,10 @@ export type UpdateNoteTagInput = {
   id: string,
   tagID?: string | null,
   noteID?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteNoteTagInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type ModelRelationshipFilterInput = {
@@ -420,7 +379,6 @@ export type ModelNotebookConnection = {
   __typename: "ModelNotebookConnection",
   items:  Array<Notebook | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type ModelNoteRelationshipFilterInput = {
@@ -461,19 +419,12 @@ export type CreateRelationshipMutation = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -497,19 +448,12 @@ export type UpdateRelationshipMutation = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -533,19 +477,12 @@ export type DeleteRelationshipMutation = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -570,19 +507,12 @@ export type CreateTagMutation = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -607,19 +537,12 @@ export type UpdateTagMutation = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -644,19 +567,12 @@ export type DeleteTagMutation = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -681,12 +597,8 @@ export type CreateNoteMutation = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     Relationships?:  {
@@ -698,18 +610,11 @@ export type CreateNoteMutation = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -734,12 +639,8 @@ export type UpdateNoteMutation = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     Relationships?:  {
@@ -751,18 +652,11 @@ export type UpdateNoteMutation = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -787,12 +681,8 @@ export type DeleteNoteMutation = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     Relationships?:  {
@@ -804,18 +694,11 @@ export type DeleteNoteMutation = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -843,12 +726,8 @@ export type CreateNotebookMutation = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Notes?:  {
       __typename: "ModelNoteConnection",
@@ -861,12 +740,8 @@ export type CreateNotebookMutation = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Relationships?:  {
       __typename: "ModelRelationshipConnection",
@@ -878,18 +753,11 @@ export type CreateNotebookMutation = {
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -917,12 +785,8 @@ export type UpdateNotebookMutation = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Notes?:  {
       __typename: "ModelNoteConnection",
@@ -935,12 +799,8 @@ export type UpdateNotebookMutation = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Relationships?:  {
       __typename: "ModelRelationshipConnection",
@@ -952,18 +812,11 @@ export type UpdateNotebookMutation = {
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -991,12 +844,8 @@ export type DeleteNotebookMutation = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Notes?:  {
       __typename: "ModelNoteConnection",
@@ -1009,12 +858,8 @@ export type DeleteNotebookMutation = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Relationships?:  {
       __typename: "ModelRelationshipConnection",
@@ -1026,18 +871,11 @@ export type DeleteNotebookMutation = {
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1060,14 +898,10 @@ export type CreateNoteRelationshipMutation = {
       notes?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID?: string | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -1078,25 +912,17 @@ export type CreateNoteRelationshipMutation = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1119,14 +945,10 @@ export type UpdateNoteRelationshipMutation = {
       notes?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID?: string | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -1137,25 +959,17 @@ export type UpdateNoteRelationshipMutation = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1178,14 +992,10 @@ export type DeleteNoteRelationshipMutation = {
       notes?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID?: string | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -1196,25 +1006,17 @@ export type DeleteNoteRelationshipMutation = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1238,14 +1040,10 @@ export type CreateNoteTagMutation = {
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -1256,25 +1054,17 @@ export type CreateNoteTagMutation = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1298,14 +1088,10 @@ export type UpdateNoteTagMutation = {
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -1316,25 +1102,17 @@ export type UpdateNoteTagMutation = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1358,14 +1136,10 @@ export type DeleteNoteTagMutation = {
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -1376,25 +1150,17 @@ export type DeleteNoteTagMutation = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1417,19 +1183,12 @@ export type GetRelationshipQuery = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1450,49 +1209,12 @@ export type ListRelationshipsQuery = {
       notes?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID?: string | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncRelationshipsQueryVariables = {
-  filter?: ModelRelationshipFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncRelationshipsQuery = {
-  syncRelationships?:  {
-    __typename: "ModelRelationshipConnection",
-    items:  Array< {
-      __typename: "Relationship",
-      id: string,
-      type?: string | null,
-      name?: string | null,
-      notes?:  {
-        __typename: "ModelNoteRelationshipConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      notebookID?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -1516,19 +1238,12 @@ export type GetTagQuery = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1550,50 +1265,12 @@ export type ListTagsQuery = {
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncTagsQueryVariables = {
-  filter?: ModelTagFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncTagsQuery = {
-  syncTags?:  {
-    __typename: "ModelTagConnection",
-    items:  Array< {
-      __typename: "Tag",
-      id: string,
-      name: string,
-      color?: string | null,
-      content?: string | null,
-      Notes?:  {
-        __typename: "ModelNoteTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      notebookID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -1617,12 +1294,8 @@ export type GetNoteQuery = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     Relationships?:  {
@@ -1634,18 +1307,11 @@ export type GetNoteQuery = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1667,60 +1333,16 @@ export type ListNotesQuery = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncNotesQueryVariables = {
-  filter?: ModelNoteFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncNotesQuery = {
-  syncNotes?:  {
-    __typename: "ModelNoteConnection",
-    items:  Array< {
-      __typename: "Note",
-      id: string,
-      title?: string | null,
-      content: string,
-      hidden?: boolean | null,
-      Tags?:  {
-        __typename: "ModelNoteTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      notebookID: string,
-      Relationships?:  {
-        __typename: "ModelNoteRelationshipConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -1747,12 +1369,8 @@ export type GetNotebookQuery = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Notes?:  {
       __typename: "ModelNoteConnection",
@@ -1765,12 +1383,8 @@ export type GetNotebookQuery = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Relationships?:  {
       __typename: "ModelRelationshipConnection",
@@ -1782,18 +1396,11 @@ export type GetNotebookQuery = {
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1816,69 +1423,19 @@ export type ListNotebooksQuery = {
       Tags?:  {
         __typename: "ModelTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       Notes?:  {
         __typename: "ModelNoteConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       Relationships?:  {
         __typename: "ModelRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncNotebooksQueryVariables = {
-  filter?: ModelNotebookFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncNotebooksQuery = {
-  syncNotebooks?:  {
-    __typename: "ModelNotebookConnection",
-    items:  Array< {
-      __typename: "Notebook",
-      id: string,
-      title: string,
-      description?: string | null,
-      editors?: Array< string | null > | null,
-      readers?: Array< string | null > | null,
-      Tags?:  {
-        __typename: "ModelTagConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Notes?:  {
-        __typename: "ModelNoteConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      Relationships?:  {
-        __typename: "ModelRelationshipConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -1900,14 +1457,10 @@ export type GetNoteRelationshipQuery = {
       notes?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID?: string | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -1918,25 +1471,17 @@ export type GetNoteRelationshipQuery = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1962,9 +1507,6 @@ export type ListNoteRelationshipsQuery = {
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       },
       note:  {
         __typename: "Note",
@@ -1975,69 +1517,11 @@ export type ListNoteRelationshipsQuery = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       },
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncNoteRelationshipsQueryVariables = {
-  filter?: ModelNoteRelationshipFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncNoteRelationshipsQuery = {
-  syncNoteRelationships?:  {
-    __typename: "ModelNoteRelationshipConnection",
-    items:  Array< {
-      __typename: "NoteRelationship",
-      id: string,
-      relationshipID: string,
-      noteID: string,
-      relationship:  {
-        __typename: "Relationship",
-        id: string,
-        type?: string | null,
-        name?: string | null,
-        notebookID?: string | null,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      },
-      note:  {
-        __typename: "Note",
-        id: string,
-        title?: string | null,
-        content: string,
-        hidden?: boolean | null,
-        notebookID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      },
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -2060,14 +1544,10 @@ export type GetNoteTagQuery = {
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -2078,25 +1558,17 @@ export type GetNoteTagQuery = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2123,9 +1595,6 @@ export type ListNoteTagsQuery = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       },
       note:  {
         __typename: "Note",
@@ -2136,70 +1605,11 @@ export type ListNoteTagsQuery = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       },
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncNoteTagsQueryVariables = {
-  filter?: ModelNoteTagFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncNoteTagsQuery = {
-  syncNoteTags?:  {
-    __typename: "ModelNoteTagConnection",
-    items:  Array< {
-      __typename: "NoteTag",
-      id: string,
-      tagID: string,
-      noteID: string,
-      tag:  {
-        __typename: "Tag",
-        id: string,
-        name: string,
-        color?: string | null,
-        content?: string | null,
-        notebookID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      },
-      note:  {
-        __typename: "Note",
-        id: string,
-        title?: string | null,
-        content: string,
-        hidden?: boolean | null,
-        notebookID: string,
-        createdAt: string,
-        updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-      },
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -2218,19 +1628,12 @@ export type OnCreateRelationshipSubscription = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2249,19 +1652,12 @@ export type OnUpdateRelationshipSubscription = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2280,19 +1676,12 @@ export type OnDeleteRelationshipSubscription = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2312,19 +1701,12 @@ export type OnCreateTagSubscription = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2344,19 +1726,12 @@ export type OnUpdateTagSubscription = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2376,19 +1751,12 @@ export type OnDeleteTagSubscription = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2408,12 +1776,8 @@ export type OnCreateNoteSubscription = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     Relationships?:  {
@@ -2425,18 +1789,11 @@ export type OnCreateNoteSubscription = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2456,12 +1813,8 @@ export type OnUpdateNoteSubscription = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     Relationships?:  {
@@ -2473,18 +1826,11 @@ export type OnUpdateNoteSubscription = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2504,12 +1850,8 @@ export type OnDeleteNoteSubscription = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     notebookID: string,
     Relationships?:  {
@@ -2521,18 +1863,11 @@ export type OnDeleteNoteSubscription = {
         noteID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2555,12 +1890,8 @@ export type OnCreateNotebookSubscription = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Notes?:  {
       __typename: "ModelNoteConnection",
@@ -2573,12 +1904,8 @@ export type OnCreateNotebookSubscription = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Relationships?:  {
       __typename: "ModelRelationshipConnection",
@@ -2590,18 +1917,11 @@ export type OnCreateNotebookSubscription = {
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2624,12 +1944,8 @@ export type OnUpdateNotebookSubscription = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Notes?:  {
       __typename: "ModelNoteConnection",
@@ -2642,12 +1958,8 @@ export type OnUpdateNotebookSubscription = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Relationships?:  {
       __typename: "ModelRelationshipConnection",
@@ -2659,18 +1971,11 @@ export type OnUpdateNotebookSubscription = {
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2693,12 +1998,8 @@ export type OnDeleteNotebookSubscription = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Notes?:  {
       __typename: "ModelNoteConnection",
@@ -2711,12 +2012,8 @@ export type OnDeleteNotebookSubscription = {
         notebookID: string,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Relationships?:  {
       __typename: "ModelRelationshipConnection",
@@ -2728,18 +2025,11 @@ export type OnDeleteNotebookSubscription = {
         notebookID?: string | null,
         createdAt: string,
         updatedAt: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
       } | null >,
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2757,14 +2047,10 @@ export type OnCreateNoteRelationshipSubscription = {
       notes?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID?: string | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -2775,25 +2061,17 @@ export type OnCreateNoteRelationshipSubscription = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2811,14 +2089,10 @@ export type OnUpdateNoteRelationshipSubscription = {
       notes?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID?: string | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -2829,25 +2103,17 @@ export type OnUpdateNoteRelationshipSubscription = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2865,14 +2131,10 @@ export type OnDeleteNoteRelationshipSubscription = {
       notes?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID?: string | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -2883,25 +2145,17 @@ export type OnDeleteNoteRelationshipSubscription = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2920,14 +2174,10 @@ export type OnCreateNoteTagSubscription = {
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -2938,25 +2188,17 @@ export type OnCreateNoteTagSubscription = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2975,14 +2217,10 @@ export type OnUpdateNoteTagSubscription = {
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -2993,25 +2231,17 @@ export type OnUpdateNoteTagSubscription = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3030,14 +2260,10 @@ export type OnDeleteNoteTagSubscription = {
       Notes?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     note:  {
       __typename: "Note",
@@ -3048,24 +2274,16 @@ export type OnDeleteNoteTagSubscription = {
       Tags?:  {
         __typename: "ModelNoteTagConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       notebookID: string,
       Relationships?:  {
         __typename: "ModelNoteRelationshipConnection",
         nextToken?: string | null,
-        startedAt?: number | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     },
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };

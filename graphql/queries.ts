@@ -15,19 +15,12 @@ export const getRelationship = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       notebookID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -44,50 +37,12 @@ export const listRelationships = /* GraphQL */ `
         name
         notes {
           nextToken
-          startedAt
         }
         notebookID
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncRelationships = /* GraphQL */ `
-  query SyncRelationships(
-    $filter: ModelRelationshipFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncRelationships(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        type
-        name
-        notes {
-          nextToken
-          startedAt
-        }
-        notebookID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -105,19 +60,12 @@ export const getTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       notebookID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -135,51 +83,12 @@ export const listTags = /* GraphQL */ `
         content
         Notes {
           nextToken
-          startedAt
         }
         notebookID
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncTags = /* GraphQL */ `
-  query SyncTags(
-    $filter: ModelTagFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncTags(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        name
-        color
-        content
-        Notes {
-          nextToken
-          startedAt
-        }
-        notebookID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -197,12 +106,8 @@ export const getNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       notebookID
       Relationships {
@@ -212,18 +117,11 @@ export const getNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -241,59 +139,15 @@ export const listNotes = /* GraphQL */ `
         hidden
         Tags {
           nextToken
-          startedAt
         }
         notebookID
         Relationships {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncNotes = /* GraphQL */ `
-  query SyncNotes(
-    $filter: ModelNoteFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncNotes(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        title
-        content
-        hidden
-        Tags {
-          nextToken
-          startedAt
-        }
-        notebookID
-        Relationships {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -314,12 +168,8 @@ export const getNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       Notes {
         items {
@@ -330,12 +180,8 @@ export const getNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       Relationships {
         items {
@@ -345,18 +191,11 @@ export const getNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -375,66 +214,17 @@ export const listNotebooks = /* GraphQL */ `
         readers
         Tags {
           nextToken
-          startedAt
         }
         Notes {
           nextToken
-          startedAt
         }
         Relationships {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncNotebooks = /* GraphQL */ `
-  query SyncNotebooks(
-    $filter: ModelNotebookFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncNotebooks(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        title
-        description
-        editors
-        readers
-        Tags {
-          nextToken
-          startedAt
-        }
-        Notes {
-          nextToken
-          startedAt
-        }
-        Relationships {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -450,14 +240,10 @@ export const getNoteRelationship = /* GraphQL */ `
         name
         notes {
           nextToken
-          startedAt
         }
         notebookID
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       note {
         id
@@ -466,24 +252,16 @@ export const getNoteRelationship = /* GraphQL */ `
         hidden
         Tags {
           nextToken
-          startedAt
         }
         notebookID
         Relationships {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -509,9 +287,6 @@ export const listNoteRelationships = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         note {
           id
@@ -521,69 +296,11 @@ export const listNoteRelationships = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncNoteRelationships = /* GraphQL */ `
-  query SyncNoteRelationships(
-    $filter: ModelNoteRelationshipFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncNoteRelationships(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        relationshipID
-        noteID
-        relationship {
-          id
-          type
-          name
-          notebookID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        note {
-          id
-          title
-          content
-          hidden
-          notebookID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -600,14 +317,10 @@ export const getNoteTag = /* GraphQL */ `
         content
         Notes {
           nextToken
-          startedAt
         }
         notebookID
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       note {
         id
@@ -616,24 +329,16 @@ export const getNoteTag = /* GraphQL */ `
         hidden
         Tags {
           nextToken
-          startedAt
         }
         notebookID
         Relationships {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -656,9 +361,6 @@ export const listNoteTags = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         note {
           id
@@ -668,70 +370,11 @@ export const listNoteTags = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncNoteTags = /* GraphQL */ `
-  query SyncNoteTags(
-    $filter: ModelNoteTagFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncNoteTags(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tagID
-        noteID
-        tag {
-          id
-          name
-          color
-          content
-          notebookID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        note {
-          id
-          title
-          content
-          hidden
-          notebookID
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;

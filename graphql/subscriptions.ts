@@ -15,19 +15,12 @@ export const onCreateRelationship = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       notebookID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -44,19 +37,12 @@ export const onUpdateRelationship = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       notebookID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -73,19 +59,12 @@ export const onDeleteRelationship = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       notebookID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -103,19 +82,12 @@ export const onCreateTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       notebookID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -133,19 +105,12 @@ export const onUpdateTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       notebookID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -163,19 +128,12 @@ export const onDeleteTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       notebookID
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -193,12 +151,8 @@ export const onCreateNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       notebookID
       Relationships {
@@ -208,18 +162,11 @@ export const onCreateNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -237,12 +184,8 @@ export const onUpdateNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       notebookID
       Relationships {
@@ -252,18 +195,11 @@ export const onUpdateNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -281,12 +217,8 @@ export const onDeleteNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       notebookID
       Relationships {
@@ -296,18 +228,11 @@ export const onDeleteNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -328,12 +253,8 @@ export const onCreateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       Notes {
         items {
@@ -344,12 +265,8 @@ export const onCreateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       Relationships {
         items {
@@ -359,18 +276,11 @@ export const onCreateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -391,12 +301,8 @@ export const onUpdateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       Notes {
         items {
@@ -407,12 +313,8 @@ export const onUpdateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       Relationships {
         items {
@@ -422,18 +324,11 @@ export const onUpdateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -454,12 +349,8 @@ export const onDeleteNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       Notes {
         items {
@@ -470,12 +361,8 @@ export const onDeleteNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       Relationships {
         items {
@@ -485,18 +372,11 @@ export const onDeleteNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
-          _version
-          _deleted
-          _lastChangedAt
         }
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -512,14 +392,10 @@ export const onCreateNoteRelationship = /* GraphQL */ `
         name
         notes {
           nextToken
-          startedAt
         }
         notebookID
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       note {
         id
@@ -528,24 +404,16 @@ export const onCreateNoteRelationship = /* GraphQL */ `
         hidden
         Tags {
           nextToken
-          startedAt
         }
         notebookID
         Relationships {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -561,14 +429,10 @@ export const onUpdateNoteRelationship = /* GraphQL */ `
         name
         notes {
           nextToken
-          startedAt
         }
         notebookID
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       note {
         id
@@ -577,24 +441,16 @@ export const onUpdateNoteRelationship = /* GraphQL */ `
         hidden
         Tags {
           nextToken
-          startedAt
         }
         notebookID
         Relationships {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -610,14 +466,10 @@ export const onDeleteNoteRelationship = /* GraphQL */ `
         name
         notes {
           nextToken
-          startedAt
         }
         notebookID
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       note {
         id
@@ -626,24 +478,16 @@ export const onDeleteNoteRelationship = /* GraphQL */ `
         hidden
         Tags {
           nextToken
-          startedAt
         }
         notebookID
         Relationships {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -660,14 +504,10 @@ export const onCreateNoteTag = /* GraphQL */ `
         content
         Notes {
           nextToken
-          startedAt
         }
         notebookID
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       note {
         id
@@ -676,24 +516,16 @@ export const onCreateNoteTag = /* GraphQL */ `
         hidden
         Tags {
           nextToken
-          startedAt
         }
         notebookID
         Relationships {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -710,14 +542,10 @@ export const onUpdateNoteTag = /* GraphQL */ `
         content
         Notes {
           nextToken
-          startedAt
         }
         notebookID
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       note {
         id
@@ -726,24 +554,16 @@ export const onUpdateNoteTag = /* GraphQL */ `
         hidden
         Tags {
           nextToken
-          startedAt
         }
         notebookID
         Relationships {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -760,14 +580,10 @@ export const onDeleteNoteTag = /* GraphQL */ `
         content
         Notes {
           nextToken
-          startedAt
         }
         notebookID
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       note {
         id
@@ -776,24 +592,16 @@ export const onDeleteNoteTag = /* GraphQL */ `
         hidden
         Tags {
           nextToken
-          startedAt
         }
         notebookID
         Relationships {
           nextToken
-          startedAt
         }
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
