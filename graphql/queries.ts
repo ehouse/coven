@@ -15,12 +15,14 @@ export const getRelationship = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -41,6 +43,7 @@ export const listRelationships = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -60,12 +63,14 @@ export const getTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -87,6 +92,7 @@ export const listTags = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -97,6 +103,7 @@ export const getNote = /* GraphQL */ `
     getNote(id: $id) {
       id
       title
+      noteType
       content
       hidden
       Tags {
@@ -106,6 +113,7 @@ export const getNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -117,11 +125,13 @@ export const getNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -135,6 +145,7 @@ export const listNotes = /* GraphQL */ `
       items {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -146,6 +157,7 @@ export const listNotes = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -157,6 +169,7 @@ export const getNotebook = /* GraphQL */ `
       id
       title
       description
+      color
       editors
       readers
       Tags {
@@ -168,6 +181,7 @@ export const getNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -175,11 +189,13 @@ export const getNotebook = /* GraphQL */ `
         items {
           id
           title
+          noteType
           content
           hidden
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -191,11 +207,13 @@ export const getNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -210,6 +228,7 @@ export const listNotebooks = /* GraphQL */ `
         id
         title
         description
+        color
         editors
         readers
         Tags {
@@ -223,6 +242,7 @@ export const listNotebooks = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -244,10 +264,12 @@ export const getNoteRelationship = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -259,9 +281,11 @@ export const getNoteRelationship = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -287,18 +311,22 @@ export const listNoteRelationships = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         note {
           id
           title
+          noteType
           content
           hidden
           notebookID
           createdAt
           updatedAt
+          owner
         }
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -321,10 +349,12 @@ export const getNoteTag = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -336,9 +366,11 @@ export const getNoteTag = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -361,18 +393,22 @@ export const listNoteTags = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         note {
           id
           title
+          noteType
           content
           hidden
           notebookID
           createdAt
           updatedAt
+          owner
         }
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }

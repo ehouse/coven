@@ -1,6 +1,6 @@
 projects:
   spidernotes:
-    schemaPath: graphql/schema.json
+    schemaPath: amplify/backend/api/spidernotes/build/schema.graphql
     includes:
       - graphql/**/*.ts
     excludes:

@@ -3,8 +3,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateRelationship = /* GraphQL */ `
-  subscription OnCreateRelationship {
-    onCreateRelationship {
+  subscription OnCreateRelationship($owner: String) {
+    onCreateRelationship(owner: $owner) {
       id
       type
       name
@@ -15,18 +15,20 @@ export const onCreateRelationship = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateRelationship = /* GraphQL */ `
-  subscription OnUpdateRelationship {
-    onUpdateRelationship {
+  subscription OnUpdateRelationship($owner: String) {
+    onUpdateRelationship(owner: $owner) {
       id
       type
       name
@@ -37,18 +39,20 @@ export const onUpdateRelationship = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteRelationship = /* GraphQL */ `
-  subscription OnDeleteRelationship {
-    onDeleteRelationship {
+  subscription OnDeleteRelationship($owner: String) {
+    onDeleteRelationship(owner: $owner) {
       id
       type
       name
@@ -59,18 +63,20 @@ export const onDeleteRelationship = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onCreateTag = /* GraphQL */ `
-  subscription OnCreateTag {
-    onCreateTag {
+  subscription OnCreateTag($owner: String) {
+    onCreateTag(owner: $owner) {
       id
       name
       color
@@ -82,18 +88,20 @@ export const onCreateTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateTag = /* GraphQL */ `
-  subscription OnUpdateTag {
-    onUpdateTag {
+  subscription OnUpdateTag($owner: String) {
+    onUpdateTag(owner: $owner) {
       id
       name
       color
@@ -105,18 +113,20 @@ export const onUpdateTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteTag = /* GraphQL */ `
-  subscription OnDeleteTag {
-    onDeleteTag {
+  subscription OnDeleteTag($owner: String) {
+    onDeleteTag(owner: $owner) {
       id
       name
       color
@@ -128,20 +138,23 @@ export const onDeleteTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onCreateNote = /* GraphQL */ `
-  subscription OnCreateNote {
-    onCreateNote {
+  subscription OnCreateNote($owner: String) {
+    onCreateNote(owner: $owner) {
       id
       title
+      noteType
       content
       hidden
       Tags {
@@ -151,6 +164,7 @@ export const onCreateNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -162,19 +176,22 @@ export const onCreateNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateNote = /* GraphQL */ `
-  subscription OnUpdateNote {
-    onUpdateNote {
+  subscription OnUpdateNote($owner: String) {
+    onUpdateNote(owner: $owner) {
       id
       title
+      noteType
       content
       hidden
       Tags {
@@ -184,6 +201,7 @@ export const onUpdateNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -195,19 +213,22 @@ export const onUpdateNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteNote = /* GraphQL */ `
-  subscription OnDeleteNote {
-    onDeleteNote {
+  subscription OnDeleteNote($owner: String) {
+    onDeleteNote(owner: $owner) {
       id
       title
+      noteType
       content
       hidden
       Tags {
@@ -217,6 +238,7 @@ export const onDeleteNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -228,20 +250,23 @@ export const onDeleteNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onCreateNotebook = /* GraphQL */ `
-  subscription OnCreateNotebook {
-    onCreateNotebook {
+  subscription OnCreateNotebook($owner: String) {
+    onCreateNotebook(owner: $owner) {
       id
       title
       description
+      color
       editors
       readers
       Tags {
@@ -253,6 +278,7 @@ export const onCreateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -260,11 +286,13 @@ export const onCreateNotebook = /* GraphQL */ `
         items {
           id
           title
+          noteType
           content
           hidden
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -276,20 +304,23 @@ export const onCreateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateNotebook = /* GraphQL */ `
-  subscription OnUpdateNotebook {
-    onUpdateNotebook {
+  subscription OnUpdateNotebook($owner: String) {
+    onUpdateNotebook(owner: $owner) {
       id
       title
       description
+      color
       editors
       readers
       Tags {
@@ -301,6 +332,7 @@ export const onUpdateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -308,11 +340,13 @@ export const onUpdateNotebook = /* GraphQL */ `
         items {
           id
           title
+          noteType
           content
           hidden
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -324,20 +358,23 @@ export const onUpdateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteNotebook = /* GraphQL */ `
-  subscription OnDeleteNotebook {
-    onDeleteNotebook {
+  subscription OnDeleteNotebook($owner: String) {
+    onDeleteNotebook(owner: $owner) {
       id
       title
       description
+      color
       editors
       readers
       Tags {
@@ -349,6 +386,7 @@ export const onDeleteNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -356,11 +394,13 @@ export const onDeleteNotebook = /* GraphQL */ `
         items {
           id
           title
+          noteType
           content
           hidden
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -372,17 +412,19 @@ export const onDeleteNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onCreateNoteRelationship = /* GraphQL */ `
-  subscription OnCreateNoteRelationship {
-    onCreateNoteRelationship {
+  subscription OnCreateNoteRelationship($owner: String) {
+    onCreateNoteRelationship(owner: $owner) {
       id
       relationshipID
       noteID
@@ -396,10 +438,12 @@ export const onCreateNoteRelationship = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -411,15 +455,17 @@ export const onCreateNoteRelationship = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateNoteRelationship = /* GraphQL */ `
-  subscription OnUpdateNoteRelationship {
-    onUpdateNoteRelationship {
+  subscription OnUpdateNoteRelationship($owner: String) {
+    onUpdateNoteRelationship(owner: $owner) {
       id
       relationshipID
       noteID
@@ -433,10 +479,12 @@ export const onUpdateNoteRelationship = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -448,15 +496,17 @@ export const onUpdateNoteRelationship = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteNoteRelationship = /* GraphQL */ `
-  subscription OnDeleteNoteRelationship {
-    onDeleteNoteRelationship {
+  subscription OnDeleteNoteRelationship($owner: String) {
+    onDeleteNoteRelationship(owner: $owner) {
       id
       relationshipID
       noteID
@@ -470,10 +520,12 @@ export const onDeleteNoteRelationship = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -485,15 +537,17 @@ export const onDeleteNoteRelationship = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onCreateNoteTag = /* GraphQL */ `
-  subscription OnCreateNoteTag {
-    onCreateNoteTag {
+  subscription OnCreateNoteTag($owner: String) {
+    onCreateNoteTag(owner: $owner) {
       id
       tagID
       noteID
@@ -508,10 +562,12 @@ export const onCreateNoteTag = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -523,15 +579,17 @@ export const onCreateNoteTag = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateNoteTag = /* GraphQL */ `
-  subscription OnUpdateNoteTag {
-    onUpdateNoteTag {
+  subscription OnUpdateNoteTag($owner: String) {
+    onUpdateNoteTag(owner: $owner) {
       id
       tagID
       noteID
@@ -546,10 +604,12 @@ export const onUpdateNoteTag = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -561,15 +621,17 @@ export const onUpdateNoteTag = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteNoteTag = /* GraphQL */ `
-  subscription OnDeleteNoteTag {
-    onDeleteNoteTag {
+  subscription OnDeleteNoteTag($owner: String) {
+    onDeleteNoteTag(owner: $owner) {
       id
       tagID
       noteID
@@ -584,10 +646,12 @@ export const onDeleteNoteTag = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -599,9 +663,11 @@ export const onDeleteNoteTag = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;

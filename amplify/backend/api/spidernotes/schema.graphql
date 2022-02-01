@@ -1,38 +1,46 @@
-type Relationship @model @auth(rules: [{allow: private}]) {
+enum NoteType {
+  TEXT
+  CHECKBOX
+  TIMELINE
+}
+
+type Relationship @model @auth(rules: [{allow: owner}]) {
   id: ID!
   type: String
   name: String
-  notes: [Note] @manyToMany(relationName: "NoteRelationship")
+  notes: [Note!] @manyToMany(relationName: "NoteRelationship")
   notebookID: ID @index(name: "byNotebook")
 }
 
-type Tag @model @auth(rules: [{allow: private}]) {
+type Tag @model @auth(rules: [{allow: owner}]) {
   id: ID!
   name: String!
   color: String
   content: String
-  Notes: [Note] @manyToMany(relationName: "NoteTag")
+  Notes: [Note!] @manyToMany(relationName: "NoteTag")
   notebookID: ID! @index(name: "byNotebook")
 }
 
-type Note @model @auth(rules: [{allow: private}]) {
+type Note @model @auth(rules: [{allow: owner}]) {
   id: ID!
   title: String
-  content: String!
+  noteType: NoteType!
+  content: AWSJSON!
   hidden: Boolean
-  Tags: [Tag] @manyToMany(relationName: "NoteTag")
+  Tags: [Tag!] @manyToMany(relationName: "NoteTag")
   notebookID: ID! @index(name: "byNotebook")
-  Relationships: [Relationship] @manyToMany(relationName: "NoteRelationship")
+  Relationships: [Relationship!] @manyToMany(relationName: "NoteRelationship")
 }
 
-type Notebook @model @auth(rules: [{allow: private}]) {
+type Notebook @model @auth(rules: [{allow: owner}]) {
   id: ID!
   title: String!
   description: String
-  editors: [String]
-  readers: [String]
-  Tags: [Tag] @hasMany(indexName: "byNotebook", fields: ["id"])
-  Notes: [Note] @hasMany(indexName: "byNotebook", fields: ["id"])
-  Relationships: [Relationship] @hasMany(indexName: "byNotebook", fields: ["id"])
+  color: String
+  editors: [String!]
+  readers: [String!]
+  Tags: [Tag!] @hasMany(indexName: "byNotebook", fields: ["id"])
+  Notes: [Note!] @hasMany(indexName: "byNotebook", fields: ["id"])
+  Relationships: [Relationship!] @hasMany(indexName: "byNotebook", fields: ["id"])
 }
  

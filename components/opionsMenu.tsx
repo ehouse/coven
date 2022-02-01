@@ -38,8 +38,8 @@ function OptionsMenu() {
     return (
         <Menu placement="end">
             <Menu.Label>Application</Menu.Label>
-            <Menu.Item icon={<GearIcon />}>Settings</Menu.Item>
-            <Menu.Item icon={<PersonIcon />}>Permissions</Menu.Item>
+            <Menu.Item disabled icon={<GearIcon />}>Settings</Menu.Item>
+            <Menu.Item disabled icon={<PersonIcon />}>Permissions</Menu.Item>
             <Menu.Item icon={<ExitIcon />} onClick={() => Auth.signOut().then(() => router.push('/'))}>Log out</Menu.Item>
 
             <Divider />

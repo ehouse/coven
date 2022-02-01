@@ -18,12 +18,14 @@ export const createRelationship = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -43,12 +45,14 @@ export const updateRelationship = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -68,12 +72,14 @@ export const deleteRelationship = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -94,12 +100,14 @@ export const createTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -120,12 +128,14 @@ export const updateTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -146,12 +156,14 @@ export const deleteTag = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       notebookID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -163,6 +175,7 @@ export const createNote = /* GraphQL */ `
     createNote(input: $input, condition: $condition) {
       id
       title
+      noteType
       content
       hidden
       Tags {
@@ -172,6 +185,7 @@ export const createNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -183,11 +197,13 @@ export const createNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -199,6 +215,7 @@ export const updateNote = /* GraphQL */ `
     updateNote(input: $input, condition: $condition) {
       id
       title
+      noteType
       content
       hidden
       Tags {
@@ -208,6 +225,7 @@ export const updateNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -219,11 +237,13 @@ export const updateNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -235,6 +255,7 @@ export const deleteNote = /* GraphQL */ `
     deleteNote(input: $input, condition: $condition) {
       id
       title
+      noteType
       content
       hidden
       Tags {
@@ -244,6 +265,7 @@ export const deleteNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -255,11 +277,13 @@ export const deleteNote = /* GraphQL */ `
           noteID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -272,6 +296,7 @@ export const createNotebook = /* GraphQL */ `
       id
       title
       description
+      color
       editors
       readers
       Tags {
@@ -283,6 +308,7 @@ export const createNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -290,11 +316,13 @@ export const createNotebook = /* GraphQL */ `
         items {
           id
           title
+          noteType
           content
           hidden
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -306,11 +334,13 @@ export const createNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -323,6 +353,7 @@ export const updateNotebook = /* GraphQL */ `
       id
       title
       description
+      color
       editors
       readers
       Tags {
@@ -334,6 +365,7 @@ export const updateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -341,11 +373,13 @@ export const updateNotebook = /* GraphQL */ `
         items {
           id
           title
+          noteType
           content
           hidden
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -357,11 +391,13 @@ export const updateNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -374,6 +410,7 @@ export const deleteNotebook = /* GraphQL */ `
       id
       title
       description
+      color
       editors
       readers
       Tags {
@@ -385,6 +422,7 @@ export const deleteNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -392,11 +430,13 @@ export const deleteNotebook = /* GraphQL */ `
         items {
           id
           title
+          noteType
           content
           hidden
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
@@ -408,11 +448,13 @@ export const deleteNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          owner
         }
         nextToken
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -435,10 +477,12 @@ export const createNoteRelationship = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -450,9 +494,11 @@ export const createNoteRelationship = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -475,10 +521,12 @@ export const updateNoteRelationship = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -490,9 +538,11 @@ export const updateNoteRelationship = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -515,10 +565,12 @@ export const deleteNoteRelationship = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -530,9 +582,11 @@ export const deleteNoteRelationship = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -556,10 +610,12 @@ export const createNoteTag = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -571,9 +627,11 @@ export const createNoteTag = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -597,10 +655,12 @@ export const updateNoteTag = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -612,9 +672,11 @@ export const updateNoteTag = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -638,10 +700,12 @@ export const deleteNoteTag = /* GraphQL */ `
         notebookID
         createdAt
         updatedAt
+        owner
       }
       note {
         id
         title
+        noteType
         content
         hidden
         Tags {
@@ -653,9 +717,11 @@ export const deleteNoteTag = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
