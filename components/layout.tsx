@@ -1,8 +1,9 @@
-import { AppShell, Button, Divider, Group, Navbar, ScrollArea, Text, ThemeIcon, Title, useMantineTheme } from '@mantine/core';
+import { AppShell, Button, Divider, Group, Navbar, ScrollArea, Text, ThemeIcon, Title } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { API, graphqlOperation } from 'aws-amplify';
+import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect } from 'react';
-import { RiBook2Fill, RiBookOpenFill, RiAddCircleLine } from "react-icons/ri";
+import { RiAddCircleLine, RiBook2Fill, RiBookOpenFill } from "react-icons/ri";
 import { ListNotebooksQuery, Notebook } from "../API";
 import { SiteStateContext } from '../context';
 import * as queries from '../graphql/queries';
@@ -17,9 +18,12 @@ interface NotebookBadgeProps {
 }
 
 function NotebookBadge(props: NotebookBadgeProps) {
-    const theme = useMantineTheme();
+    const router = useRouter();
 
-    return <Button size="lg" fullWidth variant="subtle"
+    return <Button
+        size="lg"
+        fullWidth
+        variant="subtle"
         styles={(theme) => ({
             root: {
                 paddingLeft: 5,
@@ -33,13 +37,17 @@ function NotebookBadge(props: NotebookBadgeProps) {
                 flexGrow: 2,
             }
         })}
-        onClick={() => props.setActiveNotebook(props.notebook)} leftIcon={
+        onClick={() => {
+            props.setActiveNotebook(props.notebook);
+            router.push(`/notebook/${props.notebook.id}`);
+        }}
+        leftIcon={
             <ThemeIcon size={40} radius="md">
                 {props.isSelected ? <RiBookOpenFill /> : <RiBook2Fill />}
             </ThemeIcon >
         }>
         <div>
-            <Text weight={"700"} style={{ textAlign: 'initial' }}>{props.notebook.title}</Text>
+            <Text weight="700" style={{ textAlign: 'initial' }}>{props.notebook.title}</Text>
             <Text size="sm" color="gray" style={{ textAlign: 'initial' }}>{props.notebook.description}</Text>
         </div>
     </Button>;
@@ -110,6 +118,7 @@ function MainLayout(props: Props) {
                     <Divider />
                     <Group position={'right'}>
                         <Button mt={'sm'}
+                            fullWidth
                             size={'md'}
                             leftIcon={<RiAddCircleLine />}
                             disabled={state.notebooks.length >= 25}

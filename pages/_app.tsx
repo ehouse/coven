@@ -1,10 +1,50 @@
+import '@aws-amplify/ui-react/styles.css';
 import { MantineProvider } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
+import Amplify from 'aws-amplify';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import React, { useReducer } from 'react';
+import type { Notebook } from '../API';
+import config from '../aws-exports';
 import { CreateNotebookModal } from '../components/modals';
+import { SiteStateContext } from '../context';
+import type { SiteReducerAction, SiteReducerState } from '../types';
+
+Amplify.configure({
+    ...config
+});
+
+function reducer(state: SiteReducerState, action: SiteReducerAction) {
+    switch (action.type) {
+        case "setNotebooks":
+            return { ...state, "notebooks": action.payload };
+
+        case "createNotebook":
+            const data = [...state.notebooks, action.payload];
+            return { ...state, "notebooks": data };
+
+        case "deleteNotebook":
+            const filteredSet = state.notebooks.filter((item) => item.id !== action.payload);
+            return { ...state, "activateNotebook": null, "notebooks": filteredSet };
+
+        case "setActiveNotebook":
+            return { ...state, "activeNotebook": action.payload };
+
+        default:
+            return state;
+    }
+}
+
+const initialState = {
+    notebooks: [] as Notebook[],
+    activeNotebook: null
+};
+
 
 function App(props: AppProps) {
+    const [siteState, siteDispatch] = useReducer(reducer, initialState);
+
     const { Component, pageProps } = props;
 
     return (
@@ -22,7 +62,9 @@ function App(props: AppProps) {
                 }}
             >
                 <ModalsProvider modals={{ createNotebookModal: CreateNotebookModal }} >
-                    <Component {...pageProps} />
+                    <SiteStateContext.Provider value={{ state: siteState, dispatch: siteDispatch }}>
+                        <Component {...pageProps} />
+                    </SiteStateContext.Provider>
                 </ModalsProvider>
             </MantineProvider>
         </>
