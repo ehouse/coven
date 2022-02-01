@@ -18,15 +18,14 @@ const Home: NextPage = () => {
                     </Grid.Col>
                     <Grid.Col span={6}>
                         <Group position='right' direction='row'>
-                            <Button component="a" href="/notebook/" variant="outline">New Account</Button>
-                            <Button component="a" href="/notebook/" variant="outline">Login</Button>
+                            <Button component="a" href="/notebook" variant="outline">New Account</Button>
+                            <Button component="a" href="/notebook" variant="outline">Login</Button>
                         </Group>
                     </Grid.Col>
                 </Grid>
             </Header>
         }>
         <Container size={'xl'}>
-
             <div style={{ padding: '6rem' }}>
                 <Center>
                     <Title>Spider Notes</Title>
