@@ -16,10 +16,11 @@ import Error from 'next/error';
 Amplify.configure({ ...config });
 
 function Page() {
-    const { state, dispatch } = useContext(SiteStateContext);
     const router = useRouter();
+    const { state, dispatch } = useContext(SiteStateContext);
     const [error, setError] = useState();
     const [loading, setLoading] = useState(true);
+
     const { id } = router.query;
 
     useEffect(() => {

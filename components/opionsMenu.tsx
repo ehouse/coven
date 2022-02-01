@@ -1,12 +1,16 @@
 import { Divider, Menu, Space, Text, Title } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { ChatBubbleIcon, GearIcon, TrashIcon } from '@modulz/radix-icons';
-import { API, graphqlOperation } from 'aws-amplify';
+import { ExitIcon, GearIcon, PersonIcon, TrashIcon } from '@modulz/radix-icons';
+import { API, Auth, graphqlOperation } from 'aws-amplify';
 import { useContext } from 'react';
 import { SiteStateContext } from '../context';
 import * as mutations from '../graphql/mutations';
+import { useRouter } from 'next/router';
+
 
 function OptionsMenu() {
+    const router = useRouter();
+
     const siteState = useContext(SiteStateContext);
     const modals = useModals();
 
@@ -35,13 +39,14 @@ function OptionsMenu() {
         <Menu placement="end">
             <Menu.Label>Application</Menu.Label>
             <Menu.Item icon={<GearIcon />}>Settings</Menu.Item>
-            <Menu.Item icon={<ChatBubbleIcon />}>Permissions</Menu.Item>
+            <Menu.Item icon={<PersonIcon />}>Permissions</Menu.Item>
+            <Menu.Item icon={<ExitIcon />} onClick={() => Auth.signOut().then(() => router.push('/'))}>Log out</Menu.Item>
 
             <Divider />
 
             <Menu.Label>Danger zone</Menu.Label>
             <Menu.Item color="red" icon={<TrashIcon />} onClick={openDeleteModal}>Delete Notebook</Menu.Item>
-        </Menu>
+        </Menu >
     );
 }
 
