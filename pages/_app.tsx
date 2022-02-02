@@ -41,7 +41,6 @@ const initialState = {
     activeNotebook: null
 };
 
-
 function App(props: AppProps) {
     const [siteState, siteDispatch] = useReducer(reducer, initialState);
 
@@ -51,6 +50,10 @@ function App(props: AppProps) {
         <>
             <Head>
                 <title>SpiderNotes</title>
+                <meta charSet="UTF-8" />
+                <meta name="description" content="A modern, distraction free, graphing notes taking app" />
+                <meta name="keywords" content="Notes, Note Taking, Distraction Free, App" />
+                <meta name="author" content="Evelyn House (ehouse@fastmail.com)" />
                 <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
             </Head>
 
