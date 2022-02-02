@@ -1,6 +1,6 @@
 import '@aws-amplify/ui-react/styles.css';
 import { AppShell, Group, Header, Button, Grid, Title, Text, Center, Container } from '@mantine/core';
-import { Card, Image, Divider, ThemeIcon, useMantineTheme } from '@mantine/core';
+import { Card, List, Divider, ThemeIcon, useMantineTheme } from '@mantine/core';
 import type { NextPage } from 'next';
 import React from 'react';
 import { useRouter } from 'next/router';
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
             </div>
             <Grid gutter="xl" >
                 <Grid.Col md={12} lg={4}>
-                    <Card shadow="md" padding="lg">
+                    <Card shadow="md" padding="lg" sx={{ height: '15rem' }}>
                         <Card.Section sx={{ boxShadow: theme.shadows.sm }}>
                             <div style={{
                                 width: 'auto',
@@ -67,13 +67,16 @@ const Home: NextPage = () => {
                                 </Title>
                             </div>
                         </Card.Section>
-                        <Text size="md" style={{ marginBottom: theme.spacing.sm, marginTop: theme.spacing.sm, color: secondaryColor, lineHeight: 1.5 }}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu cursus euismod quis viverra nibh cras. Dolor sit amet consectetur adipiscing.
+                        <Text size="md" style={{ marginBottom: theme.spacing.sm, marginTop: theme.spacing.sm }}>
+                            <List spacing={'sm'}>
+                                <List.Item>Designed from the ground up to minimize distractions, keep writing!</List.Item>
+                                <List.Item>Minimize the clutter to reduce information overload by hiding unneccicary notes.</List.Item>
+                            </List>
                         </Text>
                     </Card>
                 </Grid.Col>
                 <Grid.Col md={12} lg={4}>
-                    <Card shadow="md" padding="lg">
+                    <Card shadow="md" padding="lg" sx={{ height: '15rem' }}>
                         <Card.Section sx={{ boxShadow: theme.shadows.sm }}>
                             <div style={{
                                 width: 'auto',
@@ -88,13 +91,16 @@ const Home: NextPage = () => {
                                 </Title>
                             </div>
                         </Card.Section>
-                        <Text size="md" style={{ marginBottom: theme.spacing.sm, marginTop: theme.spacing.sm, color: secondaryColor, lineHeight: 1.5 }}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu cursus euismod quis viverra nibh cras. Dolor sit amet consectetur adipiscing.
+                        <Text size="md" style={{ marginBottom: theme.spacing.sm, marginTop: theme.spacing.sm }}>
+                            <List spacing={'sm'}>
+                                <List.Item>Connect relevent topics together to create a map of knowedge.</List.Item>
+                                <List.Item>Powerful search feature to find exactly what you are looking for.</List.Item>
+                            </List>
                         </Text>
                     </Card>
                 </Grid.Col>
                 <Grid.Col md={12} lg={4}>
-                    <Card shadow="md" padding="lg">
+                    <Card shadow="md" padding="lg" sx={{ height: '15rem' }}>
                         <Card.Section sx={{ boxShadow: theme.shadows.sm }}>
                             <div style={{
                                 width: 'auto',
@@ -110,8 +116,12 @@ const Home: NextPage = () => {
                             </div>
                         </Card.Section>
 
-                        <Text size="md" style={{ marginBottom: theme.spacing.sm, marginTop: theme.spacing.sm, color: secondaryColor, lineHeight: 1.5 }}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu cursus euismod quis viverra nibh cras. Dolor sit amet consectetur adipiscing.
+                        <Text size="md" style={{ marginBottom: theme.spacing.sm, marginTop: theme.spacing.sm }}>
+                            <List spacing={'sm'}>
+                                <List.Item>All information is stored encrypted in the cloud. </List.Item>
+                                <List.Item>Never again worry about losing data or forgetting which notebook you wrote something in.</List.Item>
+                                <List.Item>Download data backups for peace of mind</List.Item>
+                            </List>
                         </Text>
                     </Card>
                 </Grid.Col>
