@@ -1,6 +1,6 @@
 import '@aws-amplify/ui-react/styles.css';
 import { AppShell, Group, Header, Button, Grid, Title, Text, Center, Container } from '@mantine/core';
-import { Card, Image, Badge, useMantineTheme } from '@mantine/core';
+import { Card, Image, Divider, Badge, useMantineTheme } from '@mantine/core';
 import type { NextPage } from 'next';
 import React from 'react';
 import { useRouter } from 'next/router';
@@ -18,29 +18,35 @@ const Home: NextPage = () => {
     const router = useRouter();
 
     return (<AppShell
-        styles={{ body: { height: '92%', backgroundImage: 'url(/images/interlaced.png)' } }}
+        styles={{ root: { backgroundImage: 'url(/images/interlaced.png)', backgroundRepeat: 'repeat' } }}
         header={
-            <Header height={60} padding={'sm'}>
+            <Header
+                height={80}
+                padding={'lg'}
+                sx={{
+                    boxShadow: theme.shadows.md
+                }}
+            >
                 <Grid>
                     <Grid.Col span={6}>
                         <Title order={2}>SpiderNotes</Title>
                     </Grid.Col>
                     <Grid.Col span={6}>
                         <Group position='right' direction='row'>
-                            <Button component="a" href="/notebook" variant="outline">New Account</Button>
-                            <Button component="a" href="/notebook" variant="outline">Login</Button>
+                            <Button component="a" href="/notebook" size='md' variant="white" color="grape">Log In</Button>
+                            <Button component="a" href="/notebook" variant="gradient" gradient={{ from: 'grape', to: 'pink', deg: 35 }}>New Account</Button>
                         </Group>
                     </Grid.Col>
                 </Grid>
             </Header>
         }>
         <Container size={'xl'}>
-            <div style={{ padding: '8rem 0' }}>
+            <div style={{ padding: '6rem 0' }}>
                 <Center mb={'sm'}>
-                    <Title>Spider Notes</Title>
+                    <Title sx={{ fontSize: 68, fontWeight: '700' }}>Spider Notes</Title>
                 </Center>
                 <Center>
-                    <Title order={2}>A Brand New Way To Take Notes!</Title>
+                    <Title sx={{ fontSize: 42, fontWeight: '300' }} order={2}>A Brand New Way To Take Notes!</Title>
                 </Center>
             </div>
             <Grid>
