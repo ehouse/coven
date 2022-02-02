@@ -66,6 +66,16 @@ function App(props: AppProps) {
             >
                 <ModalsProvider modals={{ createNotebookModal: CreateNotebookModal }} >
                     <SiteStateContext.Provider value={{ state: siteState, dispatch: siteDispatch }}>
+
+                        <style global jsx>{`
+                        html,
+                        body,
+                        body > div:first-child,
+                        div#__next,
+                        div#__next > div {
+                            height: 100%;
+                        }`}
+                        </style>
                         <Component {...pageProps} />
                     </SiteStateContext.Provider>
                 </ModalsProvider>

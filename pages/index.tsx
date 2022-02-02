@@ -4,12 +4,21 @@ import { Card, Image, Badge, useMantineTheme } from '@mantine/core';
 import type { NextPage } from 'next';
 import React from 'react';
 import { useRouter } from 'next/router';
+import Fabric from '../public/images/45degreeFabric.png';
+import { url } from 'inspector';
 
 
 const Home: NextPage = () => {
+    const theme = useMantineTheme();
+
+    const secondaryColor = theme.colorScheme === 'dark'
+        ? theme.colors.dark[1]
+        : theme.colors.gray[7];
+
     const router = useRouter();
 
     return (<AppShell
+        styles={{ body: { height: '92%', backgroundImage: 'url(/images/interlaced.png)' } }}
         header={
             <Header height={60} padding={'sm'}>
                 <Grid>
@@ -26,8 +35,8 @@ const Home: NextPage = () => {
             </Header>
         }>
         <Container size={'xl'}>
-            <div style={{ padding: '6rem' }}>
-                <Center>
+            <div style={{ padding: '8rem 0' }}>
+                <Center mb={'sm'}>
                     <Title>Spider Notes</Title>
                 </Center>
                 <Center>
@@ -37,17 +46,32 @@ const Home: NextPage = () => {
             <Grid>
                 <Grid.Col span={4}>
                     <Card shadow="sm" padding="lg">
-                        Card 1
+                        <Title order={4} style={{ marginBottom: theme.spacing.sm, marginTop: theme.spacing.sm }}>
+                            Distraction Free Notetaking
+                        </Title>
+                        <Text size="md" style={{ color: secondaryColor, lineHeight: 1.5 }}>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu cursus euismod quis viverra nibh cras. Dolor sit amet consectetur adipiscing.
+                        </Text>
                     </Card>
                 </Grid.Col>
                 <Grid.Col span={4}>
                     <Card shadow="sm" padding="lg">
-                        Card 2
+                        <Title order={4} style={{ marginBottom: theme.spacing.sm, marginTop: theme.spacing.sm }}>
+                            Built Around Knowledge Maps
+                        </Title>
+                        <Text size="md" style={{ color: secondaryColor, lineHeight: 1.5 }}>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu cursus euismod quis viverra nibh cras. Dolor sit amet consectetur adipiscing.
+                        </Text>
                     </Card>
                 </Grid.Col>
                 <Grid.Col span={4}>
                     <Card shadow="sm" padding="lg">
-                        Card 3
+                        <Title order={4} style={{ marginBottom: theme.spacing.sm, marginTop: theme.spacing.sm }}>
+                            Safe and Secure by Default
+                        </Title>
+                        <Text style={{ color: secondaryColor, lineHeight: 1.5 }}>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu cursus euismod quis viverra nibh cras. Dolor sit amet consectetur adipiscing.
+                        </Text>
                     </Card>
                 </Grid.Col>
             </Grid>
