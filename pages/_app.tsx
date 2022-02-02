@@ -10,6 +10,7 @@ import config from '../aws-exports';
 import { CreateNotebookModal } from '../components/modals';
 import { SiteStateContext } from '../context';
 import type { SiteReducerAction, SiteReducerState } from '../types';
+import '../styles/globals.css';
 
 Amplify.configure({
     ...config
@@ -66,16 +67,6 @@ function App(props: AppProps) {
             >
                 <ModalsProvider modals={{ createNotebookModal: CreateNotebookModal }} >
                     <SiteStateContext.Provider value={{ state: siteState, dispatch: siteDispatch }}>
-
-                        <style global jsx>{`
-                        html,
-                        body,
-                        body > div:first-child,
-                        div#__next,
-                        div#__next > div {
-                            height: 100%;
-                        }`}
-                        </style>
                         <Component {...pageProps} />
                     </SiteStateContext.Provider>
                 </ModalsProvider>
