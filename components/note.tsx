@@ -12,12 +12,24 @@ function Note(props: Props) {
 
     if (!props.isFocused) {
         return <div>
-            <RichTextEditor readOnly={!props.isFocused} value={value} onChange={onChange} />
+            <RichTextEditor
+                readOnly={!props.isFocused}
+                value={value}
+                onChange={onChange}
+            />
         </div>;
     }
 
     return <div>
-        <RichTextEditor value={value} onChange={onChange} />
+        <RichTextEditor
+            controls={[
+                ['bold', 'italic', 'underline', 'strike', 'clean'],
+                ['h1', 'h2', 'h3', 'h4'],
+                ['unorderedList', 'orderedList'],
+                ['link', 'image', 'blockquote', 'codeBlock']
+            ]}
+            value={value}
+            onChange={onChange} />
     </div>;
 }
 

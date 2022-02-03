@@ -1,4 +1,4 @@
-import { Button, Group, SimpleGrid, Textarea, TextInput } from '@mantine/core';
+import { Badge, Button, ColorPicker, Group, SimpleGrid, Text, useMantineTheme, Textarea, TextInput } from '@mantine/core';
 import { useFocusTrap } from '@mantine/hooks';
 import { ContextModalProps } from '@mantine/modals';
 import { API, graphqlOperation } from 'aws-amplify';
@@ -8,14 +8,17 @@ import * as mutations from '../graphql/mutations';
 
 
 export const CreateNotebookModal = ({ context, id, props }: ContextModalProps) => {
+    const theme = useMantineTheme();
+
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [loading, setLoading] = React.useState(false);
+    const [color, setColor] = React.useState('#339af0');
     const focusTrapRef = useFocusTrap();
 
     const submit = async () => {
         setLoading(true);
-        const message = { title: title, description: description };
+        const message = { title: title, description: description, color: color };
         try {
             const query = await API.graphql(graphqlOperation(mutations.createNotebook, { input: message })) as Promise<{ data: CreateNotebookMutation; }>;
             props.createNotebook((await query).data.createNotebook);
@@ -40,6 +43,19 @@ export const CreateNotebookModal = ({ context, id, props }: ContextModalProps) =
             label="Description"
             value={description}
             onChange={(event) => setDescription(event.currentTarget.value)}
+        />
+        <Text>
+            Notebook Color:
+            <Badge ml='sm' sx={{ backgroundColor: color, color: 'white' }}>{color}</Badge>
+        </Text>
+        <ColorPicker
+            mb='md'
+            format="hex"
+            swatches={['#339af0', '#22b8cf', '#51cf66', '#fcc419', '#ff922b', '#f03e3e', '#f06595', '#c2255c', '#101113', '#adb5bd']}
+            size='lg'
+            withPicker={false}
+            value={color}
+            onChange={setColor}
         />
         <Group position={'right'}>
             <Button variant="outline" onClick={() => context.closeModal(id)} >

@@ -1,4 +1,4 @@
-import { AppShell, Button, Divider, Group, Navbar, ScrollArea, Text, ThemeIcon, Title } from '@mantine/core';
+import { AppShell, Button, Divider, Group, Navbar, ScrollArea, Text, ThemeIcon, Title, useMantineTheme } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { API, graphqlOperation } from 'aws-amplify';
 import { useRouter } from 'next/router';
@@ -18,7 +18,10 @@ interface NotebookBadgeProps {
 }
 
 function NotebookBadge(props: NotebookBadgeProps) {
+    const theme = useMantineTheme();
     const router = useRouter();
+    console.log(props.notebook);
+    const notebookColor = props.notebook.color ? props.notebook.color : theme.colors.blue[5];
 
     return <Button
         size="lg"
@@ -42,7 +45,7 @@ function NotebookBadge(props: NotebookBadgeProps) {
             router.push(`/notebook/${props.notebook.id}`);
         }}
         leftIcon={
-            <ThemeIcon size={40} radius="md">
+            <ThemeIcon sx={{ backgroundColor: notebookColor }} size={40} radius="md">
                 {props.isSelected ? <RiBookOpenFill /> : <RiBook2Fill />}
             </ThemeIcon >
         }>
@@ -74,7 +77,6 @@ function MainLayout(props: Props) {
             // Ugly hack until they fix this
             // https://github.com/aws-amplify/amplify-js/issues/6369
             const results = result.data.listNotebooks?.items as unknown as Notebook[];
-            console.log(results);
             dispatch({ type: 'setNotebooks', payload: results });
         }).catch((e) => {
             console.log("Error when collecting Notebooks", e);
@@ -120,6 +122,8 @@ function MainLayout(props: Props) {
                             fullWidth
                             size={'md'}
                             leftIcon={<RiAddCircleLine />}
+                            variant="gradient"
+                            gradient={{ from: 'pink', to: 'red', deg: 35 }}
                             disabled={state.notebooks.length >= 25}
                             onClick={() => openCreateModal()}
                         >
