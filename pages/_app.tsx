@@ -1,50 +1,20 @@
+import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { MantineProvider } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import Amplify from 'aws-amplify';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import React, { useReducer } from 'react';
-import type { Notebook } from '../API';
+import React from 'react';
 import config from '../aws-exports';
-import { CreateNotebookModal } from '../components/modals';
-import { SiteStateContext } from '../context';
-import type { SiteReducerAction, SiteReducerState } from '../types';
+import { CreateNotebookModal, NotebookSettingsModal } from '../components/Modals';
 import '../styles/globals.css';
 
 Amplify.configure({
     ...config
 });
 
-function reducer(state: SiteReducerState, action: SiteReducerAction) {
-    switch (action.type) {
-        case "setNotebooks":
-            return { ...state, "notebooks": action.payload };
-
-        case "createNotebook":
-            const data = [...state.notebooks, action.payload];
-            return { ...state, "notebooks": data };
-
-        case "deleteNotebook":
-            const filteredSet = state.notebooks.filter((item) => item.id !== action.payload);
-            return { ...state, "activateNotebook": null, "notebooks": filteredSet };
-
-        case "setActiveNotebook":
-            return { ...state, "activeNotebook": action.payload };
-
-        default:
-            return state;
-    }
-}
-
-const initialState = {
-    notebooks: [] as Notebook[],
-    activeNotebook: null
-};
-
 function App(props: AppProps) {
-    const [siteState, siteDispatch] = useReducer(reducer, initialState);
-
     const { Component, pageProps } = props;
 
     return (
@@ -52,25 +22,28 @@ function App(props: AppProps) {
             <Head>
                 <title>SpiderNotes</title>
                 <meta charSet="UTF-8" />
-                <meta name="description" content="A modern, distraction free, graphing notes taking app" />
+                <meta name="description" content="The modern distractions free note taking app. Store and connect your notes and ideas as a network of information. Designed to minimize information overload and to give you exactly what you need now." />
                 <meta name="keywords" content="Notes, Note Taking, Distraction Free, App" />
                 <meta name="author" content="Evelyn House (ehouse@fastmail.com)" />
                 <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
             </Head>
 
-            <MantineProvider
-                withGlobalStyles
-                withNormalizeCSS
-                theme={{
-                    colorScheme: 'light',
-                }}
-            >
-                <ModalsProvider modals={{ createNotebookModal: CreateNotebookModal }} >
-                    <SiteStateContext.Provider value={{ state: siteState, dispatch: siteDispatch }}>
+            <Authenticator.Provider>
+                <MantineProvider
+                    withGlobalStyles
+                    withNormalizeCSS
+                    theme={{
+                        colorScheme: 'light',
+                    }}
+                >
+                    <ModalsProvider modals={{
+                        createNotebookModal: CreateNotebookModal,
+                        notebookSettingsModal: NotebookSettingsModal
+                    }} >
                         <Component {...pageProps} />
-                    </SiteStateContext.Provider>
-                </ModalsProvider>
-            </MantineProvider>
+                    </ModalsProvider>
+                </MantineProvider>
+            </Authenticator.Provider>
         </>
     );
 }

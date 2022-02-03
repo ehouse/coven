@@ -1,26 +1,25 @@
-import { AppShell, Button, Divider, Group, Navbar, ScrollArea, Text, ThemeIcon, Title, useMantineTheme } from '@mantine/core';
+import { Affix, AppShell, Button, Divider, Group, Navbar, ScrollArea, Text, ThemeIcon, Title, useMantineTheme } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { API, graphqlOperation } from 'aws-amplify';
 import { useRouter } from 'next/router';
-import { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { RiAddCircleLine, RiBook2Fill, RiBookOpenFill } from "react-icons/ri";
-import { ListNotebooksQuery, Notebook } from "../API";
-import { SiteStateContext } from '../context';
-import * as queries from '../graphql/queries';
+import { Notebook } from "../API";
+import type { SidebarReducerAction, SidebarState } from '../types';
+import OptionsMenu from './OpionsMenu';
 
 interface Props {
     children: React.ReactNode;
+    sidebarState: SidebarState;
+    sidebarDispatch: React.Dispatch<SidebarReducerAction>;
 }
 interface NotebookBadgeProps {
-    setActiveNotebook: (arg0: Notebook) => void;
+    triggerActive: () => void;
     notebook: Notebook;
     isSelected: boolean;
 }
 
 function NotebookBadge(props: NotebookBadgeProps) {
     const theme = useMantineTheme();
-    const router = useRouter();
-    console.log(props.notebook);
     const notebookColor = props.notebook.color ? props.notebook.color : theme.colors.blue[5];
 
     return <Button
@@ -40,10 +39,7 @@ function NotebookBadge(props: NotebookBadgeProps) {
                 flexGrow: 2,
             }
         })}
-        onClick={() => {
-            props.setActiveNotebook(props.notebook);
-            router.push(`/notebook/${props.notebook.id}`);
-        }}
+        onClick={props.triggerActive}
         leftIcon={
             <ThemeIcon sx={{ backgroundColor: notebookColor }} size={40} radius="md">
                 {props.isSelected ? <RiBookOpenFill /> : <RiBook2Fill />}
@@ -57,35 +53,27 @@ function NotebookBadge(props: NotebookBadgeProps) {
 }
 
 function MainLayout(props: Props) {
-    const { state, dispatch } = useContext(SiteStateContext);
+    const router = useRouter();
     const modals = useModals();
 
-    const setActiveNotebook = useCallback((notebook: Notebook) => (dispatch({ type: 'setActiveNotebook', payload: notebook })), [dispatch]);
+    const { sidebarState, sidebarDispatch } = props;
+
+    const setActiveID = useCallback((activeID) => sidebarDispatch({ type: 'setActiveID', payload: activeID }), [sidebarDispatch]);
+    const addNotebook = useCallback((notebook) => sidebarDispatch({ type: 'addNotebook', payload: notebook }), [sidebarDispatch]);
+    const deleteNotebook = useCallback((id) => sidebarDispatch({ type: 'deleteNotebook', payload: id }), [sidebarDispatch]);
+    const updateNotebook = useCallback((id, notebook) => sidebarDispatch({ type: 'updateNotebook', payload: { id: id, notebook: notebook } }), [sidebarDispatch]);
+
 
     const openCreateModal = () => modals.openContextModal('createNotebookModal', {
         title: 'Create Notebook',
         props: {
-            createNotebook: (notebook: Notebook) => (dispatch({ type: 'createNotebook', payload: notebook }))
+            sidebarNotebooks: sidebarState.notebooks,
+            addNotebook: addNotebook,
+            setActiveID: setActiveID
         }
     });
 
-    // Async function to handle the destructuring of the graphql query
-    const fetchNotebooks = useCallback(() => {
-        const query = API.graphql(graphqlOperation(queries.listNotebooks)) as Promise<{ data: ListNotebooksQuery; }>;
-
-        query.then((result) => {
-            // Ugly hack until they fix this
-            // https://github.com/aws-amplify/amplify-js/issues/6369
-            const results = result.data.listNotebooks?.items as unknown as Notebook[];
-            dispatch({ type: 'setNotebooks', payload: results });
-        }).catch((e) => {
-            console.log("Error when collecting Notebooks", e);
-        });
-    }, [dispatch]);
-
-    useEffect(() => {
-        fetchNotebooks();
-    }, [fetchNotebooks, dispatch]);
+    const activeNotebook = sidebarState.activeID;
 
     return <AppShell
         navbarOffsetBreakpoint="sm"
@@ -104,15 +92,19 @@ function MainLayout(props: Props) {
                     sx={{ paddingRight: 10 }}
                 >
                     <Group mt={'sm'} spacing={'xs'}>
-                        {state.notebooks.map((n) => (
-                            <div key={n.title} style={{ width: '100%' }}>
+                        {Object.keys(sidebarState.notebooks).map((key) => {
+                            return <div key={key} style={{ width: '100%' }}>
                                 <NotebookBadge
-                                    notebook={n}
-                                    isSelected={state.activeNotebook?.id === n.id}
-                                    setActiveNotebook={setActiveNotebook}
+                                    notebook={sidebarState.notebooks[key]}
+                                    isSelected={(key === sidebarState.activeID)}
+                                    triggerActive={() => {
+                                        console.log(`Triggering state change ${key}`);
+                                        sidebarDispatch({ type: 'setActiveID', payload: key });
+                                        router.push(`/notebook/${key}`);
+                                    }}
                                 />
-                            </div>
-                        ))}
+                            </div>;
+                        })}
                     </Group>
                 </Navbar.Section>
                 <Navbar.Section>
@@ -124,7 +116,7 @@ function MainLayout(props: Props) {
                             leftIcon={<RiAddCircleLine />}
                             variant="gradient"
                             gradient={{ from: 'pink', to: 'red', deg: 35 }}
-                            disabled={state.notebooks.length >= 25}
+                            disabled={sidebarState.notebooks.length >= 25}
                             onClick={() => openCreateModal()}
                         >
                             Create Notebook
@@ -134,6 +126,9 @@ function MainLayout(props: Props) {
             </ Navbar>
         }
     >
+        <Affix position={{ 'top': 20, 'right': 20 }}>
+            <OptionsMenu notebook={sidebarState.notebooks[sidebarState.activeID]} updateNotebook={updateNotebook} deleteNotebook={deleteNotebook} />
+        </Affix>
         {props.children}
     </AppShell>;
 }

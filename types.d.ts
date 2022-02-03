@@ -1,10 +1,19 @@
-export interface SiteReducerState {
-    notebooks: Notebook[]
-    activeNotebook: Notebook | null;
+import type { GraphQLResult } from '@aws-amplify/api-graphql';
+
+export interface SidebarNotebooks {
+    [UUID: string]: Notebook;
 }
 
-export type SiteReducerAction =
-    | { type: 'setNotebooks', payload: Notebook[]; }
-    | { type: 'createNotebook', payload: Notebook; }
+export type GraphQLResult<T> = Promise<GraphQLResult<T>>
+
+export interface SidebarState {
+    notebooks: SidebarNotebooks;
+    activeID: string;
+}
+
+export type SidebarReducerAction =
+    | { type: 'addNotebook', payload: Notebook; }
     | { type: 'deleteNotebook', payload: string; }
-    | { type: 'setActiveNotebook', payload: Notebook; };
+    | { type: 'updateNotebook', payload: {id: string, notebook: Notebook}}
+    | { type: 'setNotebooks', payload: SidebarNotebooks; }
+    | { type: 'setActiveID', payload: string; };
