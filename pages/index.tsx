@@ -111,7 +111,7 @@ const Home: NextPage = () => {
                         <Text size="md" style={{ marginBottom: theme.spacing.sm, marginTop: theme.spacing.sm }}>
                             <List spacing={'sm'}>
                                 <List.Item>Designed from the ground up to minimize distractions, keep writing!</List.Item>
-                                <List.Item>Minimize the clutter to reduce information overload by hiding unnecessary notes.</List.Item>
+                                <List.Item>Minimize clutter and reduce information overload by hiding unnecessary notes.</List.Item>
                             </List>
                         </Text>
                     </Card>
@@ -159,7 +159,7 @@ const Home: NextPage = () => {
 
                         <Text size="md" style={{ marginBottom: theme.spacing.sm, marginTop: theme.spacing.sm }}>
                             <List spacing={'sm'}>
-                                <List.Item>All information is stored encrypted in the cloud.</List.Item>
+                                <List.Item>All information stored and encrypted in the cloud.</List.Item>
                                 <List.Item>Never again worry about losing data or forgetting which notebook you wrote something in.</List.Item>
                                 <List.Item>Download data backups for peace of mind.</List.Item>
                             </List>
