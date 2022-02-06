@@ -1,11 +1,13 @@
+import React, { useCallback } from 'react';
+
 import { Affix, AppShell, Button, Divider, Group, Navbar, ScrollArea, Text, ThemeIcon, Title, useMantineTheme } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
 import { RiAddCircleLine, RiBook2Fill, RiBookOpenFill } from "react-icons/ri";
-import { Notebook } from "../API";
-import type { SidebarReducerAction, SidebarState } from '../types';
-import OptionsMenu from './OpionsMenu';
+
+import { Notebook } from "API";
+import OptionsMenu from 'components/OpionsMenu';
+import type { SidebarReducerAction, SidebarState } from 'types';
 
 interface Props {
     children: React.ReactNode;

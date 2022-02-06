@@ -1,8 +1,9 @@
 import '@aws-amplify/ui-react/styles.css';
+import React, { useState } from 'react';
+
 import { Affix, AppShell, Group, Header, Button, Grid, Title, Text, Center, Container, Navbar, Burger } from '@mantine/core';
 import { Card, List, MediaQuery, ThemeIcon, useMantineTheme } from '@mantine/core';
 import type { NextPage } from 'next';
-import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { RiBook2Fill, RiShieldKeyholeFill, RiMindMap } from "react-icons/ri";
 

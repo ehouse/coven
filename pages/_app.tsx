@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { MantineProvider } from '@mantine/core';
@@ -5,10 +7,10 @@ import { ModalsProvider } from '@mantine/modals';
 import Amplify from 'aws-amplify';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import React from 'react';
-import config from '../aws-exports';
-import { CreateNotebookModal, NotebookSettingsModal } from '../components/Modals';
-import '../styles/globals.css';
+
+import config from 'aws-exports';
+import { CreateNotebookModal, NotebookSettingsModal } from 'components/Modals';
+import 'styles/globals.css';
 
 Amplify.configure({
     ...config

@@ -3,8 +3,9 @@ import { useModals } from '@mantine/modals';
 import { ExitIcon, GearIcon, PersonIcon, TrashIcon } from '@modulz/radix-icons';
 import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
-import { Notebook } from '../API';
-import { openDeleteNotebookModal, openSettingsModal } from './Modals';
+
+import { Notebook } from 'API';
+import { openDeleteNotebookModal, openSettingsModal } from 'components/Modals';
 
 interface Props {
     notebook: Notebook;

@@ -1,9 +1,12 @@
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { useDebouncedValue } from '@mantine/hooks';
 import { API, graphqlOperation } from 'aws-amplify';
-import React, { useCallback, useEffect, useState } from 'react';
-import { GetNoteQuery } from "../API";
-import * as queries from '../graphql/queries';
-import RichTextEditor from './RichTextEditor';
+
+import { GetNoteQuery } from "API";
+import RichTextEditor from 'components/RichTextEditor';
+import * as queries from 'graphql/queries';
+
 interface Props {
     nbid: string;
     nid: string;

@@ -1,12 +1,14 @@
+import React from 'react';
+
 import { Badge, Button, ColorPicker, Group, SimpleGrid, Space, Text, Textarea, TextInput, Title, useMantineTheme } from '@mantine/core';
 import { useFocusTrap } from '@mantine/hooks';
 import { ContextModalProps } from '@mantine/modals';
 import { ModalsContext } from '@mantine/modals/lib/context';
 import { API, graphqlOperation } from 'aws-amplify';
-import React from 'react';
-import { CreateNotebookMutation, Notebook, UpdateNotebookMutation } from "../API";
-import * as mutations from '../graphql/mutations';
-import type { GraphQLResult } from '../types';
+
+import { CreateNotebookMutation, Notebook, UpdateNotebookMutation } from "API";
+import * as mutations from 'graphql/mutations';
+import type { GraphQLResult } from 'types';
 
 interface DeleteModalProps {
     modals: ModalsContext;

@@ -1,6 +1,5 @@
 import type { GraphQLResult } from '@aws-amplify/api-graphql';
-
-export interface SidebarNotebooks {
+export interface NotebooksData {
     [UUID: string]: Notebook;
 }
 

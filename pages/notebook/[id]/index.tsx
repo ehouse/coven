@@ -1,18 +1,18 @@
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
+
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { Amplify, API, graphqlOperation } from "aws-amplify";
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { z } from "zod";
-import { ListNotebooksQuery, Notebook } from "../../../API";
-import config from '../../../aws-exports';
-import MainLayout from '../../../components/MainLayout';
-import * as queries from '../../../graphql/queries';
-import type { SidebarNotebooks, SidebarReducerAction, SidebarState } from '../../../types';
+
+import { ListNotebooksQuery, Notebook } from "API";
+import config from 'aws-exports';
+import MainLayout from 'components/MainLayout';
+import * as queries from 'graphql/queries';
+import type { NotebooksData, GraphQLResult, SidebarReducerAction, SidebarState } from 'types';
 
 Amplify.configure({ ...config });
-
-type loadState = 'SUCCESS' | 'NODATA' | 'LOADING' | 'ERROR';
 
 function sidebarReducer(state: SidebarState, action: SidebarReducerAction): SidebarState {
     switch (action.type) {
@@ -30,7 +30,6 @@ function sidebarReducer(state: SidebarState, action: SidebarReducerAction): Side
             return { ...stateCopy, activeID: '' };
         case 'updateNotebook':
             const generatedState = { ...state, notebooks: { ...state.notebooks, [action.payload.id]: action.payload.notebook } };
-            console.log(generatedState);
             return generatedState;
         case 'setNotebooks':
             return { ...state, notebooks: action.payload };
@@ -39,7 +38,6 @@ function sidebarReducer(state: SidebarState, action: SidebarReducerAction): Side
         default:
             return state;
     }
-
 }
 
 const nidSchema = z.string().uuid();
@@ -57,32 +55,33 @@ const initialState = { notebooks: {}, activeID: '' };
 
 function Page() {
     const router = useRouter();
-    const [loadState, setLoadState] = useState<loadState>('LOADING');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<Error>();
     const [sidebarState, sidebarDispatch] = useReducer(sidebarReducer, initialState);
 
     // Async function to handle the destructuring of the graphql query
-    const fetchNotebooks = useCallback(() => {
-        const query = API.graphql(graphqlOperation(queries.listNotebooks)) as Promise<{ data: ListNotebooksQuery; }>;
+    const fetchNotebooks = useCallback(async () => {
+        setLoading(true);
+        try {
+            const constructedState: NotebooksData = {};
+            const query = API.graphql(graphqlOperation(queries.listNotebooks)) as GraphQLResult<ListNotebooksQuery>;
+            const items = (await query).data?.listNotebooks?.items;
 
-        query.then((result) => {
-            setLoadState('LOADING');
-            // Ugly hack until they fix this
-            // https://github.com/aws-amplify/amplify-js/issues/6369
-            const results = result.data.listNotebooks?.items as unknown as Notebook[];
-
-            if (results.length === 0) {
-                setLoadState('NODATA');
-            } else {
-                const constructedState: SidebarNotebooks = {};
-                results.forEach((item) => {
-                    constructedState[item.id] = item;
-                });
-                sidebarDispatch({ type: 'setNotebooks', payload: constructedState });
+            if (typeof items === 'undefined') {
+                throw Error(`Malformed response from server. Server Response: ${JSON.stringify(query)}`);
             }
-        }).catch((e) => {
+
+            items.forEach((item) => {
+                if (item !== null) {
+                    constructedState[item.id] = item;
+                }
+            });
+            sidebarDispatch({ type: 'setNotebooks', payload: constructedState });
+
+        } catch (e: unknown) {
             console.log("Error when collecting Notebooks", e);
-            setLoadState('ERROR');
-        });
+            setError(e as Error);
+        }
     }, []);
 
     useEffect(() => {
@@ -96,15 +95,14 @@ function Page() {
             if (sidebarState.activeID === '' && nbid) {
                 sidebarDispatch({ type: 'setActiveID', payload: nbid });
             }
-            setLoadState('SUCCESS');
+            setLoading(false);
         }
     }, [router.isReady, sidebarState.activeID, router.query.id]);
 
     return <MainLayout sidebarState={sidebarState} sidebarDispatch={sidebarDispatch}>
-        {loadState === 'LOADING' && <Loading />}
-        {loadState === 'SUCCESS' && <Content notebook={sidebarState.notebooks[sidebarState.activeID]} />}
-        {loadState === 'ERROR' && <p>Error!</p>}
-        {loadState === 'NODATA' && <p>Create a notebook to begin`</p>}
+        {loading && <Loading />}
+        {(!error && !loading) && <Content notebook={sidebarState.notebooks[sidebarState.activeID]} />}
+        {error && <p>Error!</p>}
     </MainLayout>;
 };
 
