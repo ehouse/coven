@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useReducer, useState } from 'react';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+import { Authenticator } from '@aws-amplify/ui-react';
 import { Amplify, API, graphqlOperation } from "aws-amplify";
+import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { z } from "zod";
 
@@ -10,7 +12,8 @@ import { ListNotebooksQuery, Notebook } from "API";
 import config from 'aws-exports';
 import MainLayout from 'components/MainLayout';
 import * as queries from 'graphql/queries';
-import type { NotebooksData, GraphQLResult, SidebarReducerAction, SidebarState } from 'types';
+import { useUserInfo } from 'hooks';
+import type { NotebooksData, GraphQLResult, SidebarReducerAction, SidebarState, UserInfo } from 'types';
 
 Amplify.configure({ ...config });
 
@@ -59,6 +62,8 @@ function Page() {
     const [error, setError] = useState<Error>();
     const [sidebarState, sidebarDispatch] = useReducer(sidebarReducer, initialState);
 
+    const userInfo = useUserInfo();
+
     // Async function to handle the destructuring of the graphql query
     const fetchNotebooks = useCallback(async () => {
         setLoading(true);
@@ -99,11 +104,11 @@ function Page() {
         }
     }, [router.isReady, sidebarState.activeID, router.query.id]);
 
-    return <MainLayout sidebarState={sidebarState} sidebarDispatch={sidebarDispatch}>
+    return <MainLayout userInfo={userInfo} sidebarState={sidebarState} sidebarDispatch={sidebarDispatch}>
         {loading && <Loading />}
         {(!error && !loading) && <Content notebook={sidebarState.notebooks[sidebarState.activeID]} />}
         {error && <p>Error!</p>}
     </MainLayout>;
 };
 
-export default withAuthenticator(Page);
+export default Page;

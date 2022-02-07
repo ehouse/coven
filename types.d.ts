@@ -16,3 +16,9 @@ export type SidebarReducerAction =
     | { type: 'updateNotebook', payload: {id: string, notebook: Notebook}}
     | { type: 'setNotebooks', payload: SidebarNotebooks; }
     | { type: 'setActiveID', payload: string; };
+
+export type UserInfo = UserProfile  | undefined
+export interface UserProfile {
+    username: string;
+    email: string;
+}

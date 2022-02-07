@@ -6,9 +6,12 @@ import { Amplify, API, graphqlOperation } from "aws-amplify";
 import Link from 'next/link';
 import { RiAddCircleLine, RiBook2Fill, RiBookOpenFill } from "react-icons/ri";
 
+
 import { ListNotebooksQuery, Notebook } from "API";
 import config from 'aws-exports';
+import NavHeader from 'components/NavHeader';
 import * as queries from 'graphql/queries';
+import { useUserInfo } from 'hooks';
 import { GraphQLResult, NotebooksData } from 'types';
 
 Amplify.configure({ ...config });
@@ -59,6 +62,8 @@ function Page() {
     const [loading, setLoading] = useState(false);
     const [state, setState] = useState<NotebooksData>({});
 
+    const userInfo = useUserInfo();
+
     const fetchData = useCallback(async () => {
         setLoading(true);
         const query = API.graphql(graphqlOperation(queries.listNotebooks)) as GraphQLResult<ListNotebooksQuery>;
@@ -84,26 +89,7 @@ function Page() {
                 query="(max-width: 400px)"
                 styles={{ display: 'none' }}
             >
-                <Header
-                    height={70}
-                    padding={'sm'}
-                    sx={{
-                        boxShadow: theme.shadows.md
-                    }}
-                >
-                    <Grid>
-                        <Grid.Col span={6}>
-                            <Title order={2}>SpiderNotes</Title>
-                        </Grid.Col>
-                        <Grid.Col span={6}>
-                            <Group position='right' direction='row'>
-                                <Center inline>
-                                    <Avatar mt={-5} size="lg" />
-                                </Center>
-                            </Group>
-                        </Grid.Col>
-                    </Grid>
-                </Header>
+                <NavHeader hideEditorButton userInfo={userInfo} />
             </MediaQuery>
         }>
         <Container>

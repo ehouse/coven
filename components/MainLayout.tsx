@@ -6,13 +6,14 @@ import { useRouter } from 'next/router';
 import { RiAddCircleLine, RiBook2Fill, RiBookOpenFill } from "react-icons/ri";
 
 import { Notebook } from "API";
-import OptionsMenu from 'components/OpionsMenu';
-import type { SidebarReducerAction, SidebarState } from 'types';
+import { UserAvatar } from 'components/UserAvatar';
+import type { SidebarReducerAction, SidebarState, UserInfo } from 'types';
 
 interface Props {
     children: React.ReactNode;
     sidebarState: SidebarState;
     sidebarDispatch: React.Dispatch<SidebarReducerAction>;
+    userInfo: UserInfo;
 }
 interface NotebookBadgeProps {
     triggerActive: () => void;
@@ -129,7 +130,7 @@ function MainLayout(props: Props) {
         }
     >
         <Affix position={{ 'top': 20, 'right': 20 }}>
-            <OptionsMenu notebook={sidebarState.notebooks[sidebarState.activeID]} updateNotebook={updateNotebook} deleteNotebook={deleteNotebook} />
+            <UserAvatar userInfo={props.userInfo} />
         </Affix>
         {props.children}
     </AppShell>;
