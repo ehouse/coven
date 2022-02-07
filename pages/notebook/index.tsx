@@ -6,7 +6,6 @@ import { Amplify, API, graphqlOperation } from "aws-amplify";
 import Link from 'next/link';
 import { RiAddCircleLine, RiBook2Fill, RiBookOpenFill } from "react-icons/ri";
 
-
 import { ListNotebooksQuery, Notebook } from "API";
 import config from 'aws-exports';
 import NavHeader from 'components/NavHeader';
@@ -34,7 +33,6 @@ function NotebookBadge(props: NotebookBadgeProps) {
                 root: {
                     paddingLeft: 10,
                     paddingRight: 0,
-                    backgroundColor: theme.colors.blue[0],
                     '&:hover': {
                         backgroundColor: theme.fn.darken(theme.colors.blue[0], 0.05),
                     },
@@ -114,4 +112,4 @@ function Page() {
     </AppShell>;
 }
 
-export default Page;
+export default withAuthenticator(Page);
