@@ -11,7 +11,11 @@ import { RiBook2Fill, RiShieldKeyholeFill, RiMindMap, RiDraftLine } from "react-
 
 import type { UserInfo } from 'types';
 
-function UserAvatar(props: { userInfo: UserInfo; }) {
+/**
+ * Creates a user avatar with an assiocted menu.
+ * New menu items can be passed in as childeren
+ */
+function UserAvatar(props: { userInfo: UserInfo; childeren?: React.ReactNode; }) {
     const router = useRouter();
 
     const username = props.userInfo?.username ?? 'mp';
@@ -29,6 +33,7 @@ function UserAvatar(props: { userInfo: UserInfo; }) {
     return (
         <Menu control={<Avatar src={`https://www.gravatar.com/avatar/${userHash}`} mt={-7} radius='xl' size="lg" />}>
             <Menu.Label>{`Welcome, ${username}!`}</Menu.Label>
+            {props.childeren}
             <Menu.Item icon={<PersonIcon />} disabled>Profile</Menu.Item>
             <Menu.Item icon={<ExitIcon />} onClick={() => Auth.signOut().then(() => router.push('/'))}>Log out</Menu.Item>
         </Menu>

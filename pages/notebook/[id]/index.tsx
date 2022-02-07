@@ -45,12 +45,40 @@ function sidebarReducer(state: SidebarState, action: SidebarReducerAction): Side
 
 const nidSchema = z.string().uuid();
 
-
 function Loading() {
     return <p>Loading...</p>;
 }
 
-function Content(props: { notebook?: Notebook; }) {
+interface PageContentProps {
+    notebook: Notebook;
+    setLoading: (arg0: boolean) => void;
+    setError: (arg0: Error) => void;
+}
+
+function PageContent(props: PageContentProps) {
+    const { setError, setLoading } = props;
+
+    const fetchNotes = useCallback(async () => {
+        try {
+            setLoading(true);
+            const query = API.graphql(graphqlOperation(queries.listNotebooks)) as GraphQLResult<ListNotebooksQuery>;
+            const items = (await query).data?.listNotebooks?.items;
+
+            if (typeof items === 'undefined') {
+                throw Error(`Malformed response from server. Server Response: ${JSON.stringify(query)}`);
+            }
+        } catch (e) {
+            console.log("Error when collecting Notebooks", e);
+            setError(e as Error);
+        }
+        setLoading(false);
+
+    }, [setLoading, setError]);
+
+    useEffect(() => {
+        fetchNotes();
+    }, [fetchNotes]);
+
     return <p>{`Expanded Notes page for: ${props.notebook?.id}`}</p>;
 }
 
@@ -100,13 +128,15 @@ function Page() {
             if (sidebarState.activeID === '' && nbid) {
                 sidebarDispatch({ type: 'setActiveID', payload: nbid });
             }
-            setLoading(false);
         }
     }, [router.isReady, sidebarState.activeID, router.query.id]);
 
     return <MainLayout userInfo={userInfo} sidebarState={sidebarState} sidebarDispatch={sidebarDispatch}>
-        {loading && <Loading />}
-        {(!error && !loading) && <Content notebook={sidebarState.notebooks[sidebarState.activeID]} />}
+        {!error && <PageContent
+            notebook={sidebarState.notebooks[sidebarState.activeID]}
+            setError={setError}
+            setLoading={setLoading}
+        />}
         {error && <p>Error!</p>}
     </MainLayout>;
 };
