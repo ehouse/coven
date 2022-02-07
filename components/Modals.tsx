@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { Badge, Button, ColorPicker, Group, SimpleGrid, Space, Text, Textarea, TextInput, Title, useMantineTheme } from '@mantine/core';
+import { Box, Button, ColorSwatch, Group, SimpleGrid, Space, Text, Textarea, TextInput, Title, useMantineTheme } from '@mantine/core';
 import { useFocusTrap } from '@mantine/hooks';
 import { ContextModalProps } from '@mantine/modals';
 import { ModalsContext } from '@mantine/modals/lib/context';
+import { CheckIcon } from '@modulz/radix-icons';
 import { API, graphqlOperation } from 'aws-amplify';
 
 import { CreateNotebookMutation, Notebook, UpdateNotebookMutation } from "API";
@@ -66,18 +67,30 @@ export function openSettingsModal(args: OpenSettingsModalsProps) {
 export const NotebookSettingsModal = (ModalProps: ContextModalProps) => {
     const { context, id, props } = ModalProps;
     const focusTrapRef = useFocusTrap();
+    const theme = useMantineTheme();
 
     const notebook: Notebook = props.initialState.notebook;
     const updateNotebook: (id: string, notebook: Notebook) => void = props.updateNotebook;
 
     const [title, setTitle] = React.useState(notebook.title);
     const [description, setDescription] = React.useState(notebook.description ?? '');
-    const [color, setColor] = React.useState(notebook.color ?? '#339af0');
+    const [selectedColor, setColor] = React.useState(notebook.color ?? '#339af0');
     const [loading, setLoading] = React.useState(false);
+
+    const swatches = Object.keys(theme.colors).map((color) => (
+        <ColorSwatch
+            component="button"
+            style={{ color: '#fff', cursor: 'pointer' }}
+            onClick={() => setColor(theme.colors[color][6])}
+            key={color}
+            color={theme.colors[color][6]}>
+            {(selectedColor === theme.colors[color][6]) && <CheckIcon />}
+        </ColorSwatch>
+    ));
 
     const submit = async () => {
         setLoading(true);
-        const message = { id: notebook.id, title: title, description: description, color: color };
+        const message = { id: notebook.id, title: title, description: description, color: selectedColor };
         try {
             const query = API.graphql(graphqlOperation(mutations.updateNotebook, { input: message })) as GraphQLResult<UpdateNotebookMutation>;
             const data = (await query).data?.updateNotebook;
@@ -107,19 +120,12 @@ export const NotebookSettingsModal = (ModalProps: ContextModalProps) => {
             value={description}
             onChange={(event) => setDescription(event.currentTarget.value)}
         />
-        <Text>
-            Notebook Color:
-            <Badge ml='sm' sx={{ backgroundColor: color, color: 'white' }}>{color}</Badge>
-        </Text>
-        <ColorPicker
-            mb='md'
-            format="hex"
-            swatches={['#339af0', '#22b8cf', '#51cf66', '#fcc419', '#ff922b', '#f03e3e', '#f06595', '#c2255c', '#101113', '#adb5bd']}
-            size='lg'
-            withPicker={false}
-            value={color}
-            onChange={setColor}
-        />
+        <Box sx={(theme) => ({ marginBottom: theme.spacing.md })}>
+            <Text mb='xs' size="sm">Color Picker</Text>
+            <Group spacing={3}>
+                {swatches}
+            </Group>
+        </Box>
         <Group position={'right'}>
             <Button variant="outline" onClick={() => ModalProps.context.closeModal(ModalProps.id)} >
                 Cancel
@@ -142,12 +148,23 @@ export const CreateNotebookModal = (ModalProps: ContextModalProps) => {
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [loading, setLoading] = React.useState(false);
-    const [color, setColor] = React.useState('#339af0');
+    const [selectedColor, setColor] = React.useState(theme.colors.blue[6]);
     const focusTrapRef = useFocusTrap();
+
+    const swatches = Object.keys(theme.colors).map((color) => (
+        <ColorSwatch
+            component="button"
+            style={{ color: '#fff', cursor: 'pointer' }}
+            onClick={() => setColor(theme.colors[color][6])}
+            key={color}
+            color={theme.colors[color][6]}>
+            {(selectedColor === theme.colors[color][6]) && <CheckIcon />}
+        </ColorSwatch>
+    ));
 
     const submit = async () => {
         setLoading(true);
-        const message = { title: title, description: description, color: color };
+        const message = { title: title, description: description, color: selectedColor };
         try {
             const query = await API.graphql(graphqlOperation(mutations.createNotebook, { input: message })) as GraphQLResult<CreateNotebookMutation>;
             const data = (await query).data?.createNotebook;
@@ -179,19 +196,12 @@ export const CreateNotebookModal = (ModalProps: ContextModalProps) => {
             value={description}
             onChange={(event) => setDescription(event.currentTarget.value)}
         />
-        <Text>
-            Notebook Color:
-            <Badge ml='sm' sx={{ backgroundColor: color, color: 'white' }}>{color}</Badge>
-        </Text>
-        <ColorPicker
-            mb='md'
-            format="hex"
-            swatches={['#339af0', '#22b8cf', '#51cf66', '#fcc419', '#ff922b', '#f03e3e', '#f06595', '#c2255c', '#101113', '#adb5bd']}
-            size='lg'
-            withPicker={false}
-            value={color}
-            onChange={setColor}
-        />
+        <Box sx={(theme) => ({ marginBottom: theme.spacing.md })}>
+            <Text mb='xs' size="sm">Color Picker</Text>
+            <Group spacing={3}>
+                {swatches}
+            </Group>
+        </Box>
         <Group position={'right'}>
             <Button variant="outline" onClick={() => context.closeModal(id)} >
                 Cancel
