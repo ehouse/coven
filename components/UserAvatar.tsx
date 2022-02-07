@@ -6,6 +6,8 @@ import { Auth } from 'aws-amplify';
 import MD5 from "crypto-js/md5";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { RiBook2Fill, RiShieldKeyholeFill, RiMindMap, RiDraftLine } from "react-icons/ri";
+
 
 import type { UserInfo } from 'types';
 
@@ -36,7 +38,7 @@ function UserAvatar(props: { userInfo: UserInfo; }) {
 function EditorButton() {
     return (
         <Link passHref href='/notebook/'>
-            <Button size='md' component="a" mt={-10} variant="gradient" gradient={{ from: 'pink', to: 'red', deg: 35 }}>
+            <Button size='md' component="a" mt={-10} leftIcon={<RiDraftLine />} variant="gradient" gradient={{ from: 'pink', to: 'red', deg: 35 }}>
                 Editor
             </Button>
         </Link>

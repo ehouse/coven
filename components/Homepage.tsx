@@ -1,11 +1,11 @@
 import '@aws-amplify/ui-react/styles.css';
 import React, { useState } from 'react';
 
-import { Affix, AppShell, Group, Header, Button, Grid, Title, Text, Center, Container, Navbar, Burger } from '@mantine/core';
+import { Affix, Paper, AppShell, Group, Header, Button, Grid, Title, Text, Center, Container, Navbar, Burger, Space } from '@mantine/core';
 import { Card, List, MediaQuery, ThemeIcon, useMantineTheme } from '@mantine/core';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { RiBook2Fill, RiShieldKeyholeFill, RiMindMap } from "react-icons/ri";
+import { RiBook2Fill, RiShieldKeyholeFill, RiMindMap, RiDraftLine } from "react-icons/ri";
 
 
 import NavHeader from 'components/NavHeader';
@@ -60,6 +60,12 @@ const Homepage: NextPage<Props> = (props: Props) => {
                 <NavHeader userInfo={props.userInfo} />
             </MediaQuery>
         }>
+        <Affix position={{ bottom: 10, right: 10 }}>
+            <Group direction="column" position="center" spacing={0}>
+                <Title order={3}>🚧 Alpha - Work in Progress</Title>
+                <Title order={4}>Features may not work properly yet</Title>
+            </Group>
+        </Affix>
         <Container size={'xl'}>
             <MediaQuery largerThan={800} styles={{ display: 'none' }}>
                 <Burger
@@ -70,12 +76,12 @@ const Homepage: NextPage<Props> = (props: Props) => {
                     mr="xl"
                 />
             </MediaQuery>
-            <div style={{ padding: '4rem 0 7rem 0' }}>
+            <div style={{ padding: '4.5rem 0' }}>
                 <Center mb={'xl'}>
                     <Title sx={{ fontSize: 68, fontWeight: '700' }}>Spider Notes</Title>
                 </Center>
                 <Center>
-                    <Title sx={{ fontSize: 44, fontWeight: '500' }} order={2}>A Brand New Way To Take Notes!</Title>
+                    <Title sx={{ fontSize: 44, fontWeight: '500' }} order={2}>A Brand New Way to Take Notes!</Title>
                 </Center>
             </div>
             <Grid gutter="xl" >
