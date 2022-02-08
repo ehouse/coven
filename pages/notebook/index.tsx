@@ -1,19 +1,22 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
-import { Card, Grid, Box, Button, ThemeIcon, AppShell, Center, MediaQuery, Group, Container, Header, Text, Paper, Title, useMantineTheme } from '@mantine/core';
+import { ActionIcon, Badge, SimpleGrid, AppShell, Box, Button, Card, Container, Group, MediaQuery, Text, ThemeIcon, Title, useMantineTheme } from '@mantine/core';
+import { useHover } from '@mantine/hooks';
+import { useModals } from '@mantine/modals';
 import { Amplify, API, graphqlOperation } from "aws-amplify";
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { RiAddCircleLine, RiBook2Fill, RiDraftLine } from "react-icons/ri";
+import { RiBook2Fill, RiCheckboxBlankCircleLine, RiCheckLine, RiDeleteBin2Line, RiFileAddLine, RiFileSettingsLine } from "react-icons/ri";
 import { useLongPress } from 'use-long-press';
 
 import { ListNotebooksQuery, Notebook } from "API";
 import config from 'aws-exports';
+import { openDeleteNotebookModal, openSettingsModal } from 'components/Modals';
 import NavHeader from 'components/NavHeader';
 import * as queries from 'graphql/queries';
 import { useUserInfo } from 'hooks';
 import { GraphQLResult, NotebooksData } from 'types';
+
 
 Amplify.configure({ ...config });
 
@@ -28,6 +31,7 @@ function NotebookBadge(props: NotebookBadgeProps) {
 
     const router = useRouter();
     const theme = useMantineTheme();
+    const { hovered, ref } = useHover();
 
     const notebookColor = props.notebook.color ? props.notebook.color : theme.colors.blue[5];
 
@@ -41,6 +45,7 @@ function NotebookBadge(props: NotebookBadgeProps) {
     }, [router, notebook.id]);
 
     const bind = useLongPress(successCallback, {
+        threshold: 400,
         onCancel: cancelCallback,
     });
 
@@ -50,34 +55,109 @@ function NotebookBadge(props: NotebookBadgeProps) {
         borderRadious: '5px'
     };
 
-    return <Button
-        {...bind}
-        size="xl"
-        fullWidth
-        variant="subtle"
-        styles={(theme) => ({
-            root: {
-                paddingLeft: 10,
-                paddingRight: 0,
-                '&:hover': {
-                    backgroundColor: theme.fn.darken(theme.colors.blue[0], 0.05),
+    return <div ref={ref} key={notebook.id} style={{ position: 'relative' }}>
+        <Box style={{
+            margin: 0,
+            position: 'absolute',
+            zIndex: 1
+        }}>
+            {(hovered || isSelected) &&
+                <ThemeIcon title='Select Notebook' size='sm' onClick={() => setSelected(notebook.id)} color='dark' radius="sm" >
+                    {isSelected ? <RiCheckLine size='1.4em' /> : <RiCheckboxBlankCircleLine size='1.4em' />}
+                </ThemeIcon>}
+        </Box>
+        <Button
+            {...bind}
+            aria-label={`Open Notebook ${notebook.title}`}
+            fullWidth
+            variant="subtle"
+            styles={(theme) => ({
+                root: {
+                    height: 'auto',
+                    padding: '.4em 10px',
+                    '&:hover': {
+                        backgroundColor: theme.fn.darken(theme.colors.blue[0], 0.05),
+                    },
+                    ...(isSelected ? borderSelect : null),
                 },
-                ...(isSelected ? borderSelect : null),
-            },
-            label: {
-                flexGrow: 2,
-            }
-        })}
-        leftIcon={
-            <ThemeIcon sx={{ backgroundColor: notebookColor }} size={40} radius="md">
-                <RiBook2Fill />
-            </ThemeIcon >
-        }>
-        <div>
-            <Text weight="700" style={{ textAlign: 'initial' }}>{props.notebook.title}</Text>
-            <Text size="sm" color="gray" style={{ textAlign: 'initial' }}>{props.notebook.description}</Text>
-        </div>
-    </Button>;
+                label: {
+                    flexGrow: 2,
+                }
+            })}
+            leftIcon={
+                <ThemeIcon sx={{ backgroundColor: notebookColor }} size={60} radius="md">
+                    <RiBook2Fill size='45' />
+                </ThemeIcon >
+            }>
+            <Group direction='column' spacing={0}>
+                <Text weight="700">{props.notebook.title}</Text>
+                <Text size="sm" color="gray">{props.notebook.description}</Text>
+                <Group mt='xs' direction='row' spacing={3}>
+                    <Badge color='grape'>Lorum</Badge>
+                    <Badge color='red'>Ipsum</Badge>
+                    <Badge color='blue'>Don Goto</Badge>
+                </Group>
+            </Group>
+        </Button>
+
+    </div>;
+}
+
+interface SettingsNotebookProps {
+    notebook: Notebook;
+    updateNotebook: (id: string, notebook: Notebook) => void;
+}
+
+function SettingsNotebook(props: SettingsNotebookProps) {
+    const modals = useModals();
+
+    const SettingsModal = useCallback(() => openSettingsModal({
+        modals: modals,
+        notebook: props.notebook,
+        updateNotebook: props.updateNotebook
+    }), [modals, props.notebook, props.updateNotebook]);
+
+    return <ActionIcon title="Notebook Settings" size='lg' color="dark" onClick={SettingsModal}>
+        <RiFileSettingsLine size='2em' />
+    </ActionIcon>;
+}
+
+interface TrashNotebookProps {
+    notebook: Notebook;
+    deleteNotebook: (id: string) => void;
+}
+
+function TrashNotebook(props: TrashNotebookProps) {
+    const modals = useModals();
+
+    // Create a delete modal to confirm deletion of notebook
+    const deleteModal = useCallback(() => openDeleteNotebookModal({
+        modals: modals,
+        notebook: props.notebook,
+        deleteNotebook: props.deleteNotebook
+    }), [modals, props.notebook, props.deleteNotebook]);
+
+    return <ActionIcon title="Delete Notebook" size='lg' color="dark" onClick={deleteModal}>
+        <RiDeleteBin2Line size='2em' color='red' />
+    </ActionIcon>;
+}
+
+interface CreateNotebookProps {
+    addNotebook: (id: Notebook) => void;
+}
+
+function CreateNotebook(props: CreateNotebookProps) {
+    const modals = useModals();
+
+    const createNotebookModal = useCallback(() => modals.openContextModal('createNotebookModal', {
+        title: 'Create Notebook',
+        props: { addNotebook: props.addNotebook, }
+    }), [modals, props.addNotebook]);
+
+    return <ActionIcon title="Create Notebook" size='lg' color="dark" onClick={createNotebookModal}>
+        <RiFileAddLine size='2em' />
+    </ActionIcon>;
+
 }
 
 
@@ -89,6 +169,13 @@ function Page() {
     const [selected, setSelected] = useState<string>();
 
     const userInfo = useUserInfo();
+
+    const addNotebook = useCallback((notebook) => setState((prevState) => ({ ...prevState, [notebook.id]: notebook })), []);
+    const updateNotebook = useCallback((id, notebook) => setState((prevState) => ({ ...prevState, [id]: notebook })), []);
+    const deleteNotebook = useCallback((id) => setState((prevState) => {
+        delete prevState[id];
+        return { ...prevState };
+    }), []);
 
     const fetchData = useCallback(async () => {
         setLoading(true);
@@ -123,12 +210,14 @@ function Page() {
                 <Card.Section style={{ padding: '1rem' }} sx={{ boxShadow: theme.shadows.xs, backgroundColor: theme.colors.gray[0] }}>
                     <Group>
                         <Title sx={{ flexGrow: 1 }} order={2}>Notebooks</Title>
-                        <Button sx={{ justifyItem: 'flex-end' }} leftIcon={<RiDraftLine />}>
-                            Create
-                        </Button>
+                        {selected && <Group direction="row">
+                            <TrashNotebook notebook={state[selected]} deleteNotebook={deleteNotebook} />
+                            <SettingsNotebook notebook={state[selected]} updateNotebook={updateNotebook} />
+                        </Group>}
+                        <CreateNotebook addNotebook={addNotebook} />
                     </Group>
                 </Card.Section>
-                <Group mt={'sm'} spacing={'xs'}>
+                <SimpleGrid mt='md' cols={2}>
                     {Object.keys(state).map((key) => {
                         return <div key={key} style={{ width: '100%' }}>
                             <NotebookBadge
@@ -138,7 +227,7 @@ function Page() {
                             />
                         </div>;
                     })}
-                </Group>
+                </SimpleGrid>
 
             </Card>
         </Container>

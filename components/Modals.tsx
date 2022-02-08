@@ -141,7 +141,6 @@ export const NotebookSettingsModal = (ModalProps: ContextModalProps) => {
 export const CreateNotebookModal = (ModalProps: ContextModalProps) => {
     const { context, id, props } = ModalProps;
     const addNotebook: (arg0: Notebook) => void = props.addNotebook;
-    const setActiveID: (arg0: string) => void = props.setActiveID;
 
     const theme = useMantineTheme();
 
@@ -173,7 +172,6 @@ export const CreateNotebookModal = (ModalProps: ContextModalProps) => {
             }
             // If successfully posted to Graphql, then create a corilating notebook in the sidebar and set it active
             addNotebook(data);
-            setActiveID(data.id);
         } catch (e) {
             console.log("Error creating notebook", e);
         }
