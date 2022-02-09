@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState, useRef, forwardRef } from 'react';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
-import { ActionIcon, Badge, Center, SimpleGrid, AppShell, Box, Button, Card, Container, Group, MediaQuery, Text, ThemeIcon, Title, useMantineTheme } from '@mantine/core';
-import { useHover } from '@mantine/hooks';
+import { Skeleton, ActionIcon, Badge, Center, SimpleGrid, Grid, AppShell, Box, Button, Card, Container, Group, MediaQuery, Text, ThemeIcon, Title, useMantineTheme } from '@mantine/core';
+import { useHover, useMediaQuery } from '@mantine/hooks';
 import { useModals } from '@mantine/modals';
 import { Amplify, API, graphqlOperation } from "aws-amplify";
 import { useRouter } from 'next/router';
@@ -142,7 +142,6 @@ function TrashNotebook(props: TrashNotebookProps) {
 
 interface CreateNotebookProps {
     addNotebook: (id: Notebook) => void;
-    endArrowRef: React.MutableRefObject<unknown>;
 }
 
 function CreateNotebook(props: CreateNotebookProps) {
@@ -153,27 +152,33 @@ function CreateNotebook(props: CreateNotebookProps) {
         props: { addNotebook: props.addNotebook, }
     }), [modals, props.addNotebook]);
 
-    return (<ActionIcon ref={props.endArrowRef} title="Create Notebook" size='lg' color="dark" onClick={createNotebookModal}>
+    return (<ActionIcon title="Create Notebook" size='lg' color="dark" onClick={createNotebookModal}>
         <RiFileAddLine size='2em' />
     </ActionIcon>
     );
 }
 
 
-function EmptyPage(props: { startArrowRef: React.MutableRefObject<unknown>; }) {
-    return (
-        <Center>
-            <Box ref={props.startArrowRef}>
-                <Text size='xl' m='xl'>
-                    Click to create your first notebook!
-                </Text>
-            </Box>
-        </Center>
-    );
+function EmptyPage(props: { loading: boolean; }) {
+    if (props.loading) {
+        return (
+            <Center>
+                <Skeleton height={70} />
+            </Center>
+        );
+    } else {
+        return (<Grid m='md'>
+            <Grid.Col span={3} offset={8} style={{ border: '2px solid black', padding: '6px' }}>
+                <Text align='center' size='lg'>Click the <RiFileAddLine /> to begin 🡽</Text>
+            </Grid.Col>
+        </Grid>
+        );
+    }
 }
 
 function Page() {
     const theme = useMantineTheme();
+    const isSmall = useMediaQuery('(max-width: 900px)');
 
     const [loading, setLoading] = useState(true);
     const [state, setState] = useState<NotebooksData>({});
@@ -181,31 +186,7 @@ function Page() {
 
     const userInfo = useUserInfo();
 
-    const startArrowRef = useRef<React.MutableRefObject<unknown>>();
-    const endArrowRef = useRef<React.MutableRefObject<unknown>>();
-
-    async function createLine() {
-        const LeaderLine = (await import('react-leader-line')).default;
-        const line = new LeaderLine(startArrowRef.current, endArrowRef.current);
-        return line;
-    }
-
     const stateSize = Object.keys(state).length;
-
-    // Effect block to draw the Tutorial Line™️ 
-    useEffect(() => {
-        // Short circuit tutorial line if notebooks exist
-        if (stateSize > 0 || loading) {
-            return;
-        };
-
-        let line: any;
-        const linePromise = createLine();
-
-        linePromise.then((x) => line = x);
-        // Make sure to cleanup the old lines since they're manually managed outside of React
-        return () => line && line.remove();
-    }, [stateSize, loading]);
 
     const addNotebook = useCallback((notebook) => setState((prevState) => ({ ...prevState, [notebook.id]: notebook })), []);
     const updateNotebook = useCallback((id, notebook) => setState((prevState) => ({ ...prevState, [id]: notebook })), []);
@@ -230,7 +211,9 @@ function Page() {
 
             if (typeof data !== 'undefined') {
                 data.forEach((x) => {
-                    constructedState[x.id] = x;
+                    if (x) {
+                        constructedState[x.id] = x;
+                    }
                 });
                 setState(constructedState);
                 setLoading(false);
@@ -256,11 +239,10 @@ function Page() {
                             <TrashNotebook notebook={state[selected]} deleteNotebook={deleteNotebook} />
                             <SettingsNotebook notebook={state[selected]} updateNotebook={updateNotebook} />
                         </Group>}
-                        <CreateNotebook endArrowRef={endArrowRef} addNotebook={addNotebook} />
+                        <CreateNotebook addNotebook={addNotebook} />
                     </Group>
                 </Card.Section>
-                {(stateSize > 0 || loading) || <EmptyPage startArrowRef={startArrowRef} />}
-                <SimpleGrid mt='md' cols={2}>
+                <SimpleGrid mt='md' cols={isSmall ? 1 : 2}>
                     {Object.keys(state).map((key) => {
                         return <div key={key} style={{ width: '100%' }}>
                             <NotebookBadge
@@ -271,6 +253,7 @@ function Page() {
                         </div>;
                     })}
                 </SimpleGrid>
+                {(stateSize > 0 || loading) || <EmptyPage loading={loading} />}
             </Card>
         </Container>
     </AppShell>;
