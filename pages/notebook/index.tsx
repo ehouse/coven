@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef, forwardRef } from 'react';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
-import { ActionIcon, Badge, SimpleGrid, AppShell, Box, Button, Card, Container, Group, MediaQuery, Text, ThemeIcon, Title, useMantineTheme } from '@mantine/core';
+import { ActionIcon, Badge, Center, SimpleGrid, AppShell, Box, Button, Card, Container, Group, MediaQuery, Text, ThemeIcon, Title, useMantineTheme } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
 import { useModals } from '@mantine/modals';
 import { Amplify, API, graphqlOperation } from "aws-amplify";
@@ -16,7 +16,6 @@ import NavHeader from 'components/NavHeader';
 import * as queries from 'graphql/queries';
 import { useUserInfo } from 'hooks';
 import { GraphQLResult, NotebooksData } from 'types';
-
 
 Amplify.configure({ ...config });
 
@@ -99,7 +98,6 @@ function NotebookBadge(props: NotebookBadgeProps) {
                 </Group>
             </Group>
         </Button>
-
     </div>;
 }
 
@@ -144,6 +142,7 @@ function TrashNotebook(props: TrashNotebookProps) {
 
 interface CreateNotebookProps {
     addNotebook: (id: Notebook) => void;
+    endArrowRef: React.MutableRefObject<unknown>;
 }
 
 function CreateNotebook(props: CreateNotebookProps) {
@@ -154,46 +153,89 @@ function CreateNotebook(props: CreateNotebookProps) {
         props: { addNotebook: props.addNotebook, }
     }), [modals, props.addNotebook]);
 
-    return <ActionIcon title="Create Notebook" size='lg' color="dark" onClick={createNotebookModal}>
+    return (<ActionIcon ref={props.endArrowRef} title="Create Notebook" size='lg' color="dark" onClick={createNotebookModal}>
         <RiFileAddLine size='2em' />
-    </ActionIcon>;
-
+    </ActionIcon>
+    );
 }
 
+
+function EmptyPage(props: { startArrowRef: React.MutableRefObject<unknown>; }) {
+    return (
+        <Center>
+            <Box ref={props.startArrowRef}>
+                <Text size='xl' m='xl'>
+                    Click to create your first notebook!
+                </Text>
+            </Box>
+        </Center>
+    );
+}
 
 function Page() {
     const theme = useMantineTheme();
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [state, setState] = useState<NotebooksData>({});
     const [selected, setSelected] = useState<string>();
 
     const userInfo = useUserInfo();
 
+    const startArrowRef = useRef<React.MutableRefObject<unknown>>();
+    const endArrowRef = useRef<React.MutableRefObject<unknown>>();
+
+    async function createLine() {
+        const LeaderLine = (await import('react-leader-line')).default;
+        const line = new LeaderLine(startArrowRef.current, endArrowRef.current);
+        return line;
+    }
+
+    const stateSize = Object.keys(state).length;
+
+    // Effect block to draw the Tutorial Line™️ 
+    useEffect(() => {
+        // Short circuit tutorial line if notebooks exist
+        if (stateSize > 0 || loading) {
+            return;
+        };
+
+        let line: any;
+        const linePromise = createLine();
+
+        linePromise.then((x) => line = x);
+        // Make sure to cleanup the old lines since they're manually managed outside of React
+        return () => line && line.remove();
+    }, [stateSize, loading]);
+
     const addNotebook = useCallback((notebook) => setState((prevState) => ({ ...prevState, [notebook.id]: notebook })), []);
     const updateNotebook = useCallback((id, notebook) => setState((prevState) => ({ ...prevState, [id]: notebook })), []);
-    const deleteNotebook = useCallback((id) => setState((prevState) => {
-        delete prevState[id];
-        return { ...prevState };
-    }), []);
+    const deleteNotebook = useCallback((id) => {
+        setSelected(undefined);
+        setState((prevState) => {
+            delete prevState[id];
+            return { ...prevState };
+        });
+    }, []);
 
     const fetchData = useCallback(async () => {
-        setLoading(true);
         const query = API.graphql(graphqlOperation(queries.listNotebooks)) as GraphQLResult<ListNotebooksQuery>;
-        const items = (await query).data?.listNotebooks?.items;
-        if (typeof items !== 'undefined') {
-            const constructedState: NotebooksData = {};
-            items.forEach((x) => {
-                if (x !== null)
-                    constructedState[x.id] = x;
-            });
-            setState(constructedState);
-        }
-        setLoading(false);
+        return query.then((result) => result.data?.listNotebooks?.items);
     }, []);
 
     useEffect(() => {
-        fetchData();
+        setLoading(true);
+        const dataPromise = fetchData();
+        dataPromise.then((data) => {
+            const constructedState: NotebooksData = {};
+
+            if (typeof data !== 'undefined') {
+                data.forEach((x) => {
+                    constructedState[x.id] = x;
+                });
+                setState(constructedState);
+                setLoading(false);
+            }
+        });
     }, [fetchData]);
 
     return <AppShell
@@ -214,9 +256,10 @@ function Page() {
                             <TrashNotebook notebook={state[selected]} deleteNotebook={deleteNotebook} />
                             <SettingsNotebook notebook={state[selected]} updateNotebook={updateNotebook} />
                         </Group>}
-                        <CreateNotebook addNotebook={addNotebook} />
+                        <CreateNotebook endArrowRef={endArrowRef} addNotebook={addNotebook} />
                     </Group>
                 </Card.Section>
+                {(stateSize > 0 || loading) || <EmptyPage startArrowRef={startArrowRef} />}
                 <SimpleGrid mt='md' cols={2}>
                     {Object.keys(state).map((key) => {
                         return <div key={key} style={{ width: '100%' }}>
@@ -228,7 +271,6 @@ function Page() {
                         </div>;
                     })}
                 </SimpleGrid>
-
             </Card>
         </Container>
     </AppShell>;
