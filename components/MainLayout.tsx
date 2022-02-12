@@ -119,7 +119,6 @@ function MainLayout(props: Props) {
                             leftIcon={<RiAddCircleLine />}
                             variant="gradient"
                             gradient={{ from: 'pink', to: 'red', deg: 35 }}
-                            disabled={sidebarState.notebooks.length >= 25}
                             onClick={() => openCreateModal()}
                         >
                             Create Notebook

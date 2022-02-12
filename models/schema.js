@@ -1,101 +1,5 @@
 export const schema = {
     "models": {
-        "Relationship": {
-            "name": "Relationship",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "type": {
-                    "name": "type",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "notes": {
-                    "name": "notes",
-                    "isArray": true,
-                    "type": {
-                        "model": "NoteRelationship"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "relationship"
-                    }
-                },
-                "notebookID": {
-                    "name": "notebookID",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "Relationships",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byNotebook",
-                        "fields": [
-                            "notebookID"
-                        ]
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
         "Note": {
             "name": "Note",
             "fields": {
@@ -113,11 +17,20 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "noteType": {
+                    "name": "noteType",
+                    "isArray": false,
+                    "type": {
+                        "enum": "NoteType"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "content": {
                     "name": "content",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "hidden": {
@@ -127,40 +40,12 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "Tags": {
-                    "name": "Tags",
-                    "isArray": true,
-                    "type": {
-                        "model": "NoteTag"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "note"
-                    }
-                },
                 "notebookID": {
                     "name": "notebookID",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
                     "attributes": []
-                },
-                "Relationships": {
-                    "name": "Relationships",
-                    "isArray": true,
-                    "type": {
-                        "model": "NoteRelationship"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "note"
-                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -200,110 +85,10 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "private",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "Tag": {
-            "name": "Tag",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "color": {
-                    "name": "color",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "content": {
-                    "name": "content",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "Notes": {
-                    "name": "Notes",
-                    "isArray": true,
-                    "type": {
-                        "model": "NoteTag"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "tag"
-                    }
-                },
-                "notebookID": {
-                    "name": "notebookID",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "Tags",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byNotebook",
-                        "fields": [
-                            "notebookID"
-                        ]
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
@@ -340,35 +125,12 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "editors": {
-                    "name": "editors",
-                    "isArray": true,
+                "color": {
+                    "name": "color",
+                    "isArray": false,
                     "type": "String",
                     "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
-                },
-                "readers": {
-                    "name": "readers",
-                    "isArray": true,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
-                },
-                "Tags": {
-                    "name": "Tags",
-                    "isArray": true,
-                    "type": {
-                        "model": "Tag"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "notebookID"
-                    }
+                    "attributes": []
                 },
                 "Notes": {
                     "name": "Notes",
@@ -376,21 +138,7 @@ export const schema = {
                     "type": {
                         "model": "Note"
                     },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "notebookID"
-                    }
-                },
-                "Relationships": {
-                    "name": "Relationships",
-                    "isArray": true,
-                    "type": {
-                        "model": "Relationship"
-                    },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": [],
                     "isArrayNullable": true,
                     "association": {
@@ -427,7 +175,10 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "private",
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
@@ -439,133 +190,18 @@ export const schema = {
                     }
                 }
             ]
-        },
-        "NoteRelationship": {
-            "name": "NoteRelationship",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "relationship": {
-                    "name": "relationship",
-                    "isArray": false,
-                    "type": {
-                        "model": "Relationship"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "relationshipID"
-                    }
-                },
-                "note": {
-                    "name": "note",
-                    "isArray": false,
-                    "type": {
-                        "model": "Note"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "noteID"
-                    }
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "NoteRelationships",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                }
-            ]
-        },
-        "NoteTag": {
-            "name": "NoteTag",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "note": {
-                    "name": "note",
-                    "isArray": false,
-                    "type": {
-                        "model": "Note"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "noteID"
-                    }
-                },
-                "tag": {
-                    "name": "tag",
-                    "isArray": false,
-                    "type": {
-                        "model": "Tag"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "tagID"
-                    }
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "NoteTags",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                }
+        }
+    },
+    "enums": {
+        "NoteType": {
+            "name": "NoteType",
+            "values": [
+                "TEXT",
+                "CHECKBOX",
+                "TIMELINE"
             ]
         }
     },
-    "enums": {},
     "nonModels": {},
-    "version": "fd10cfec921263fd53a069e59de6b4c0"
+    "version": "c361b44c18966994309425fbd2164d19"
 };

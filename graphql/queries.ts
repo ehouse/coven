@@ -2,102 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getRelationship = /* GraphQL */ `
-  query GetRelationship($id: ID!) {
-    getRelationship(id: $id) {
-      id
-      type
-      name
-      notes {
-        items {
-          id
-          relationshipID
-          noteID
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
-      notebookID
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const listRelationships = /* GraphQL */ `
-  query ListRelationships(
-    $filter: ModelRelationshipFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listRelationships(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        type
-        name
-        notes {
-          nextToken
-        }
-        notebookID
-        createdAt
-        updatedAt
-        owner
-      }
-      nextToken
-    }
-  }
-`;
-export const getTag = /* GraphQL */ `
-  query GetTag($id: ID!) {
-    getTag(id: $id) {
-      id
-      name
-      color
-      content
-      Notes {
-        items {
-          id
-          tagID
-          noteID
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
-      notebookID
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const listTags = /* GraphQL */ `
-  query ListTags(
-    $filter: ModelTagFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTags(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        color
-        content
-        Notes {
-          nextToken
-        }
-        notebookID
-        createdAt
-        updatedAt
-        owner
-      }
-      nextToken
-    }
-  }
-`;
 export const getNote = /* GraphQL */ `
   query GetNote($id: ID!) {
     getNote(id: $id) {
@@ -106,31 +10,12 @@ export const getNote = /* GraphQL */ `
       noteType
       content
       hidden
-      Tags {
-        items {
-          id
-          tagID
-          noteID
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       notebookID
-      Relationships {
-        items {
-          id
-          relationshipID
-          noteID
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
     }
   }
@@ -148,18 +33,48 @@ export const listNotes = /* GraphQL */ `
         noteType
         content
         hidden
-        Tags {
-          nextToken
-        }
         notebookID
-        Relationships {
-          nextToken
-        }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncNotes = /* GraphQL */ `
+  query SyncNotes(
+    $filter: ModelNoteFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncNotes(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        title
+        noteType
+        content
+        hidden
+        notebookID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -170,21 +85,6 @@ export const getNotebook = /* GraphQL */ `
       title
       description
       color
-      editors
-      readers
-      Tags {
-        items {
-          id
-          name
-          color
-          content
-          notebookID
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       Notes {
         items {
           id
@@ -195,24 +95,19 @@ export const getNotebook = /* GraphQL */ `
           notebookID
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
         }
         nextToken
-      }
-      Relationships {
-        items {
-          id
-          type
-          name
-          notebookID
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
+        startedAt
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
     }
   }
@@ -229,188 +124,53 @@ export const listNotebooks = /* GraphQL */ `
         title
         description
         color
-        editors
-        readers
-        Tags {
-          nextToken
-        }
         Notes {
           nextToken
-        }
-        Relationships {
-          nextToken
+          startedAt
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
       }
       nextToken
+      startedAt
     }
   }
 `;
-export const getNoteRelationship = /* GraphQL */ `
-  query GetNoteRelationship($id: ID!) {
-    getNoteRelationship(id: $id) {
-      id
-      relationshipID
-      noteID
-      relationship {
-        id
-        type
-        name
-        notes {
-          nextToken
-        }
-        notebookID
-        createdAt
-        updatedAt
-        owner
-      }
-      note {
-        id
-        title
-        noteType
-        content
-        hidden
-        Tags {
-          nextToken
-        }
-        notebookID
-        Relationships {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const listNoteRelationships = /* GraphQL */ `
-  query ListNoteRelationships(
-    $filter: ModelNoteRelationshipFilterInput
+export const syncNotebooks = /* GraphQL */ `
+  query SyncNotebooks(
+    $filter: ModelNotebookFilterInput
     $limit: Int
     $nextToken: String
+    $lastSync: AWSTimestamp
   ) {
-    listNoteRelationships(
+    syncNotebooks(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
+      lastSync: $lastSync
     ) {
       items {
         id
-        relationshipID
-        noteID
-        relationship {
-          id
-          type
-          name
-          notebookID
-          createdAt
-          updatedAt
-          owner
-        }
-        note {
-          id
-          title
-          noteType
-          content
-          hidden
-          notebookID
-          createdAt
-          updatedAt
-          owner
-        }
-        createdAt
-        updatedAt
-        owner
-      }
-      nextToken
-    }
-  }
-`;
-export const getNoteTag = /* GraphQL */ `
-  query GetNoteTag($id: ID!) {
-    getNoteTag(id: $id) {
-      id
-      tagID
-      noteID
-      tag {
-        id
-        name
+        title
+        description
         color
-        content
         Notes {
           nextToken
-        }
-        notebookID
-        createdAt
-        updatedAt
-        owner
-      }
-      note {
-        id
-        title
-        noteType
-        content
-        hidden
-        Tags {
-          nextToken
-        }
-        notebookID
-        Relationships {
-          nextToken
+          startedAt
         }
         createdAt
         updatedAt
-        owner
-      }
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const listNoteTags = /* GraphQL */ `
-  query ListNoteTags(
-    $filter: ModelNoteTagFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listNoteTags(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        tagID
-        noteID
-        tag {
-          id
-          name
-          color
-          content
-          notebookID
-          createdAt
-          updatedAt
-          owner
-        }
-        note {
-          id
-          title
-          noteType
-          content
-          hidden
-          notebookID
-          createdAt
-          updatedAt
-          owner
-        }
-        createdAt
-        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
       }
       nextToken
+      startedAt
     }
   }
 `;

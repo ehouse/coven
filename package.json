@@ -8,12 +8,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^2.1.9",
-    "@mantine/core": "^3.6.5",
-    "@mantine/hooks": "3.6.5",
-    "@mantine/modals": "^3.6.5",
-    "@mantine/next": "3.6.5",
-    "@mantine/rte": "^3.6.5",
+    "@aws-amplify/ui-react": "2.2.x",
+    "@mantine/core": "^3.6.x",
+    "@mantine/hooks": "^3.6.x",
+    "@mantine/modals": "^3.6.x",
+    "@mantine/next": "^3.6.x",
+    "@mantine/rte": "^3.6.x",
     "@modulz/radix-icons": "^4.0.0",
     "aws-amplify": "^4.3.12",
     "crypto-js": "^4.1.1",

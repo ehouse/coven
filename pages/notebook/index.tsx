@@ -1,21 +1,18 @@
-import React, { useCallback, useEffect, useState, useRef, forwardRef } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
-import { Skeleton, ActionIcon, Badge, Center, SimpleGrid, Grid, AppShell, Box, Button, Card, Container, Group, MediaQuery, Text, ThemeIcon, Title, useMantineTheme } from '@mantine/core';
+import { AppShell, Badge, Box, Button, Card, Center, Container, Grid, Group, MediaQuery, SimpleGrid, Skeleton, Text, ThemeIcon, Title, useMantineTheme } from '@mantine/core';
 import { useHover, useMediaQuery } from '@mantine/hooks';
-import { useModals } from '@mantine/modals';
-import { Amplify, API, graphqlOperation } from "aws-amplify";
+import { Amplify } from "aws-amplify";
 import { useRouter } from 'next/router';
-import { RiBook2Fill, RiCheckboxBlankCircleLine, RiCheckLine, RiDeleteBin2Line, RiFileAddLine, RiFileSettingsLine } from "react-icons/ri";
+import { RiBook2Fill, RiCheckboxBlankCircleLine, RiCheckLine, RiFileAddLine } from "react-icons/ri";
 import { useLongPress } from 'use-long-press';
 
-import { ListNotebooksQuery, Notebook } from "API";
 import config from 'aws-exports';
-import { openDeleteNotebookModal, openSettingsModal } from 'components/Modals';
+import { CreateNotebook, SettingsNotebook, TrashNotebook } from 'components/Modals';
 import NavHeader from 'components/NavHeader';
-import * as queries from 'graphql/queries';
-import { useUserInfo } from 'hooks';
-import { GraphQLResult, NotebooksData } from 'types';
+import { useNotebookListState, useUserInfo } from 'hooks';
+import { Notebook } from 'models';
 
 Amplify.configure({ ...config });
 
@@ -101,64 +98,6 @@ function NotebookBadge(props: NotebookBadgeProps) {
     </div>;
 }
 
-interface SettingsNotebookProps {
-    notebook: Notebook;
-    updateNotebook: (id: string, notebook: Notebook) => void;
-}
-
-function SettingsNotebook(props: SettingsNotebookProps) {
-    const modals = useModals();
-
-    const SettingsModal = useCallback(() => openSettingsModal({
-        modals: modals,
-        notebook: props.notebook,
-        updateNotebook: props.updateNotebook
-    }), [modals, props.notebook, props.updateNotebook]);
-
-    return <ActionIcon title="Notebook Settings" size='lg' color="dark" onClick={SettingsModal}>
-        <RiFileSettingsLine size='2em' />
-    </ActionIcon>;
-}
-
-interface TrashNotebookProps {
-    notebook: Notebook;
-    deleteNotebook: (id: string) => void;
-}
-
-function TrashNotebook(props: TrashNotebookProps) {
-    const modals = useModals();
-
-    // Create a delete modal to confirm deletion of notebook
-    const deleteModal = useCallback(() => openDeleteNotebookModal({
-        modals: modals,
-        notebook: props.notebook,
-        deleteNotebook: props.deleteNotebook
-    }), [modals, props.notebook, props.deleteNotebook]);
-
-    return <ActionIcon title="Delete Notebook" size='lg' color="dark" onClick={deleteModal}>
-        <RiDeleteBin2Line size='2em' color='red' />
-    </ActionIcon>;
-}
-
-interface CreateNotebookProps {
-    addNotebook: (id: Notebook) => void;
-}
-
-function CreateNotebook(props: CreateNotebookProps) {
-    const modals = useModals();
-
-    const createNotebookModal = useCallback(() => modals.openContextModal('createNotebookModal', {
-        title: 'Create Notebook',
-        props: { addNotebook: props.addNotebook, }
-    }), [modals, props.addNotebook]);
-
-    return (<ActionIcon title="Create Notebook" size='lg' color="dark" onClick={createNotebookModal}>
-        <RiFileAddLine size='2em' />
-    </ActionIcon>
-    );
-}
-
-
 function EmptyPage(props: { loading: boolean; }) {
     if (props.loading) {
         return (
@@ -176,50 +115,27 @@ function EmptyPage(props: { loading: boolean; }) {
     }
 }
 
+function stateParser(data?: Notebook[]) {
+    if (!data) {
+        return {};
+    }
+
+    const dataSet: Record<string, Notebook> = {};
+    data.forEach((slice) => {
+        dataSet[slice.id] = slice;
+    });
+    return dataSet;
+}
+
 function Page() {
     const theme = useMantineTheme();
     const isSmall = useMediaQuery('(max-width: 900px)');
-
-    const [loading, setLoading] = useState(true);
-    const [state, setState] = useState<NotebooksData>({});
-    const [selected, setSelected] = useState<string>();
-
     const userInfo = useUserInfo();
 
-    const stateSize = Object.keys(state).length;
+    const [selected, setSelected] = useState<string>();
+    const { isLoading, data, error } = useNotebookListState();
 
-    const addNotebook = useCallback((notebook) => setState((prevState) => ({ ...prevState, [notebook.id]: notebook })), []);
-    const updateNotebook = useCallback((id, notebook) => setState((prevState) => ({ ...prevState, [id]: notebook })), []);
-    const deleteNotebook = useCallback((id) => {
-        setSelected(undefined);
-        setState((prevState) => {
-            delete prevState[id];
-            return { ...prevState };
-        });
-    }, []);
-
-    const fetchData = useCallback(async () => {
-        const query = API.graphql(graphqlOperation(queries.listNotebooks)) as GraphQLResult<ListNotebooksQuery>;
-        return query.then((result) => result.data?.listNotebooks?.items);
-    }, []);
-
-    useEffect(() => {
-        setLoading(true);
-        const dataPromise = fetchData();
-        dataPromise.then((data) => {
-            const constructedState: NotebooksData = {};
-
-            if (typeof data !== 'undefined') {
-                data.forEach((x) => {
-                    if (x) {
-                        constructedState[x.id] = x;
-                    }
-                });
-                setState(constructedState);
-                setLoading(false);
-            }
-        });
-    }, [fetchData]);
+    const parsedState = useMemo(() => (stateParser(data)), [data]);
 
     return <AppShell
         header={
@@ -236,24 +152,24 @@ function Page() {
                     <Group>
                         <Title sx={{ flexGrow: 1 }} order={2}>Notebooks</Title>
                         {selected && <Group direction="row">
-                            <TrashNotebook notebook={state[selected]} deleteNotebook={deleteNotebook} />
-                            <SettingsNotebook notebook={state[selected]} updateNotebook={updateNotebook} />
+                            <TrashNotebook notebook={parsedState[selected]} />
+                            <SettingsNotebook notebook={parsedState[selected]} />
                         </Group>}
-                        <CreateNotebook addNotebook={addNotebook} />
+                        <CreateNotebook />
                     </Group>
                 </Card.Section>
                 <SimpleGrid mt='md' cols={isSmall ? 1 : 2}>
-                    {Object.keys(state).map((key) => {
+                    {Object.keys(parsedState).map((key) => {
                         return <div key={key} style={{ width: '100%' }}>
                             <NotebookBadge
-                                notebook={state[key]}
-                                isSelected={(selected === state[key].id)}
+                                notebook={parsedState[key]}
+                                isSelected={(selected === parsedState[key].id)}
                                 setSelected={setSelected}
                             />
                         </div>;
                     })}
                 </SimpleGrid>
-                {(stateSize > 0 || loading) || <EmptyPage loading={loading} />}
+                {(!data?.length) && <EmptyPage loading={isLoading} />}
             </Card>
         </Container>
     </AppShell>;

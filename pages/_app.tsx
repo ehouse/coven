@@ -12,9 +12,7 @@ import config from 'aws-exports';
 import { CreateNotebookModal, NotebookSettingsModal } from 'components/Modals';
 import 'styles/globals.css';
 
-Amplify.configure({
-    ...config
-});
+Amplify.configure({ ...config });
 
 function App(props: AppProps) {
     const { Component, pageProps } = props;

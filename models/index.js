@@ -2,15 +2,16 @@
 import { initSchema } from '@aws-amplify/datastore';
 import { schema } from './schema';
 
+const NoteType = {
+  "TEXT": "TEXT",
+  "CHECKBOX": "CHECKBOX",
+  "TIMELINE": "TIMELINE"
+};
 
-
-const { Relationship, Note, Tag, Notebook, NoteRelationship, NoteTag } = initSchema(schema);
+const { Note, Notebook } = initSchema(schema);
 
 export {
-  Relationship,
   Note,
-  Tag,
   Notebook,
-  NoteRelationship,
-  NoteTag
+  NoteType
 };

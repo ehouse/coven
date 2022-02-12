@@ -4,32 +4,13 @@ enum NoteType {
   TIMELINE
 }
 
-type Relationship @model @auth(rules: [{allow: owner}]) {
-  id: ID!
-  type: String
-  name: String
-  notes: [Note!] @manyToMany(relationName: "NoteRelationship")
-  notebookID: ID @index(name: "byNotebook")
-}
-
-type Tag @model @auth(rules: [{allow: owner}]) {
-  id: ID!
-  name: String!
-  color: String
-  content: String
-  Notes: [Note!] @manyToMany(relationName: "NoteTag")
-  notebookID: ID! @index(name: "byNotebook")
-}
-
 type Note @model @auth(rules: [{allow: owner}]) {
   id: ID!
   title: String
   noteType: NoteType!
-  content: AWSJSON!
+  content: String
   hidden: Boolean
-  Tags: [Tag!] @manyToMany(relationName: "NoteTag")
   notebookID: ID! @index(name: "byNotebook")
-  Relationships: [Relationship!] @manyToMany(relationName: "NoteRelationship")
 }
 
 type Notebook @model @auth(rules: [{allow: owner}]) {
@@ -37,10 +18,5 @@ type Notebook @model @auth(rules: [{allow: owner}]) {
   title: String!
   description: String
   color: String
-  editors: [String!]
-  readers: [String!]
-  Tags: [Tag!] @hasMany(indexName: "byNotebook", fields: ["id"])
   Notes: [Note!] @hasMany(indexName: "byNotebook", fields: ["id"])
-  Relationships: [Relationship!] @hasMany(indexName: "byNotebook", fields: ["id"])
 }
- 

@@ -18,16 +18,16 @@
       "hosting": {}
     }
   },
-  "devel": {
+  "staging": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-spidernotes-devel-213947-authRole",
-      "UnauthRoleArn": "arn:aws:iam::532123707589:role/amplify-spidernotes-devel-213947-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::532123707589:role/amplify-spidernotes-devel-213947-authRole",
+      "AuthRoleName": "amplify-spidernotes-staging-125400-authRole",
+      "UnauthRoleArn": "arn:aws:iam::532123707589:role/amplify-spidernotes-staging-125400-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::532123707589:role/amplify-spidernotes-staging-125400-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-spidernotes-devel-213947-deployment",
-      "UnauthRoleName": "amplify-spidernotes-devel-213947-unauthRole",
-      "StackName": "amplify-spidernotes-devel-213947",
-      "StackId": "arn:aws:cloudformation:us-east-1:532123707589:stack/amplify-spidernotes-devel-213947/bb2224b0-80ac-11ec-9577-126a7e78fc6b",
+      "DeploymentBucketName": "amplify-spidernotes-staging-125400-deployment",
+      "UnauthRoleName": "amplify-spidernotes-staging-125400-unauthRole",
+      "StackName": "amplify-spidernotes-staging-125400",
+      "StackId": "arn:aws:cloudformation:us-east-1:532123707589:stack/amplify-spidernotes-staging-125400/f789eb90-8cf5-11ec-bbb0-0a60c534d105",
       "AmplifyAppId": "d1acpcz63vcx15"
     },
     "categories": {

@@ -1,20 +1,37 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
-import { Box, Button, ColorSwatch, Group, SimpleGrid, Space, Text, Textarea, TextInput, Title, useMantineTheme } from '@mantine/core';
+import { ActionIcon, Box, Button, ColorSwatch, Group, SimpleGrid, Space, Text, Textarea, TextInput, Title, useMantineTheme } from '@mantine/core';
 import { useFocusTrap } from '@mantine/hooks';
-import { ContextModalProps } from '@mantine/modals';
+import { ContextModalProps, useModals } from '@mantine/modals';
 import { ModalsContext } from '@mantine/modals/lib/context';
 import { CheckIcon } from '@modulz/radix-icons';
-import { API, graphqlOperation } from 'aws-amplify';
+import { RiDeleteBin2Line, RiFileAddLine, RiFileSettingsLine } from "react-icons/ri";
 
-import { CreateNotebookMutation, Notebook, UpdateNotebookMutation } from "API";
-import * as mutations from 'graphql/mutations';
-import type { GraphQLResult } from 'types';
+import { useCreateNotebook, useDeleteNotebook, useMutateNotebook } from 'hooks';
+import { Notebook } from 'models';
 
 interface DeleteModalProps {
     modals: ModalsContext;
     notebook: Notebook;
-    deleteNotebook: (id: string) => void;
+    deleteNotebook: (arg0: string) => void;
+}
+interface TrashNotebookProps {
+    notebook: Notebook;
+}
+export function TrashNotebook(props: TrashNotebookProps) {
+    const modals = useModals();
+    const deleteNotebook = useDeleteNotebook();
+
+    // Create a delete modal to confirm deletion of notebook
+    const deleteModal = useCallback(() => openDeleteNotebookModal({
+        modals: modals,
+        notebook: props.notebook,
+        deleteNotebook: deleteNotebook,
+    }), [modals, props.notebook, deleteNotebook]);
+
+    return <ActionIcon title="Delete Notebook" size='lg' color="dark" onClick={deleteModal}>
+        <RiDeleteBin2Line size='2em' color='red' />
+    </ActionIcon>;
 }
 
 /**
@@ -22,20 +39,12 @@ interface DeleteModalProps {
  * Needs to be passed a modal context to work. 
  */
 export function openDeleteNotebookModal(args: DeleteModalProps) {
-    const deleteNotebookRequest = async () => {
-        try {
-            const query = await API.graphql(graphqlOperation(mutations.deleteNotebook, { input: { id: args.notebook.id } }));
-            args.deleteNotebook(args.notebook.id);
-        } catch (e) {
-            console.log(`Error deleting ${args.notebook.id}`, e);
-        }
-    };
 
     return args.modals.openConfirmModal({
         title: <Title order={4}>{`Delete ${args.notebook.title}?`}</Title>,
         labels: { confirm: 'Delete', cancel: "Cancel" },
         confirmProps: { color: 'red' },
-        onConfirm: () => deleteNotebookRequest(),
+        onConfirm: () => args.deleteNotebook(args.notebook.id),
         children: (<>
             <Text>Are you sure? This action is permanent.</Text>
             <Space h={'md'} />
@@ -47,7 +56,23 @@ export function openDeleteNotebookModal(args: DeleteModalProps) {
 interface OpenSettingsModalsProps {
     modals: ModalsContext;
     notebook: Notebook;
-    updateNotebook: (id: string, notebook: Notebook) => void;
+}
+
+interface SettingsNotebookProps {
+    notebook: Notebook;
+}
+
+export function SettingsNotebook(props: SettingsNotebookProps) {
+    const modals = useModals();
+
+    const SettingsModal = useCallback(() => openSettingsModal({
+        modals: modals,
+        notebook: props.notebook,
+    }), [modals, props.notebook]);
+
+    return <ActionIcon title="Notebook Settings" size='lg' color="dark" onClick={SettingsModal}>
+        <RiFileSettingsLine size='2em' />
+    </ActionIcon>;
 }
 
 /**
@@ -59,7 +84,6 @@ export function openSettingsModal(args: OpenSettingsModalsProps) {
         title: 'Settings - Update Notebook',
         props: {
             initialState: { notebook: args.notebook },
-            updateNotebook: args.updateNotebook
         }
     });
 }
@@ -70,7 +94,7 @@ export const NotebookSettingsModal = (ModalProps: ContextModalProps) => {
     const theme = useMantineTheme();
 
     const notebook: Notebook = props.initialState.notebook;
-    const updateNotebook: (id: string, notebook: Notebook) => void = props.updateNotebook;
+    const updateNotebook = useMutateNotebook();
 
     const [title, setTitle] = React.useState(notebook.title);
     const [description, setDescription] = React.useState(notebook.description ?? '');
@@ -91,16 +115,7 @@ export const NotebookSettingsModal = (ModalProps: ContextModalProps) => {
     const submit = async () => {
         setLoading(true);
         const message = { id: notebook.id, title: title, description: description, color: selectedColor };
-        try {
-            const query = API.graphql(graphqlOperation(mutations.updateNotebook, { input: message })) as GraphQLResult<UpdateNotebookMutation>;
-            const data = (await query).data?.updateNotebook;
-            if (data === null || typeof data === 'undefined') {
-                throw Error(`Malformed response from server. Server Response: ${JSON.stringify(query)}`);
-            }
-            updateNotebook(notebook.id, data);
-        } catch (e) {
-            console.log("Error updating notebook", e);
-        }
+        updateNotebook(message);
         setLoading(false);
         ModalProps.context.closeModal(ModalProps.id);
     };
@@ -130,17 +145,29 @@ export const NotebookSettingsModal = (ModalProps: ContextModalProps) => {
             <Button variant="outline" onClick={() => ModalProps.context.closeModal(ModalProps.id)} >
                 Cancel
             </Button>
-            <Button type="submit" loading={loading} disabled={title.length === 0} onClick={submit} >
+            <Button type="submit" loading={loading} disabled={(title.length === 0)} onClick={submit} >
                 Update
             </Button>
         </Group>
     </SimpleGrid>;
 };
 
+export function CreateNotebook() {
+    const modals = useModals();
+
+    const createNotebookModal = useCallback(() => modals.openContextModal('createNotebookModal', {
+        title: 'Create Notebook',
+    }), [modals]);
+
+    return (<ActionIcon title="Create Notebook" size='lg' color="dark" onClick={createNotebookModal}>
+        <RiFileAddLine size='2em' />
+    </ActionIcon>
+    );
+}
 
 export const CreateNotebookModal = (ModalProps: ContextModalProps) => {
     const { context, id, props } = ModalProps;
-    const addNotebook: (arg0: Notebook) => void = props.addNotebook;
+    const addNotebook = useCreateNotebook();
 
     const theme = useMantineTheme();
 
@@ -161,20 +188,10 @@ export const CreateNotebookModal = (ModalProps: ContextModalProps) => {
         </ColorSwatch>
     ));
 
-    const submit = async () => {
+    const submit = () => {
         setLoading(true);
         const message = { title: title, description: description, color: selectedColor };
-        try {
-            const query = await API.graphql(graphqlOperation(mutations.createNotebook, { input: message })) as GraphQLResult<CreateNotebookMutation>;
-            const data = (await query).data?.createNotebook;
-            if (data === null || typeof data === 'undefined') {
-                throw Error(`Malformed response from server. Server Response: ${JSON.stringify(query)}`);
-            }
-            // If successfully posted to Graphql, then create a corilating notebook in the sidebar and set it active
-            addNotebook(data);
-        } catch (e) {
-            console.log("Error creating notebook", e);
-        }
+        addNotebook(message);
         setLoading(false);
         context.closeModal(id);
     };
@@ -204,7 +221,7 @@ export const CreateNotebookModal = (ModalProps: ContextModalProps) => {
             <Button variant="outline" onClick={() => context.closeModal(id)} >
                 Cancel
             </Button>
-            <Button type="submit" loading={loading} disabled={title.length === 0} onClick={submit} >
+            <Button type="submit" loading={loading} disabled={(title.length === 0)} onClick={submit} >
                 Submit
             </Button>
         </Group>
