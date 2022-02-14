@@ -11,7 +11,7 @@ import { Note } from "API";
 import config from 'aws-exports';
 import EditorGrid from 'components/EditorGrid';
 import EditorSidebar from 'components/EditorSidebar';
-import { useCreateNote, useStatefulNotes, useFetchNotebook, useUserInfo, useDeleteNote } from 'hooks';
+import { useCreateNote, useDeleteNote, useNoteListQuery, useUserInfo, useNotebookQuery } from 'hooks';
 
 Amplify.configure({ ...config });
 
@@ -25,9 +25,8 @@ function Page() {
     const userInfo = useUserInfo();
 
     // Callback to generate a note when triggered by the UI.
-    const createNote = useCreateNote(setError);
-
-    const deleteNote = useDeleteNote(setError);
+    const createNote = useCreateNote();
+    const deleteNote = useDeleteNote();
 
     // Safely parse the nextjs dynamic route key
     // Sets notebookID when successfully parsed
@@ -45,23 +44,23 @@ function Page() {
 
     // Dependent on router.query parsed ID value
     // Collect up notebook information
-    const notebookQuery = useFetchNotebook(notebookID);
+    const notebookQuery = useNotebookQuery(notebookID);
 
     // Dependent on notebookQuery returning {status: 'success'}
     // Collects all of the dependent notes for a notebook.id
-    const notesListQuery = useStatefulNotes(notebookQuery.data?.id);
+    const noteListQuery = useNoteListQuery(notebookID);
 
     if (error) {
         console.log(error);
     }
 
-    const loadingAggregate = (notebookQuery.isLoading && notesListQuery.isLoading);
+    const loadingAggregate = (notebookQuery.isLoading && noteListQuery.isLoading);
 
     return (
         <AppShell
             navbar={<EditorSidebar
                 loading={loadingAggregate}
-                noteList={notesListQuery.data}
+                noteList={noteListQuery.data}
                 notebook={notebookQuery.data}
                 createNote={createNote}
                 deleteNote={deleteNote}

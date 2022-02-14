@@ -3,23 +3,22 @@ import React, { useCallback } from 'react';
 import { ActionIcon, Affix, Box, Button, Divider, Group, Navbar, ScrollArea, Text, ThemeIcon, Title, useMantineTheme, CloseButton } from '@mantine/core';
 import { RiAddCircleLine, RiBook2Fill, RiBookOpenFill } from "react-icons/ri";
 
-import { CreateNoteInput, Notebook, Note, NoteType } from "API";
-
+import { Notebook, Note } from 'models';
 
 interface Props {
     noteList?: Note[];
     notebook?: Notebook;
-    createNote: (arg0: CreateNoteInput) => void;
-    deleteNote: (arg0: string) => void;
+    createNote: (id: string) => void;
+    deleteNote: (id: string) => void;
     loading: boolean;
 }
 
 function EditorSidebar(props: Props) {
     const { noteList, createNote, notebook, loading } = props;
 
-    const create = () => {
+    const createNoteEvent = () => {
         if (notebook) {
-            createNote({ title: 'Default', content: "Hello World!", noteType: NoteType.TEXT, notebookID: notebook.id });
+            createNote(notebook.id);
         }
     };
 
@@ -59,7 +58,7 @@ function EditorSidebar(props: Props) {
                     leftIcon={<RiAddCircleLine />}
                     variant="gradient"
                     gradient={{ from: 'pink', to: 'red', deg: 35 }}
-                    onClick={() => create()}
+                    onClick={() => createNoteEvent()}
                 >
                     New Note
                 </Button>

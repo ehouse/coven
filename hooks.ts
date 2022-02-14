@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { DataStore } from '@aws-amplify/datastore';
 import { Auth } from 'aws-amplify';
 
-import { Notebook } from 'models';
+import { Notebook, Note, NoteType } from 'models';
 import { ServerStateResponse, UserInfo } from 'types';
 
 interface Callbacks {
@@ -25,25 +25,60 @@ function useUserInfo() {
     return userInfo;
 }
 
-function useCreateNotebook(args: Callbacks = {}) {
-    const { success, failure } = args;
-    return useCallback((notebook) => {
-        const model = new Notebook(notebook);
-        DataStore.save(model).then(() => {
-            if (success) {
-                success();
-            }
-        }).catch((e) => {
-            if (failure) {
-                failure(e);
+function useDeleteNote() {
+    return useCallback((id: string) => {
+        DataStore.query(Note, id).then((data) => {
+            if (data) {
+                DataStore.delete(data);
             } else {
-                throw e;
+                throw (Error(`Entity ${id} cannot be deleted: Not Found`));
             }
         });
-    }, [success, failure]);
+    }, []);
 }
 
-function useMutateNotebook(args: Callbacks = {}) {
+function useCreateNote() {
+    return useCallback((id: string) => {
+        const model = new Note({ 'noteType': NoteType.TEXT, 'notebookID': id });
+        DataStore.save(model);
+    }, []);
+}
+
+function useMutateNote() {
+
+}
+
+function useNoteListQuery(id?: string) {
+    const initialState: ServerStateResponse<Note[]> = { isLoading: false, error: undefined, data: undefined };
+    const [state, setState] = useState<ServerStateResponse<Note[]>>(initialState);
+
+    useEffect(() => {
+        if (id) {
+            const subscription = DataStore.observeQuery(Note, n => n.notebookID('eq', id)).subscribe(({ items, isSynced }) => {
+                setState((prev) => ({ ...prev, data: items, isLoading: !isSynced }));
+            }, (e) => {
+                setState((prev) => ({ ...prev, error: e }));
+            });
+
+            return () => subscription.unsubscribe();
+        }
+    }, [id]);
+
+    return state;
+}
+
+/**
+ * A callback function that will generate a new Notebook with a given set of inputs
+ * @returns Callback to be called with Notebook values when creating a new Notebook
+ */
+function useCreateNotebook() {
+    return useCallback((notebook) => {
+        const model = new Notebook(notebook);
+        DataStore.save(model);
+    }, []);
+}
+
+function useMutateNotebook() {
     return useCallback((notebook) => {
         const model = new Notebook(notebook);
         DataStore.query(Notebook, notebook.id).then((original) => {
@@ -53,7 +88,6 @@ function useMutateNotebook(args: Callbacks = {}) {
                     updated.description = notebook.description;
                     updated.color = notebook.color;
                 });
-                console.log(newState);
                 DataStore.save(newState);
             } else {
                 throw (Error(`Entity ${notebook.id} does not exist.`));
@@ -94,26 +128,28 @@ function useDeleteNotebook(args: Callbacks = {}) {
     }, [success, failure]);
 }
 
-function useNotebookState(id: string): ServerStateResponse<Notebook> {
+function useNotebookQuery(id?: string): ServerStateResponse<Notebook> {
     const initialState: ServerStateResponse<Notebook> = { isLoading: false, error: undefined, data: undefined };
     const [state, setState] = useState<ServerStateResponse<Notebook>>(initialState);
 
     useEffect(() => {
-        const subscription = DataStore.observeQuery(Notebook, p => p.id('eq', id)).subscribe(({ items, isSynced }) => {
-            if (items.length === 1) {
-                setState((prev) => ({ ...prev, data: items[0], isLoading: !isSynced }));
-            }
-        }, (e) => {
-            setState((prev) => ({ ...prev, error: e }));
-        });
+        if (id) {
+            const subscription = DataStore.observeQuery(Notebook, p => p.id('eq', id)).subscribe(({ items, isSynced }) => {
+                if (items.length === 1) {
+                    setState((prev) => ({ ...prev, data: items[0], isLoading: !isSynced }));
+                }
+            }, (e) => {
+                setState((prev) => ({ ...prev, error: e }));
+            });
 
-        return () => subscription.unsubscribe();
+            return () => subscription.unsubscribe();
+        }
     }, [id]);
 
     return state;
 }
 
-function useNotebookListState(): ServerStateResponse<Notebook[]> {
+function useNotebookListQuery(): ServerStateResponse<Notebook[]> {
     const initialState: ServerStateResponse<Notebook[]> = { isLoading: true, error: undefined, data: undefined };
     const [state, setState] = useState<ServerStateResponse<Notebook[]>>(initialState);
 
@@ -132,4 +168,15 @@ function useNotebookListState(): ServerStateResponse<Notebook[]> {
 }
 
 
-export { useUserInfo, useNotebookListState, useDeleteNotebook, useCreateNotebook, useNotebookState, useMutateNotebook };
+export {
+    useUserInfo,
+    useCreateNote,
+    useDeleteNote,
+    useMutateNote,
+    useNoteListQuery,
+    useNotebookListQuery,
+    useDeleteNotebook,
+    useCreateNotebook,
+    useNotebookQuery,
+    useMutateNotebook
+};

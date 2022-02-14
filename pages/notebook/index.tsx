@@ -11,7 +11,7 @@ import { useLongPress } from 'use-long-press';
 import config from 'aws-exports';
 import { CreateNotebook, SettingsNotebook, TrashNotebook } from 'components/Modals';
 import NavHeader from 'components/NavHeader';
-import { useNotebookListState, useUserInfo } from 'hooks';
+import { useNotebookListQuery, useUserInfo } from 'hooks';
 import { Notebook } from 'models';
 
 Amplify.configure({ ...config });
@@ -133,7 +133,7 @@ function Page() {
     const userInfo = useUserInfo();
 
     const [selected, setSelected] = useState<string>();
-    const { isLoading, data, error } = useNotebookListState();
+    const { isLoading, data, error } = useNotebookListQuery();
 
     const parsedState = useMemo(() => (stateParser(data)), [data]);
 
