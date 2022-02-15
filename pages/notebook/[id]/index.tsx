@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import { AppShell } from '@mantine/core';
+import { ActionIcon, AppShell, Box, Button, Divider, Group, Navbar, ScrollArea, Text, Title } from '@mantine/core';
 import { Amplify } from "aws-amplify";
 import { useRouter } from 'next/router';
+import { RiAddCircleLine, RiBookOpenLine, RiDeleteBin6Line, RiDraftLine } from "react-icons/ri";
 import { z } from "zod";
 
 import config from 'aws-exports';
 import EditorGrid from 'components/EditorGrid';
-import EditorSidebar from 'components/EditorSidebar';
 import { useCreateNote, useDeleteNote, useNotebookQuery, useNoteListQuery, useUserInfo } from 'hooks';
-
 
 Amplify.configure({ ...config });
 
@@ -54,20 +53,71 @@ function Page() {
         console.log(error);
     }
 
+    const createNoteEvent = () => {
+        if (notebookQuery.data) {
+            createNote(notebookQuery.data.id);
+        }
+    };
+
     const loadingAggregate = (notebookQuery.isLoading && noteListQuery.isLoading);
 
     return (
         <AppShell
-            navbar={<EditorSidebar
-                loading={loadingAggregate}
-                noteList={noteListQuery.data}
-                notebook={notebookQuery.data}
-                createNote={createNote}
-                deleteNote={deleteNote}
-            />}
+            fixed
+            padding={0}
+            navbar={<Navbar fixed position={{ top: 0, left: 0 }} padding={10} width={{ base: 300 }}>
+                <Navbar.Section>
+                    <Group direction='column' spacing={0}>
+                        <Title mb={'sm'} order={3}>🕷️ SpiderNotes</Title>
+                        <Text color='dimmed' size='md'>
+                            <RiBookOpenLine style={{ marginRight: '4px' }} />
+                            {notebookQuery.data?.title ?? 'Loading...'}
+                        </Text>
+                    </Group>
+                    <Divider mt='md' />
+                </Navbar.Section>
+                <Navbar.Section
+                    grow
+                    component={ScrollArea}
+                >
+                    <Group direction='column'>
+                        {typeof noteListQuery.data !== 'undefined' && noteListQuery.data.map((note) => {
+                            return <Box key={note.id} style={{ width: '100%' }}>
+                                <Group direction='column'>
+                                    <Group position='apart' direction='row' style={{ width: '100%' }}>
+                                        <Group spacing='xs' direction='row'>
+                                            <RiDraftLine />
+                                            <Text>{note.title}</Text>
+                                        </Group>
+                                        <ActionIcon color='red' onClick={() => deleteNote(note.id)} title='Delete Note' >
+                                            <RiDeleteBin6Line />
+                                        </ActionIcon>
+                                    </Group>
+                                    <Text size='sm' color='dimmed'>{note.id}</Text>
+                                </Group>
+                            </Box>;
+                        })}
+                    </Group>
+                </Navbar.Section>
+                <Navbar.Section>
+                    <Divider />
+                    <Button
+                        fullWidth
+                        mt='sm'
+                        loading={loadingAggregate}
+                        leftIcon={<RiAddCircleLine />}
+                        variant="gradient"
+                        gradient={{ from: 'pink', to: 'red', deg: 35 }}
+                        onClick={() => createNoteEvent()}
+                    >
+                        New Note
+                    </Button>
+                </Navbar.Section>
+            </Navbar>
+            }
         >
             {notebookID
-                ? <EditorGrid notebookID={notebookID} notes={noteListQuery.data} />
+                ? <EditorGrid notes={noteListQuery.data} />
                 : loadingAggregate
                     ? <div>{`Loading...`}</div>
                     : <div>{`Error! Notebook doesn't exist`}</div>
