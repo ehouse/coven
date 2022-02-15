@@ -1,17 +1,17 @@
-import '@aws-amplify/ui-react/styles.css';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 import { AppShell } from '@mantine/core';
 import { Amplify } from "aws-amplify";
 import { useRouter } from 'next/router';
 import { z } from "zod";
 
-import { Note } from "API";
 import config from 'aws-exports';
 import EditorGrid from 'components/EditorGrid';
 import EditorSidebar from 'components/EditorSidebar';
-import { useCreateNote, useDeleteNote, useNoteListQuery, useUserInfo, useNotebookQuery } from 'hooks';
+import { useCreateNote, useDeleteNote, useNotebookQuery, useNoteListQuery, useUserInfo } from 'hooks';
+
 
 Amplify.configure({ ...config });
 
@@ -66,7 +66,12 @@ function Page() {
                 deleteNote={deleteNote}
             />}
         >
-            <EditorGrid />
+            {notebookID
+                ? <EditorGrid notebookID={notebookID} notes={noteListQuery.data} />
+                : loadingAggregate
+                    ? <div>{`Loading...`}</div>
+                    : <div>{`Error! Notebook doesn't exist`}</div>
+            }
         </AppShell>
     );
 };

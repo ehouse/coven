@@ -44,10 +44,6 @@ function useCreateNote() {
     }, []);
 }
 
-function useMutateNote() {
-
-}
-
 function useNoteListQuery(id?: string) {
     const initialState: ServerStateResponse<Note[]> = { isLoading: false, error: undefined, data: undefined };
     const [state, setState] = useState<ServerStateResponse<Note[]>>(initialState);
@@ -80,7 +76,6 @@ function useCreateNotebook() {
 
 function useMutateNotebook() {
     return useCallback((notebook) => {
-        const model = new Notebook(notebook);
         DataStore.query(Notebook, notebook.id).then((original) => {
             if (original) {
                 const newState = Notebook.copyOf(original, updated => {
@@ -172,7 +167,6 @@ export {
     useUserInfo,
     useCreateNote,
     useDeleteNote,
-    useMutateNote,
     useNoteListQuery,
     useNotebookListQuery,
     useDeleteNotebook,

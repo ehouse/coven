@@ -37,9 +37,9 @@ function EditorSidebar(props: Props) {
             >
                 <Group direction='column'>
                     {typeof noteList !== 'undefined' && noteList.map((note) => {
-                        return <Box key={note.id}>
+                        return <Box key={note.id} style={{ width: '100%' }}>
                             <Group direction='column'>
-                                <Group style={{ width: '100%' }} direction='row'>
+                                <Group position='apart' direction='row' style={{ width: '100%' }}>
                                     <Text>{note.title}</Text>
                                     <CloseButton style={{}} onClick={() => props.deleteNote(note.id)} title='Delete Note' />
                                 </Group>
