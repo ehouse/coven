@@ -10,6 +10,7 @@ import { z } from "zod";
 
 import config from 'aws-exports';
 import EditorGrid from 'components/EditorGrid';
+import { NoteTileContext } from 'context';
 import { useCreateNote, useDeleteNote, useNotebookQuery, useNoteListQuery, useUserInfo } from 'hooks';
 
 Amplify.configure({ ...config });
@@ -19,6 +20,7 @@ const nidSchema = z.string().uuid();
 function Page() {
     const router = useRouter();
     const [notebookID, setNotebookID] = useState<string>();
+    const [visibleSet, setVisibleSet] = useState(new Set<string>());
     const [error, setError] = useState<Error>();
 
     const userInfo = useUserInfo();
@@ -53,10 +55,25 @@ function Page() {
         console.log(error);
     }
 
+    /**
+     * Wrapper around createNote setState function for ease of use
+     */
     const createNoteEvent = () => {
         if (notebookQuery.data) {
             createNote(notebookQuery.data.id);
         }
+    };
+
+    /**
+     * Toggle visibility of a single notebook by a given ID.
+     * @param id ID of notebook to toggle
+     */
+    const toggleVisible = (id: string) => {
+        setVisibleSet((oldState) => {
+            // Return appended value of value does not exist and cannot be deleted
+            const result = oldState.delete(id);
+            return result ? oldState : oldState.add(id);
+        });
     };
 
     const loadingAggregate = (notebookQuery.isLoading && noteListQuery.isLoading);
@@ -117,7 +134,9 @@ function Page() {
             }
         >
             {notebookID
-                ? <EditorGrid notes={noteListQuery.data} />
+                ? <NoteTileContext.Provider value={{ visibleSet: visibleSet, toggleVisible: toggleVisible }}>
+                    <EditorGrid notes={noteListQuery.data} />
+                </NoteTileContext.Provider>
                 : loadingAggregate
                     ? <div>{`Loading...`}</div>
                     : <div>{`Error! Notebook doesn't exist`}</div>

@@ -44,6 +44,12 @@ function useCreateNote() {
     }, []);
 }
 
+/**
+ * Maintains the Server State and Subscription for all notes under a given notebook ID. 
+ * State will always be considered fresh.
+ * @param id ID of notebook to query
+ * @returns Formatted State object containing loading, data, and errors
+ */
 function useNoteListQuery(id?: string) {
     const initialState: ServerStateResponse<Note[]> = { isLoading: false, error: undefined, data: undefined };
     const [state, setState] = useState<ServerStateResponse<Note[]>>(initialState);
@@ -74,6 +80,10 @@ function useCreateNotebook() {
     }, []);
 }
 
+/**
+ * Creates a callback to be used for mutating Notebook state
+ * @returns notebook mutation callback
+ */
 function useMutateNotebook() {
     return useCallback((notebook) => {
         DataStore.query(Notebook, notebook.id).then((original) => {
@@ -123,6 +133,12 @@ function useDeleteNotebook(args: Callbacks = {}) {
     }, [success, failure]);
 }
 
+/**
+ * Maintains the Server State and Subscription for a single Notebook by ID. 
+ * State will always be considered fresh.
+ * @param id ID of notebook to query
+ * @returns Formatted State object containing loading, data, and errors
+ */
 function useNotebookQuery(id?: string): ServerStateResponse<Notebook> {
     const initialState: ServerStateResponse<Notebook> = { isLoading: false, error: undefined, data: undefined };
     const [state, setState] = useState<ServerStateResponse<Notebook>>(initialState);
@@ -144,13 +160,17 @@ function useNotebookQuery(id?: string): ServerStateResponse<Notebook> {
     return state;
 }
 
+/**
+ * Maintains the Server State and Subscription for all notesbooks a user owns
+ * State will always be considered fresh.
+ * @returns Formatted State object containing loading, data, and errors
+ */
 function useNotebookListQuery(): ServerStateResponse<Notebook[]> {
     const initialState: ServerStateResponse<Notebook[]> = { isLoading: true, error: undefined, data: undefined };
     const [state, setState] = useState<ServerStateResponse<Notebook[]>>(initialState);
 
     useEffect(() => {
         const subscription = DataStore.observeQuery(Notebook).subscribe(({ items, isSynced }) => {
-            console.log("setting state", items);
             setState((prev) => ({ ...prev, data: items, isLoading: !isSynced }));
         }, (e) => {
             setState((prev) => ({ ...prev, error: e }));

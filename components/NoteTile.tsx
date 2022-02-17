@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { DataStore } from '@aws-amplify/datastore';
 import { Card, Title, Text, CloseButton, TextInput, Badge, Button, Group, useMantineTheme, ActionIcon } from '@mantine/core';
@@ -9,7 +9,9 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { RiAddCircleLine, RiDraftLine, RiDeleteBin6Line, RiBookOpenLine } from "react-icons/ri";
 
 import RichTextEditor from 'components/RichTextEditor';
+import { NoteTileContext } from 'context';
 import { Notebook, Note, NoteType } from 'models';
+
 
 interface Props {
     note: Note;
@@ -17,12 +19,12 @@ interface Props {
 
 function NoteTile(props: Props) {
     const { note } = props;
-    const noteID = note;
 
-    const [content, setContent] = useState(note.content ?? '');
     const [title, setTitle] = useState(note.title ?? '');
+    const [content, setContent] = useState(note.content ?? '');
     const [minimized, setMinimized] = useState(false);
     const [focused, setFocused] = useState(true);
+    const { toggleVisible } = useContext(NoteTileContext);
 
     const [debouncedTitle] = useDebouncedValue(title, 800);
     const [debouncedContent] = useDebouncedValue(content, 5000);
@@ -65,7 +67,7 @@ function NoteTile(props: Props) {
                             : <MinusIcon />
                         }
                     </ActionIcon>
-                    <CloseButton />
+                    <CloseButton onClick={() => toggleVisible(note.id)} />
                 </Group>
             </Group>
         </Card.Section>
