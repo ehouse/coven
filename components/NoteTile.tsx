@@ -21,6 +21,7 @@ function NoteTile(props: Props) {
     const { note } = props;
 
     const [title, setTitle] = useState(note.title ?? '');
+
     const [content, setContent] = useState(note.content ?? '');
     const [minimized, setMinimized] = useState(false);
     const [focused, setFocused] = useState(true);

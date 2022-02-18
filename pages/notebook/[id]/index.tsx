@@ -65,16 +65,18 @@ function Page() {
     };
 
     /**
-     * Toggle visibility of a single notebook by a given ID.
+     * Toggle visibility of a single note by a given note ID.
      * @param id ID of notebook to toggle
      */
     const toggleVisible = (id: string) => {
         setVisibleSet((oldState) => {
             // Return appended value of value does not exist and cannot be deleted
             const result = oldState.delete(id);
-            return result ? oldState : oldState.add(id);
+            return result ? new Set(oldState) : new Set(oldState.add(id));
         });
     };
+
+    const contextState = { visibleSet: visibleSet, toggleVisible: toggleVisible };
 
     const loadingAggregate = (notebookQuery.isLoading && noteListQuery.isLoading);
 
@@ -103,7 +105,9 @@ function Page() {
                                 <Group direction='column'>
                                     <Group position='apart' direction='row' style={{ width: '100%' }}>
                                         <Group spacing='xs' direction='row'>
-                                            <RiDraftLine />
+                                            <ActionIcon onClick={() => toggleVisible(note.id)}>
+                                                <RiDraftLine />
+                                            </ActionIcon>
                                             <Text>{note.title}</Text>
                                         </Group>
                                         <ActionIcon color='red' onClick={() => deleteNote(note.id)} title='Delete Note' >
@@ -134,7 +138,7 @@ function Page() {
             }
         >
             {notebookID
-                ? <NoteTileContext.Provider value={{ visibleSet: visibleSet, toggleVisible: toggleVisible }}>
+                ? <NoteTileContext.Provider value={contextState}>
                     <EditorGrid notes={noteListQuery.data} />
                 </NoteTileContext.Provider>
                 : loadingAggregate
