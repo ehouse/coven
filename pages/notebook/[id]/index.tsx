@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import { ActionIcon, AppShell, Box, Button, Divider, Group, Navbar, ScrollArea, Text, Title } from '@mantine/core';
+import { ActionIcon, AppShell, Button, Divider, Group, Navbar, ScrollArea, Text, ThemeIcon, Title, UnstyledButton } from '@mantine/core';
 import { Amplify } from "aws-amplify";
 import { useRouter } from 'next/router';
-import { RiAddCircleLine, RiBookOpenLine, RiDeleteBin6Line, RiDraftLine } from "react-icons/ri";
+import { RiAddCircleLine, RiArrowLeftSLine, RiDraftLine } from "react-icons/ri";
 import { z } from "zod";
 
 import config from 'aws-exports';
 import EditorGrid from 'components/EditorGrid';
 import { NoteTileContext } from 'context';
-import { useCreateNote, useDeleteNote, useNotebookQuery, useNoteListQuery, useUserInfo } from 'hooks';
+import { useCreateNote, useNotebookQuery, useNoteListQuery } from 'hooks';
+import { Note } from 'models';
 
 Amplify.configure({ ...config });
 
@@ -23,11 +24,8 @@ function Page() {
     const [visibleSet, setVisibleSet] = useState(new Set<string>());
     const [error, setError] = useState<Error>();
 
-    const userInfo = useUserInfo();
-
     // Callback to generate a note when triggered by the UI.
     const createNote = useCreateNote();
-    const deleteNote = useDeleteNote();
 
     // Safely parse the nextjs dynamic route key
     // Sets notebookID when successfully parsed
@@ -51,10 +49,6 @@ function Page() {
     // Collects all of the dependent notes for a notebook.id
     const noteListQuery = useNoteListQuery(notebookID);
 
-    if (error) {
-        console.log(error);
-    }
-
     /**
      * Wrapper around createNote setState function for ease of use
      */
@@ -68,17 +62,38 @@ function Page() {
      * Toggle visibility of a single note by a given note ID.
      * @param id ID of notebook to toggle
      */
-    const toggleVisible = (id: string) => {
+    const toggleVisible = useCallback((id: string) => {
         setVisibleSet((oldState) => {
-            // Return appended value of value does not exist and cannot be deleted
-            const result = oldState.delete(id);
-            return result ? new Set(oldState) : new Set(oldState.add(id));
+            oldState.has(id) ? oldState.delete(id) : oldState.add(id);
+            return new Set(oldState);
         });
-    };
+    }, []);
+
+    /**
+     * Generates a callback that when passed a note generates a clickable sidebar button
+     */
+    const sidebarButton = useCallback((note: Note) => {
+        return (<UnstyledButton onClick={() => toggleVisible(note.id)}>
+            <Group>
+                <ThemeIcon variant={visibleSet.has(note.id) ? 'filled' : 'light'}>
+                    <RiDraftLine />
+                </ThemeIcon>
+                <div>
+                    <Text>
+                        {note.title ?? 'Note'}
+                    </Text>
+                </div>
+            </Group>
+        </UnstyledButton>);
+    }, [visibleSet, toggleVisible]);
 
     const contextState = { visibleSet: visibleSet, toggleVisible: toggleVisible };
 
     const loadingAggregate = (notebookQuery.isLoading && noteListQuery.isLoading);
+
+    if (error) {
+        console.log(error);
+    }
 
     return (
         <AppShell
@@ -88,36 +103,24 @@ function Page() {
                 <Navbar.Section>
                     <Group direction='column' spacing={0}>
                         <Title mb={'sm'} order={3}>🕷️ SpiderNotes</Title>
-                        <Text color='dimmed' size='md'>
-                            <RiBookOpenLine style={{ marginRight: '4px' }} />
-                            {notebookQuery.data?.title ?? 'Loading...'}
-                        </Text>
+                        <Group direction='row' spacing='xs'>
+                            <ActionIcon title='Go back' onClick={() => router.push('/notebook')}>
+                                <RiArrowLeftSLine />
+                            </ActionIcon>
+                            <Text color='dimmed' size='md'>
+                                {notebookQuery.data?.title ?? 'Loading...'}
+                            </Text>
+                        </Group>
                     </Group>
                     <Divider mt='md' />
                 </Navbar.Section>
                 <Navbar.Section
                     grow
                     component={ScrollArea}
+                    mt='sm'
                 >
                     <Group direction='column'>
-                        {typeof noteListQuery.data !== 'undefined' && noteListQuery.data.map((note) => {
-                            return <Box key={note.id} style={{ width: '100%' }}>
-                                <Group direction='column'>
-                                    <Group position='apart' direction='row' style={{ width: '100%' }}>
-                                        <Group spacing='xs' direction='row'>
-                                            <ActionIcon onClick={() => toggleVisible(note.id)}>
-                                                <RiDraftLine />
-                                            </ActionIcon>
-                                            <Text>{note.title}</Text>
-                                        </Group>
-                                        <ActionIcon color='red' onClick={() => deleteNote(note.id)} title='Delete Note' >
-                                            <RiDeleteBin6Line />
-                                        </ActionIcon>
-                                    </Group>
-                                    <Text size='sm' color='dimmed'>{note.id}</Text>
-                                </Group>
-                            </Box>;
-                        })}
+                        {noteListQuery.data?.map((note) => sidebarButton(note))}
                     </Group>
                 </Navbar.Section>
                 <Navbar.Section>

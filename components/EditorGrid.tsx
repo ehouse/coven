@@ -1,24 +1,12 @@
-import react, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 
-import {
-    Affix,
-    ScrollArea,
-    Button,
-    Divider,
-    Group,
-    Paper,
-    Text,
-    ThemeIcon,
-    Title,
-    useMantineTheme,
-    ActionIcon
-} from '@mantine/core';
+import { ActionIcon, Affix, Group, Paper } from '@mantine/core';
 import { GridIcon, ViewHorizontalIcon, ViewVerticalIcon } from '@modulz/radix-icons';
 
 import NoteTile from 'components/NoteTile';
 import { NoteTileContext } from 'context';
-import { Notebook, Note, NoteType } from 'models';
-
+import { Note } from 'models';
+import styles from 'styles/EditorGrid.module.scss';
 
 interface Props {
     notes?: Note[];
@@ -34,11 +22,11 @@ type Flow = 'column' | 'split' | 'grid' | 'graph';
 const flowStyle = (flow: Flow) => {
     switch (flow) {
         case 'column':
-            return { display: 'grid' };
+            return {};
         case 'split':
-            return { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'masonry' };
+            return { gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'masonry' };
         case 'grid':
-            return { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: 'masonry' };
+            return { gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: 'masonry' };
     }
 };
 
@@ -77,7 +65,7 @@ function EditorGrid(props: Props) {
                 </Group>
             </Paper>
         </Affix>
-        <div id='FlexContainer' style={flowStyle(flow)}>
+        <div className={styles.FlexContainer} style={flowStyle(flow)}>
             {notes && notes.map((note) => {
                 if (TileContext.visibleSet.has(note.id)) {
                     return <NoteTile key={note.id} note={note} />;
