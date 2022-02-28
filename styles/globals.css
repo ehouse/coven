@@ -9,6 +9,7 @@ body {
 body {
   background-image: url(/images/interlaced.png);
   background-repeat: repeat;
+  background-size: 450px 450px;
 }
 
 a {

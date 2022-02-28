@@ -1,22 +1,40 @@
 enum NoteType {
-  TEXT
-  CHECKBOX
-  TIMELINE
-}
-
-type Note @model @auth(rules: [{allow: owner}]) {
-  id: ID!
-  title: String
-  noteType: NoteType!
-  content: String
-  hidden: Boolean
-  notebookID: ID! @index(name: "byNotebook")
+    TEXT
+    CHECKBOX
+    TIMELINE
 }
 
 type Notebook @model @auth(rules: [{allow: owner}]) {
-  id: ID!
-  title: String!
-  description: String
-  color: String
-  Notes: [Note!] @hasMany(indexName: "byNotebook", fields: ["id"])
+    id: ID!
+    title: String!
+    description: String
+    color: String
+    Notes: [Note!] @hasMany(indexName: "noteByNotebook", fields: ["id"])
+    tags: [Tag!] @hasMany(indexName: "tagByNotebook", fields: ["id"])
+    category: [Category!]  @hasMany(indexName: "categoryByNotebook", fields: ["id"])
+}
+
+type Note @model @auth(rules: [{allow: owner}]) {
+    id: ID!
+    title: String
+    noteType: NoteType!
+    content: String
+    hidden: Boolean
+    notebookID: ID! @index(name: "noteByNotebook")
+    categoryID: ID @index(name: "noteByCategory")
+    tags: [Tag!] @manyToMany(relationName: "NoteTag")
+}
+
+type Tag @model @auth(rules: [{allow: owner}]) {
+    id: ID!
+    title: String!
+    notes: [Note] @manyToMany(relationName: "NoteTag")
+    notebookID: ID! @index(name: "tagByNotebook")
+}
+
+type Category @model @auth(rules: [{allow: owner}]) {
+    id: ID!
+    title: String!
+    notes: [Note!] @hasMany(indexName: "noteByCategory", fields: ["id"])
+    notebookID: ID! @index(name: "categoryByNotebook")
 }

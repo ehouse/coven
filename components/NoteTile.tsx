@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { DataStore } from '@aws-amplify/datastore';
 import { ActionIcon, Card, Divider, CloseButton, Group, Menu, TextInput } from '@mantine/core';
 import { useDebouncedValue, useBooleanToggle } from '@mantine/hooks';
-import { BoxIcon, MinusIcon, TrashIcon, SwitchIcon } from '@modulz/radix-icons';
+import { ArchiveIcon, BoxIcon, MinusIcon, TrashIcon, SwitchIcon } from '@modulz/radix-icons';
 import { RiDraftLine } from "react-icons/ri";
 
 import RichTextEditor from 'components/RichTextEditor';
 import { NoteTileContext } from 'context';
-import { useDeleteNote } from 'hooks';
+import { useNoteSync, useDeleteNote } from 'hooks/Notes';
 import { Note } from 'models';
+
+
 interface Props {
     note: Note;
 }
@@ -27,29 +28,8 @@ function NoteTile(props: Props) {
     const [debouncedTitle] = useDebouncedValue(title, 800);
     const [debouncedContent] = useDebouncedValue(content, 5000);
 
-    // Mutatate title when title debounce triggers a change
-    useEffect(() => {
-        DataStore.query(Note, note.id).then((original) => {
-            if (original) {
-                const noteCopy = Note.copyOf(original, updated => {
-                    updated.title = debouncedTitle;
-                });
-                DataStore.save(noteCopy);
-            }
-        });
-    }, [note.id, debouncedTitle]);
-
-    // Mutatate content when content debounce triggers a change
-    useEffect(() => {
-        DataStore.query(Note, note.id).then((original) => {
-            if (original) {
-                const noteCopy = Note.copyOf(original, updated => {
-                    updated.content = debouncedContent;
-                });
-                DataStore.save(noteCopy);
-            }
-        });
-    }, [note.id, debouncedContent]);
+    // Pass in the debounced values to be kept in sync with the backend API
+    useNoteSync(note.id, debouncedTitle, debouncedContent);
 
     return <Card withBorder>
         <Card.Section style={{ backgroundColor: 'ghostwhite' }}>
@@ -58,6 +38,7 @@ function NoteTile(props: Props) {
                     <Menu control={<ActionIcon><RiDraftLine /></ActionIcon>}>
                         <Menu.Item icon={<SwitchIcon />} onClick={() => toggleMode()}>{simple ? 'Simple Editor' : 'Complex Editor'}</Menu.Item>
                         <Divider />
+                        <Menu.Item disabled icon={<ArchiveIcon />}>Archive</Menu.Item>
                         <Menu.Item color="red" icon={<TrashIcon />} onClick={() => deleteNote(note.id)}>Delete</Menu.Item>
                     </Menu>
                     <TextInput

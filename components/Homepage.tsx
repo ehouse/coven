@@ -60,7 +60,7 @@ const Homepage: NextPage<Props> = (props: Props) => {
                 <NavHeader userInfo={props.userInfo} />
             </MediaQuery>
         }>
-        <Affix position={{ bottom: 15, right: 15 }}>
+        <Affix position={{ top: 90, right: 15 }}>
             <Group direction="column" position="center" spacing={0}>
                 <Title order={3}>🚧 Alpha - Work in Progress</Title>
                 <Title order={4}>Features may not work properly yet</Title>

@@ -8,10 +8,13 @@ const NoteType = {
   "TIMELINE": "TIMELINE"
 };
 
-const { Note, Notebook } = initSchema(schema);
+const { Notebook, Note, Tag, Category, NoteTag } = initSchema(schema);
 
 export {
-  Note,
   Notebook,
+  Note,
+  Tag,
+  Category,
+  NoteTag,
   NoteType
 };

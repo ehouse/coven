@@ -11,7 +11,8 @@ import { useLongPress } from 'use-long-press';
 import config from 'aws-exports';
 import { CreateNotebook, SettingsNotebook, TrashNotebook } from 'components/Modals';
 import NavHeader from 'components/NavHeader';
-import { useNotebookListQuery, useUserInfo } from 'hooks';
+import { useUserInfo } from 'hooks';
+import { useNotebookListQuery } from 'hooks/Notebooks';
 import { Notebook } from 'models';
 
 Amplify.configure({ ...config });
