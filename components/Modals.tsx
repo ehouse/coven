@@ -7,7 +7,7 @@ import { ModalsContext } from '@mantine/modals/lib/context';
 import { CheckIcon } from '@modulz/radix-icons';
 import { RiDeleteBin2Line, RiFileAddLine, RiFileSettingsLine } from "react-icons/ri";
 
-import { useCreateNotebook, useDeleteNotebook, useMutateNotebook } from 'hooks';
+import { useCreateNotebook, useDeleteNotebook, useMutateNotebook } from 'hooks/Notebooks';
 import { Notebook } from 'models';
 
 interface DeleteModalProps {
