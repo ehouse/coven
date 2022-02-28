@@ -17,12 +17,12 @@ export const getNotebook = /* GraphQL */ `
           content
           hidden
           notebookID
-          categoryID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          categoryNotesId
           owner
         }
         nextToken
@@ -154,7 +154,21 @@ export const getNote = /* GraphQL */ `
       content
       hidden
       notebookID
-      categoryID
+      category {
+        id
+        title
+        notes {
+          nextToken
+          startedAt
+        }
+        notebookID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       tags {
         items {
           id
@@ -175,6 +189,7 @@ export const getNote = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      categoryNotesId
       owner
     }
   }
@@ -193,7 +208,17 @@ export const listNotes = /* GraphQL */ `
         content
         hidden
         notebookID
-        categoryID
+        category {
+          id
+          title
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         tags {
           nextToken
           startedAt
@@ -203,6 +228,7 @@ export const listNotes = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        categoryNotesId
         owner
       }
       nextToken
@@ -230,7 +256,17 @@ export const syncNotes = /* GraphQL */ `
         content
         hidden
         notebookID
-        categoryID
+        category {
+          id
+          title
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         tags {
           nextToken
           startedAt
@@ -240,6 +276,7 @@ export const syncNotes = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        categoryNotesId
         owner
       }
       nextToken
@@ -350,12 +387,12 @@ export const getCategory = /* GraphQL */ `
           content
           hidden
           notebookID
-          categoryID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          categoryNotesId
           owner
         }
         nextToken
@@ -444,7 +481,17 @@ export const getNoteTag = /* GraphQL */ `
         content
         hidden
         notebookID
-        categoryID
+        category {
+          id
+          title
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         tags {
           nextToken
           startedAt
@@ -454,6 +501,7 @@ export const getNoteTag = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        categoryNotesId
         owner
       }
       tag {
@@ -498,12 +546,12 @@ export const listNoteTags = /* GraphQL */ `
           content
           hidden
           notebookID
-          categoryID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          categoryNotesId
           owner
         }
         tag {
@@ -553,12 +601,12 @@ export const syncNoteTags = /* GraphQL */ `
           content
           hidden
           notebookID
-          categoryID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          categoryNotesId
           owner
         }
         tag {

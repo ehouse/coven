@@ -20,12 +20,12 @@ export const createNotebook = /* GraphQL */ `
           content
           hidden
           notebookID
-          categoryID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          categoryNotesId
           owner
         }
         nextToken
@@ -88,12 +88,12 @@ export const updateNotebook = /* GraphQL */ `
           content
           hidden
           notebookID
-          categoryID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          categoryNotesId
           owner
         }
         nextToken
@@ -156,12 +156,12 @@ export const deleteNotebook = /* GraphQL */ `
           content
           hidden
           notebookID
-          categoryID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          categoryNotesId
           owner
         }
         nextToken
@@ -218,7 +218,21 @@ export const createNote = /* GraphQL */ `
       content
       hidden
       notebookID
-      categoryID
+      category {
+        id
+        title
+        notes {
+          nextToken
+          startedAt
+        }
+        notebookID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       tags {
         items {
           id
@@ -239,6 +253,7 @@ export const createNote = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      categoryNotesId
       owner
     }
   }
@@ -255,7 +270,21 @@ export const updateNote = /* GraphQL */ `
       content
       hidden
       notebookID
-      categoryID
+      category {
+        id
+        title
+        notes {
+          nextToken
+          startedAt
+        }
+        notebookID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       tags {
         items {
           id
@@ -276,6 +305,7 @@ export const updateNote = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      categoryNotesId
       owner
     }
   }
@@ -292,7 +322,21 @@ export const deleteNote = /* GraphQL */ `
       content
       hidden
       notebookID
-      categoryID
+      category {
+        id
+        title
+        notes {
+          nextToken
+          startedAt
+        }
+        notebookID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
       tags {
         items {
           id
@@ -313,6 +357,7 @@ export const deleteNote = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      categoryNotesId
       owner
     }
   }
@@ -432,12 +477,12 @@ export const createCategory = /* GraphQL */ `
           content
           hidden
           notebookID
-          categoryID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          categoryNotesId
           owner
         }
         nextToken
@@ -469,12 +514,12 @@ export const updateCategory = /* GraphQL */ `
           content
           hidden
           notebookID
-          categoryID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          categoryNotesId
           owner
         }
         nextToken
@@ -506,12 +551,12 @@ export const deleteCategory = /* GraphQL */ `
           content
           hidden
           notebookID
-          categoryID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          categoryNotesId
           owner
         }
         nextToken
@@ -543,7 +588,17 @@ export const createNoteTag = /* GraphQL */ `
         content
         hidden
         notebookID
-        categoryID
+        category {
+          id
+          title
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         tags {
           nextToken
           startedAt
@@ -553,6 +608,7 @@ export const createNoteTag = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        categoryNotesId
         owner
       }
       tag {
@@ -595,7 +651,17 @@ export const updateNoteTag = /* GraphQL */ `
         content
         hidden
         notebookID
-        categoryID
+        category {
+          id
+          title
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         tags {
           nextToken
           startedAt
@@ -605,6 +671,7 @@ export const updateNoteTag = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        categoryNotesId
         owner
       }
       tag {
@@ -647,7 +714,17 @@ export const deleteNoteTag = /* GraphQL */ `
         content
         hidden
         notebookID
-        categoryID
+        category {
+          id
+          title
+          notebookID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
         tags {
           nextToken
           startedAt
@@ -657,6 +734,7 @@ export const deleteNoteTag = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        categoryNotesId
         owner
       }
       tag {

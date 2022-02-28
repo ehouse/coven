@@ -2,40 +2,26 @@ import React, { useMemo } from 'react';
 
 import { Avatar, Button, Group, Menu, Loader } from '@mantine/core';
 import { ExitIcon, PersonIcon } from '@modulz/radix-icons';
-import { Auth } from 'aws-amplify';
 import MD5 from "crypto-js/md5";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { RiBook2Fill, RiShieldKeyholeFill, RiMindMap, RiDraftLine } from "react-icons/ri";
 
-
-import type { UserInfo } from 'types';
-
 /**
  * Creates a user avatar with an assiocted menu.
- * New menu items can be passed in as childeren
+ * New menu items can be passed in as children
  */
-function UserAvatar(props: { userInfo: UserInfo; childeren?: React.ReactNode; }) {
+function UserAvatar(props: { username: string, email: string; children?: React.ReactNode; }) {
     const router = useRouter();
 
-    const username = props.userInfo?.username ?? 'mp';
-    const email = props.userInfo?.email ?? 'mp';
-    const userHash: string = useMemo(() => (MD5(email).toString()), [email]);
-
-    if (!props.userInfo) {
-        return (
-            <Menu control={<Avatar src={`https://www.gravatar.com/avatar/${userHash}`} mt={-7} radius='xl' size="lg" />}>
-                <Menu.Item><Loader variant='dots' /></Menu.Item>
-            </Menu>
-        );
-    }
+    const userHash: string = useMemo(() => (MD5(props.email).toString()), [props.email]);
 
     return (
         <Menu control={<Avatar src={`https://www.gravatar.com/avatar/${userHash}`} mt={-7} radius='xl' size="lg" />}>
-            <Menu.Label>{`Welcome, ${username}!`}</Menu.Label>
-            {props.childeren}
+            <Menu.Label>{`Welcome, ${props.username}!`}</Menu.Label>
+            {props.children}
             <Menu.Item icon={<PersonIcon />} disabled>Profile</Menu.Item>
-            <Menu.Item icon={<ExitIcon />} onClick={() => Auth.signOut().then(() => router.push('/'))}>Log out</Menu.Item>
+            <Menu.Item icon={<ExitIcon />} onClick={() => router.push('/logout')}>Log out</Menu.Item>
         </Menu>
     );
 }
@@ -50,11 +36,11 @@ function EditorButton() {
     );
 }
 
-function UserMenu(props: { userInfo: UserInfo; }) {
+function UserMenu(props: { username: string, email: string, hideEditor?: boolean; }) {
     return (
         <Group position='right' direction='row' spacing='xl'>
-            <EditorButton />
-            <UserAvatar userInfo={props.userInfo} />
+            {!props.hideEditor && <EditorButton />}
+            <UserAvatar username={props.username} email={props.email} />
         </Group>
     );
 }

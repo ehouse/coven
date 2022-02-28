@@ -10,8 +10,7 @@ import { useLongPress } from 'use-long-press';
 
 import config from 'aws-exports';
 import { CreateNotebook, SettingsNotebook, TrashNotebook } from 'components/Modals';
-import NavHeader from 'components/NavHeader';
-import { useUserInfo } from 'hooks';
+import Navigation from 'components/Navigation';
 import { useNotebookListQuery } from 'hooks/Notebooks';
 import { Notebook } from 'models';
 
@@ -131,7 +130,6 @@ function stateParser(data?: Notebook[]) {
 function Page() {
     const theme = useMantineTheme();
     const isSmall = useMediaQuery('(max-width: 900px)');
-    const userInfo = useUserInfo();
 
     const [selected, setSelected] = useState<string>();
     const { isLoading, data, error } = useNotebookListQuery();
@@ -144,7 +142,7 @@ function Page() {
                 query="(max-width: 400px)"
                 styles={{ display: 'none' }}
             >
-                <NavHeader hideEditorButton userInfo={userInfo} />
+                <Navigation hideEditorButton />
             </MediaQuery>
         }>
         <Container>

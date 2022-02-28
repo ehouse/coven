@@ -1,5 +1,5 @@
 import '@aws-amplify/ui-react/styles.css';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useState, useMemo } from 'react';
 
 import { ActionIcon, AppShell, Skeleton, Button, Box, CloseButton, Divider, Group, Menu, Navbar, ScrollArea, Text, ThemeIcon, Title, UnstyledButton, TextInput } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
@@ -55,11 +55,39 @@ function SidebarButton(props: { note: Note; }) {
     </div>);
 }
 
+function NullCategoryNotes(props: { notes: Note[]; }) {
+    const [{ canDrop, isOver }, drop] = useDrop(() => ({
+        // The type (or types) to accept - strings or symbols
+        accept: 'SIDEBAR_BUTTON',
+        // Props to collect
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+            canDrop: monitor.canDrop()
+        }),
+        drop: (item, monitor) => (
+            { newTagID: null }
+        )
+    }));
+
+    return (
+        <div ref={drop} style={{ width: '100%' }}>
+            <Group direction='column' spacing='xs' my='sm'>
+                {props.notes.map((note) =>
+                    <Box key={note.id} ml='xs' >
+                        <SidebarButton note={note} />
+                    </Box>
+                )}
+                {isOver && <Skeleton mx='sm' height={20} radius="md" />}
+            </Group>
+        </div>
+    );
+}
+
 function SidebarCategory(props: { category: Category, notes: Note[]; }) {
     const { id } = props.category;
 
     const categoryMutate = useCategoryMutate(id);
-    const deleteTag = useDeleteCategory(id);
+    const deleteCategory = useDeleteCategory(id);
 
     const [isEdit, setEdit] = useState(false);
     const [title, setTitle] = useState(props.category.title);
@@ -107,7 +135,7 @@ function SidebarCategory(props: { category: Category, notes: Note[]; }) {
                             : <Text size='xl'>{title}</Text>
                         }
                     </Box>
-                    <CloseButton title="Delete Category" size='sm' onClick={() => deleteTag()} />
+                    <CloseButton title="Delete Category" size='sm' onClick={() => deleteCategory()} />
                 </Group>
             </Box>
             <Group direction='column' spacing='xs' my='sm'>
@@ -118,7 +146,6 @@ function SidebarCategory(props: { category: Category, notes: Note[]; }) {
                 )}
                 {isOver && <Skeleton mx='sm' height={20} radius="md" />}
             </Group>
-
         </div>
     );
 }
@@ -153,6 +180,20 @@ function Book(props: { notebook: Notebook; }) {
 
     const contextState = { visibleSet: visibleSet, toggleVisible: toggleVisible };
 
+    // Memoize list of notes that do not contain a Category or have a invalid category
+    const nullCategoryNotes: Note[] = useMemo(() => noteListQuery.data?.filter((note) => (
+        note.category === null || !categoryListQuery.data?.find((element) => element.id === note.category?.id)
+    )) ?? [], [categoryListQuery.data, noteListQuery.data]);
+
+    const categorizedNotes = useMemo(() => {
+        const data: Record<string, Note[]> = {};
+        categoryListQuery.data?.forEach((category) => data[category.id] = noteListQuery.data?.filter((val) => val.category?.id === category.id) ?? []);
+        return data;
+    }, [categoryListQuery.data, noteListQuery.data]);
+
+    console.log(categoryListQuery.data);
+    console.log(noteListQuery.data);
+
     return (
         <NoteTileContext.Provider value={contextState}>
             <AppShell
@@ -173,19 +214,11 @@ function Book(props: { notebook: Notebook; }) {
                         </Group>
                         <Divider mt='md' />
                     </Navbar.Section>
-                    <Navbar.Section
-                        grow
-                        component={ScrollArea}
-                        mt='sm'
-                    >
+                    <Navbar.Section grow component={ScrollArea} mt='sm'>
                         <Group direction='column' spacing={0}>
-                            {noteListQuery.data?.map((note) => {
-                                if (note.categoryID === null || !categoryListQuery.data?.find((element) => element.id === note.categoryID)) {
-                                    return <SidebarButton key={note.id} note={note} />;
-                                }
-                            })}
+                            <NullCategoryNotes notes={nullCategoryNotes} />
                             {categoryListQuery.data?.map((category) => {
-                                const filteredList = noteListQuery.data?.filter((val) => val.categoryID === category.id) ?? [];
+                                const filteredList = noteListQuery.data?.filter((val) => val.category?.id === category.id) ?? [];
                                 return <SidebarCategory key={category.id} category={category} notes={filteredList} />;
                             })}
                         </Group>

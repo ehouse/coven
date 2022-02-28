@@ -1,14 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button, Grid, Group, Header, Title, useMantineTheme } from '@mantine/core';
+import { Auth } from 'aws-amplify';
 
-import { UserMenu, UserAvatar } from 'components/UserAvatar';
-import type { UserInfo } from 'types';
+import { UserMenu } from 'components/UserAvatar';
 
 interface Props {
-    userInfo: UserInfo;
     large?: boolean;
-    hidden?: boolean;
     hideEditorButton?: boolean;
 }
 
@@ -25,11 +23,22 @@ function Signin() {
     );
 }
 
-function NavHeader(props: Props) {
+const Navigation: React.FC<Props> = (props: Props) => {
+    const { large, hideEditorButton, ...rest } = props;
     const theme = useMantineTheme();
+    const [userInfo, setUserInfo] = useState<{ username: string | null, email: string; }>({ username: null, email: 'mp' });
+
+    useEffect(() => {
+        Auth.currentAuthenticatedUser().then((res) => {
+            const username = (typeof res.username === 'string') ? res.username : 'unauthorized';
+            const email = (typeof res.attributes.email === 'string') ? res.attributes.email : 'mp';
+            setUserInfo({ username, email });
+        });
+    }, []);
 
     return (
         <Header
+            {...rest}
             height={80}
             padding={'lg'}
             sx={{
@@ -41,15 +50,13 @@ function NavHeader(props: Props) {
                     <Title order={2}>🕷️ SpiderNotes</Title>
                 </Grid.Col>
                 <Grid.Col span={6}>
-                    {props.userInfo
-                        ? (props.hideEditorButton
-                            ? <Group position='right'><UserAvatar userInfo={props.userInfo} /></Group>
-                            : <UserMenu userInfo={props.userInfo} />)
+                    {userInfo.username
+                        ? <UserMenu hideEditor={props.hideEditorButton} username={userInfo.username} email={userInfo.email} />
                         : <Signin />}
                 </Grid.Col>
             </Grid>
         </Header>
     );
-}
+};
 
-export default NavHeader;
+export default Navigation;

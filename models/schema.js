@@ -165,12 +165,18 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "categoryID": {
-                    "name": "categoryID",
+                "category": {
+                    "name": "category",
                     "isArray": false,
-                    "type": "ID",
+                    "type": {
+                        "model": "Category"
+                    },
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "categoryNotesId"
+                    }
                 },
                 "tags": {
                     "name": "tags",
@@ -220,11 +226,94 @@ export const schema = {
                     }
                 },
                 {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "Category": {
+            "name": "Category",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "title": {
+                    "name": "title",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "notes": {
+                    "name": "notes",
+                    "isArray": true,
+                    "type": {
+                        "model": "Note"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "categoryNotesId"
+                    }
+                },
+                "notebookID": {
+                    "name": "notebookID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Categories",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
                     "type": "key",
                     "properties": {
-                        "name": "noteByCategory",
+                        "name": "categoryByNotebook",
                         "fields": [
-                            "categoryID"
+                            "notebookID"
                         ]
                     }
                 },
@@ -341,98 +430,6 @@ export const schema = {
                 }
             ]
         },
-        "Category": {
-            "name": "Category",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "title": {
-                    "name": "title",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "notes": {
-                    "name": "notes",
-                    "isArray": true,
-                    "type": {
-                        "model": "Note"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "categoryID"
-                    }
-                },
-                "notebookID": {
-                    "name": "notebookID",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "Categories",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "categoryByNotebook",
-                        "fields": [
-                            "notebookID"
-                        ]
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "provider": "userPools",
-                                "ownerField": "owner",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
         "NoteTag": {
             "name": "NoteTag",
             "fields": {
@@ -507,5 +504,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "24f1d17c9cf7cbc4b24bbcc8c74f1820"
+    "version": "14fd357b7632de8a57678fd5cbe6c194"
 };

@@ -14,9 +14,3 @@ export type ServerResponse =
 export type PostResponse<T> =
     | { success: true, data: T; }
     | { success: false, error: Error; };
-
-export type UserInfo = UserProfile | undefined;
-export interface UserProfile {
-    username: string;
-    email: string;
-}

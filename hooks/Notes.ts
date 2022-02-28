@@ -35,7 +35,7 @@ function useMoveNoteCategory(noteID: string) {
 
         if (note) {
             const noteCopy = Note.copyOf(note, updated => {
-                updated.categoryID = newCategory?.id;
+                updated.category = newCategory;
             });
             DataStore.save(noteCopy);
         } else {

@@ -16,11 +16,11 @@ type NoteMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-type TagMetaData = {
+type CategoryMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-type CategoryMetaData = {
+type TagMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
@@ -49,23 +49,12 @@ export declare class Note {
   readonly content?: string;
   readonly hidden?: boolean;
   readonly notebookID: string;
-  readonly categoryID?: string;
+  readonly category?: Category;
   readonly tags?: NoteTag[];
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Note, NoteMetaData>);
   static copyOf(source: Note, mutator: (draft: MutableModel<Note, NoteMetaData>) => MutableModel<Note, NoteMetaData> | void): Note;
-}
-
-export declare class Tag {
-  readonly id: string;
-  readonly title: string;
-  readonly notes?: (NoteTag | null)[];
-  readonly notebookID: string;
-  readonly createdAt?: string;
-  readonly updatedAt?: string;
-  constructor(init: ModelInit<Tag, TagMetaData>);
-  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag, TagMetaData>) => MutableModel<Tag, TagMetaData> | void): Tag;
 }
 
 export declare class Category {
@@ -77,6 +66,17 @@ export declare class Category {
   readonly updatedAt?: string;
   constructor(init: ModelInit<Category, CategoryMetaData>);
   static copyOf(source: Category, mutator: (draft: MutableModel<Category, CategoryMetaData>) => MutableModel<Category, CategoryMetaData> | void): Category;
+}
+
+export declare class Tag {
+  readonly id: string;
+  readonly title: string;
+  readonly notes?: (NoteTag | null)[];
+  readonly notebookID: string;
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
+  constructor(init: ModelInit<Tag, TagMetaData>);
+  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag, TagMetaData>) => MutableModel<Tag, TagMetaData> | void): Tag;
 }
 
 export declare class NoteTag {

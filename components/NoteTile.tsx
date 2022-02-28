@@ -25,8 +25,6 @@ function NoteTile(props: Props) {
     const [minimized, setMinimized] = useState(false);
     const [simple, toggleMode] = useBooleanToggle(true);
     const { toggleVisible } = useContext(NoteTileContext);
-    const categoryQuery = useCategoryQuery(note.categoryID);
-
 
     const deleteNote = useDeleteNote();
     const [debouncedTitle] = useDebouncedValue(title, 800);
@@ -48,7 +46,7 @@ function NoteTile(props: Props) {
                     <Box my='sm'>
                         <ClickInput value={title} placeholder='Title...' callBack={(state) => setTitle(state)} />
                     </Box>
-                    <Badge size='sm' variant="filled">{categoryQuery.data?.title}</Badge>
+                    {note.category && <Badge size='sm' variant="filled">{note.category.title}</Badge>}
                 </Group>
                 <Group mr='xs' spacing={0}>
                     <ActionIcon onClick={() => setMinimized((x) => !x)}>

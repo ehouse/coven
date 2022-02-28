@@ -11,7 +11,7 @@ type Notebook @model @auth(rules: [{allow: owner}]) {
     color: String
     Notes: [Note!] @hasMany(indexName: "noteByNotebook", fields: ["id"])
     tags: [Tag!] @hasMany(indexName: "tagByNotebook", fields: ["id"])
-    category: [Category!]  @hasMany(indexName: "categoryByNotebook", fields: ["id"])
+    category: [Category!] @hasMany(indexName: "categoryByNotebook", fields: ["id"])
 }
 
 type Note @model @auth(rules: [{allow: owner}]) {
@@ -21,7 +21,7 @@ type Note @model @auth(rules: [{allow: owner}]) {
     content: String
     hidden: Boolean
     notebookID: ID! @index(name: "noteByNotebook")
-    categoryID: ID @index(name: "noteByCategory")
+    category: Category @belongsTo
     tags: [Tag!] @manyToMany(relationName: "NoteTag")
 }
 
@@ -35,6 +35,6 @@ type Tag @model @auth(rules: [{allow: owner}]) {
 type Category @model @auth(rules: [{allow: owner}]) {
     id: ID!
     title: String!
-    notes: [Note!] @hasMany(indexName: "noteByCategory", fields: ["id"])
+    notes: [Note!] @hasMany
     notebookID: ID! @index(name: "categoryByNotebook")
 }
