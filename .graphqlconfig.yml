@@ -1,6 +1,6 @@
 projects:
   spidernotes:
-    schemaPath: amplify/backend/api/spidernotes/build/schema.graphql
+    schemaPath: graphql/schema.json
     includes:
       - graphql/**/*.ts
     excludes:
@@ -10,6 +10,3 @@ projects:
         codeGenTarget: typescript
         generatedFileName: API.ts
         docsFilePath: graphql
-extensions:
-  amplify:
-    version: 3
