@@ -54,6 +54,33 @@ function useCategoryMutate(categoryID: string) {
 }
 
 /**
+ * Maintains the Server State and Subscription for a single Notebook by ID. 
+ * State will always be considered fresh.
+ * @param id ID of notebook to query
+ * @returns Formatted State object containing loading, data, and errors
+ */
+function useCategoryQuery(id?: string): ServerStateResponse<Category> {
+    const initialState: ServerStateResponse<Category> = { isLoading: false, error: undefined, data: undefined };
+    const [state, setState] = useState<ServerStateResponse<Category>>(initialState);
+
+    useEffect(() => {
+        if (id) {
+            const subscription = DataStore.observeQuery(Category, p => p.id('eq', id)).subscribe(({ items, isSynced }) => {
+                if (items.length === 1) {
+                    setState((prev) => ({ ...prev, data: items[0], isLoading: !isSynced }));
+                }
+            }, (e) => {
+                setState((prev) => ({ ...prev, error: e }));
+            });
+
+            return () => subscription.unsubscribe();
+        }
+    }, [id]);
+
+    return state;
+}
+
+/**
  * Maintains the Server State and Subscription for all category's under a given notebook ID. 
  * State will always be considered fresh.
  * @param notebookID ID of notebook to query
@@ -79,4 +106,4 @@ function useCategoryListQuery(notebookID: string) {
     return state;
 }
 
-export { useCreateCategory, useDeleteCategory, useCategoryMutate, useCategoryListQuery };
+export { useCreateCategory, useDeleteCategory, useCategoryQuery, useCategoryMutate, useCategoryListQuery };

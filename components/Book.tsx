@@ -1,7 +1,7 @@
 import '@aws-amplify/ui-react/styles.css';
 import React, { useCallback, useContext, useState } from 'react';
 
-import { ActionIcon, AppShell, Button, Box, CloseButton, Divider, Group, Menu, Navbar, ScrollArea, Text, ThemeIcon, Title, UnstyledButton, TextInput } from '@mantine/core';
+import { ActionIcon, AppShell, Skeleton, Button, Box, CloseButton, Divider, Group, Menu, Navbar, ScrollArea, Text, ThemeIcon, Title, UnstyledButton, TextInput } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
 import { Amplify } from "aws-amplify";
 import { useRouter } from 'next/router';
@@ -68,7 +68,6 @@ function SidebarCategory(props: { category: Category, notes: Note[]; }) {
         categoryMutate(title);
     });
 
-
     const [{ canDrop, isOver }, drop] = useDrop(() => ({
         // The type (or types) to accept - strings or symbols
         accept: 'SIDEBAR_BUTTON',
@@ -86,9 +85,7 @@ function SidebarCategory(props: { category: Category, notes: Note[]; }) {
         <div ref={drop} style={{ width: '100%' }}>
             <Box
                 onClick={(event: React.MouseEvent<HTMLElement>) => { if (event.detail >= 2) setEdit(true); }}
-                mb='xs'
                 sx={(theme) => ({
-                    color: theme.colors.dark[5],
                     cursor: 'pointer',
                     borderBottom: '1px solid',
                 })}
@@ -113,9 +110,15 @@ function SidebarCategory(props: { category: Category, notes: Note[]; }) {
                     <CloseButton title="Delete Category" size='sm' onClick={() => deleteTag()} />
                 </Group>
             </Box>
-            {props.notes.map((note) => <Box key={note.id} ml='xs' mb='xs'>
-                <SidebarButton note={note} />
-            </Box>)}
+            <Group direction='column' spacing='xs' my='sm'>
+                {props.notes.map((note) =>
+                    <Box key={note.id} ml='xs' >
+                        <SidebarButton note={note} />
+                    </Box>
+                )}
+                {isOver && <Skeleton mx='sm' height={20} radius="md" />}
+            </Group>
+
         </div>
     );
 }
@@ -175,7 +178,7 @@ function Book(props: { notebook: Notebook; }) {
                         component={ScrollArea}
                         mt='sm'
                     >
-                        <Group direction='column'>
+                        <Group direction='column' spacing={0}>
                             {noteListQuery.data?.map((note) => {
                                 if (note.categoryID === null || !categoryListQuery.data?.find((element) => element.id === note.categoryID)) {
                                     return <SidebarButton key={note.id} note={note} />;

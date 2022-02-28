@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { ActionIcon, Card, Divider, CloseButton, Group, Menu, TextInput } from '@mantine/core';
+import { ActionIcon, Box, Card, Divider, CloseButton, Group, Menu, TextInput, Badge } from '@mantine/core';
 import { useDebouncedValue, useBooleanToggle } from '@mantine/hooks';
 import { ArchiveIcon, BoxIcon, MinusIcon, TrashIcon, SwitchIcon } from '@modulz/radix-icons';
 import { RiDraftLine } from "react-icons/ri";
 
+import ClickInput from 'components/ClickInput';
 import RichTextEditor from 'components/RichTextEditor';
 import { NoteTileContext } from 'context';
+import { useCategoryQuery } from 'hooks/Category';
 import { useNoteSync, useDeleteNote } from 'hooks/Notes';
 import { Note } from 'models';
 
@@ -23,6 +25,8 @@ function NoteTile(props: Props) {
     const [minimized, setMinimized] = useState(false);
     const [simple, toggleMode] = useBooleanToggle(true);
     const { toggleVisible } = useContext(NoteTileContext);
+    const categoryQuery = useCategoryQuery(note.categoryID);
+
 
     const deleteNote = useDeleteNote();
     const [debouncedTitle] = useDebouncedValue(title, 800);
@@ -34,20 +38,17 @@ function NoteTile(props: Props) {
     return <Card withBorder>
         <Card.Section style={{ backgroundColor: 'ghostwhite' }}>
             <Group position='apart' direction='row'>
-                <Group ml='sm' spacing='xs' align='center'>
+                <Group ml='sm' spacing='xs' align='center' style={{ flexGrow: 1 }}>
                     <Menu control={<ActionIcon><RiDraftLine /></ActionIcon>}>
                         <Menu.Item icon={<SwitchIcon />} onClick={() => toggleMode()}>{simple ? 'Simple Editor' : 'Complex Editor'}</Menu.Item>
                         <Divider />
                         <Menu.Item disabled icon={<ArchiveIcon />}>Archive</Menu.Item>
                         <Menu.Item color="red" icon={<TrashIcon />} onClick={() => deleteNote(note.id)}>Delete</Menu.Item>
                     </Menu>
-                    <TextInput
-                        size='lg'
-                        variant="unstyled"
-                        placeholder='Title...'
-                        value={title}
-                        onChange={(event) => setTitle(event.currentTarget.value)}>
-                    </TextInput>
+                    <Box my='sm'>
+                        <ClickInput value={title} placeholder='Title...' callBack={(state) => setTitle(state)} />
+                    </Box>
+                    <Badge size='sm' variant="filled">{categoryQuery.data?.title}</Badge>
                 </Group>
                 <Group mr='xs' spacing={0}>
                     <ActionIcon onClick={() => setMinimized((x) => !x)}>
