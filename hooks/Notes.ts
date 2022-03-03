@@ -68,7 +68,7 @@ function useDeleteNote() {
 function useCreateNote() {
     return useCallback((notebookID: string) => {
         const model = new Note({ 'noteType': NoteType.TEXT, 'notebookID': notebookID });
-        DataStore.save(model);
+        return DataStore.save(model);
     }, []);
 }
 

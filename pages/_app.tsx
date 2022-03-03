@@ -4,6 +4,7 @@ import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { MantineProvider } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
+import { NotificationsProvider } from '@mantine/notifications';
 import Amplify from 'aws-amplify';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -36,12 +37,14 @@ function App(props: AppProps) {
                         colorScheme: 'light',
                     }}
                 >
-                    <ModalsProvider modals={{
-                        createNotebookModal: CreateNotebookModal,
-                        notebookSettingsModal: NotebookSettingsModal
-                    }} >
-                        <Component {...pageProps} />
-                    </ModalsProvider>
+                    <NotificationsProvider>
+                        <ModalsProvider modals={{
+                            createNotebookModal: CreateNotebookModal,
+                            notebookSettingsModal: NotebookSettingsModal
+                        }} >
+                            <Component {...pageProps} />
+                        </ModalsProvider>
+                    </NotificationsProvider>
                 </MantineProvider>
             </Authenticator.Provider>
         </>

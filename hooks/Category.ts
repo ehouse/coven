@@ -23,14 +23,13 @@ function useCreateCategory() {
  * @returns Callback function which takes a tagID to be deleted
  */
 function useDeleteCategory(categoryID: string) {
-    return useCallback(() => {
-        DataStore.query(Category, categoryID).then((data) => {
-            if (data) {
-                DataStore.delete(data);
-            } else {
-                throw (Error(`Entity ${categoryID} cannot be deleted: Not Found`));
-            }
-        });
+    return useCallback(async () => {
+        const data = await DataStore.query(Category, categoryID);
+        if (data) {
+            return DataStore.delete(data);
+        } else {
+            throw (Error(`Entity ${categoryID} cannot be deleted: Not Found`));
+        }
     }, [categoryID]);
 }
 
@@ -51,6 +50,27 @@ function useCategoryMutate(categoryID: string) {
             }
         });
     }, [categoryID]);
+}
+
+/**
+ * Handles data syncing for Categories through the Datastore API
+ * @param categoryID CategoryID to be kept in sync
+ * @param title title value
+ * @param content content value
+ */
+function useCategorySync(categoryID: string, title: string) {
+    useEffect(() => {
+        DataStore.query(Category, categoryID).then((draft) => {
+            if (draft) {
+                const categoryCopy = Category.copyOf(draft, updated => {
+                    updated.title = title;
+                });
+                DataStore.save(categoryCopy);
+            } else {
+                throw (Error(`Entity ${categoryID} cannot be modified: Not Found`));
+            }
+        });
+    }, [categoryID, title]);
 }
 
 /**
@@ -106,4 +126,4 @@ function useCategoryListQuery(notebookID: string) {
     return state;
 }
 
-export { useCreateCategory, useDeleteCategory, useCategoryQuery, useCategoryMutate, useCategoryListQuery };
+export { useCreateCategory, useDeleteCategory, useCategoryQuery, useCategorySync, useCategoryMutate, useCategoryListQuery };

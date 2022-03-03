@@ -49,12 +49,6 @@ function Page() {
                 <Navigation />
             </MediaQuery>
         }>
-        <Affix position={{ top: 90, right: 15 }}>
-            <Group direction="column" position="center" spacing={0}>
-                <Title order={3}>🚧 Alpha - Work in Progress</Title>
-                <Title order={4}>Features may not work properly yet</Title>
-            </Group>
-        </Affix>
         <Container size={'xl'}>
             <MediaQuery largerThan={800} styles={{ display: 'none' }}>
                 <Burger
@@ -73,7 +67,7 @@ function Page() {
                     <Title sx={{ fontSize: 44, fontWeight: '500' }} order={2}>A Brand New Way to Take Notes!</Title>
                 </Center>
             </div>
-            <Grid gutter="xl" >
+            <Grid gutter="xl" sx={{ flex: 1 }}>
                 <Grid.Col md={12} lg={4}>
                     <Card shadow="md" padding="lg" sx={{ minHeight: '16rem' }}>
                         <Card.Section sx={{ boxShadow: theme.shadows.sm }}>

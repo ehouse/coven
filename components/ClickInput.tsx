@@ -7,6 +7,7 @@ import { useClickOutside } from '@mantine/hooks';
 interface Props {
     value: string;
     placeholder?: string;
+    active?: boolean;
     callBack: (state: string) => void;
 }
 
@@ -22,7 +23,7 @@ function ClickInput(props: Props) {
         onClick={(event: React.MouseEvent<HTMLElement>) => { if (event.detail >= 2) setEdit(true); }}
         style={{ cursor: 'pointer' }}
     >
-        {isEdit
+        {(isEdit || props.active)
             ? <TextInput
                 ref={clickAwayRef}
                 value={state}

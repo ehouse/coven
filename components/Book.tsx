@@ -2,7 +2,7 @@ import '@aws-amplify/ui-react/styles.css';
 import React, { useCallback, useContext, useState, useMemo } from 'react';
 
 import { ActionIcon, AppShell, Skeleton, Button, Box, CloseButton, Divider, Group, Menu, Navbar, ScrollArea, Text, ThemeIcon, Title, UnstyledButton, TextInput } from '@mantine/core';
-import { useClickOutside } from '@mantine/hooks';
+import { useNotifications } from '@mantine/notifications';
 import { Amplify } from "aws-amplify";
 import { useRouter } from 'next/router';
 import { useDrag, useDrop } from 'react-dnd';
@@ -11,9 +11,11 @@ import { RiAddCircleLine, RiArrowLeftSLine, RiDraftLine, RiMoreFill } from "reac
 import config from 'aws-exports';
 import EditorGrid from 'components/EditorGrid';
 import { NoteTileContext } from 'context';
-import { useCategoryListQuery, useCategoryMutate, useCreateCategory, useDeleteCategory } from 'hooks/Category';
+import { useCategoryListQuery, useCategorySync, useCategoryMutate, useCreateCategory, useDeleteCategory } from 'hooks/Category';
 import { useCreateNote, useNoteListQuery, useMoveNoteCategory } from 'hooks/Notes';
 import { Category, Note, Notebook } from 'models';
+
+import ClickInput from './ClickInput';
 
 
 Amplify.configure({ ...config });
@@ -27,9 +29,9 @@ function SidebarButton(props: { note: Note; }) {
         type: 'SIDEBAR_BUTTON',
         item: { noteID: id },
         end: (collected, monitor) => {
-            const dropResult = monitor.getDropResult<{ newTagID: string; }>();
+            const dropResult = monitor.getDropResult<{ newCategoryID: string; }>();
             if (collected.noteID && dropResult) {
-                moveNoteCategory(dropResult.newTagID);
+                moveNoteCategory(dropResult.newCategoryID);
             }
         },
         // The collect function utilizes a "monitor" instance (see the Overview for what this is)
@@ -65,7 +67,7 @@ function NullCategoryNotes(props: { notes: Note[]; }) {
             canDrop: monitor.canDrop()
         }),
         drop: (item, monitor) => (
-            { newTagID: null }
+            { newCategoryID: null }
         )
     }));
 
@@ -86,15 +88,12 @@ function NullCategoryNotes(props: { notes: Note[]; }) {
 function SidebarCategory(props: { category: Category, notes: Note[]; }) {
     const { id } = props.category;
 
-    const categoryMutate = useCategoryMutate(id);
+    const notification = useNotifications();
     const deleteCategory = useDeleteCategory(id);
-
-    const [isEdit, setEdit] = useState(false);
     const [title, setTitle] = useState(props.category.title);
-    const clickAwayRef = useClickOutside(() => {
-        setEdit(false);
-        categoryMutate(title);
-    });
+
+    // Keep Category values in sync when updated
+    useCategorySync(id, title);
 
     const [{ canDrop, isOver }, drop] = useDrop(() => ({
         // The type (or types) to accept - strings or symbols
@@ -111,33 +110,19 @@ function SidebarCategory(props: { category: Category, notes: Note[]; }) {
 
     return (
         <div ref={drop} style={{ width: '100%' }}>
-            <Box
-                onClick={(event: React.MouseEvent<HTMLElement>) => { if (event.detail >= 2) setEdit(true); }}
-                sx={(theme) => ({
-                    cursor: 'pointer',
-                    borderBottom: '1px solid',
-                })}
-            >
-                <Group position='apart' style={{ flexWrap: 'nowrap' }}>
-                    <Box m='xs'>
-                        {isEdit
-                            ? <TextInput
-                                ref={clickAwayRef}
-                                value={title}
-                                variant="unstyled"
-                                sx={(theme) => ({
-                                    input: {
-                                        fontSize: '20px'
-                                    }
-                                })}
-                                onChange={(event) => setTitle(event.currentTarget.value)}
-                            />
-                            : <Text size='xl'>{title}</Text>
-                        }
-                    </Box>
-                    <CloseButton title="Delete Category" size='sm' onClick={() => deleteCategory()} />
-                </Group>
-            </Box>
+            <Group sx={{ borderBottom: '1px solid' }} position='apart' style={{ flexWrap: 'nowrap' }}>
+                <Box m='xs'>
+                    <ClickInput
+                        active={title.length === 0}
+                        value={title} placeholder='Category...'
+                        callBack={(state) => setTitle(state)}
+                    />
+                </Box>
+                <CloseButton title="Delete Category" size='sm' onClick={() => deleteCategory().then((category) => notification.showNotification({
+                    title: `Success`,
+                    message: `Category ${category.title} deleted`,
+                }))} />
+            </Group>
             <Group direction='column' spacing='xs' my='sm'>
                 {props.notes.map((note) =>
                     <Box key={note.id} ml='xs' >
@@ -180,20 +165,6 @@ function Book(props: { notebook: Notebook; }) {
 
     const contextState = { visibleSet: visibleSet, toggleVisible: toggleVisible };
 
-    // Memoize list of notes that do not contain a Category or have a invalid category
-    const nullCategoryNotes: Note[] = useMemo(() => noteListQuery.data?.filter((note) => (
-        note.category === null || !categoryListQuery.data?.find((element) => element.id === note.category?.id)
-    )) ?? [], [categoryListQuery.data, noteListQuery.data]);
-
-    const categorizedNotes = useMemo(() => {
-        const data: Record<string, Note[]> = {};
-        categoryListQuery.data?.forEach((category) => data[category.id] = noteListQuery.data?.filter((val) => val.category?.id === category.id) ?? []);
-        return data;
-    }, [categoryListQuery.data, noteListQuery.data]);
-
-    console.log(categoryListQuery.data);
-    console.log(noteListQuery.data);
-
     return (
         <NoteTileContext.Provider value={contextState}>
             <AppShell
@@ -216,7 +187,7 @@ function Book(props: { notebook: Notebook; }) {
                     </Navbar.Section>
                     <Navbar.Section grow component={ScrollArea} mt='sm'>
                         <Group direction='column' spacing={0}>
-                            <NullCategoryNotes notes={nullCategoryNotes} />
+                            {noteListQuery.data && <NullCategoryNotes notes={noteListQuery.data} />}
                             {categoryListQuery.data?.map((category) => {
                                 const filteredList = noteListQuery.data?.filter((val) => val.category?.id === category.id) ?? [];
                                 return <SidebarCategory key={category.id} category={category} notes={filteredList} />;
@@ -232,12 +203,12 @@ function Book(props: { notebook: Notebook; }) {
                                 leftIcon={<RiAddCircleLine />}
                                 variant="gradient"
                                 gradient={{ from: 'pink', to: 'red', deg: 35 }}
-                                onClick={() => createNote(notebookID)}
+                                onClick={() => createNote(notebookID).then((note) => visibleSet.add(note.id))}
                             >
                                 New Note
                             </Button>
                             <Menu control={<Button variant='light'><RiMoreFill /></Button>}>
-                                <Menu.Item onClick={() => createCategory('category', notebookID)}>New Catagory</Menu.Item>
+                                <Menu.Item onClick={() => createCategory('', notebookID)}>New Catagory</Menu.Item>
                             </Menu>
                         </Group>
                     </Navbar.Section>

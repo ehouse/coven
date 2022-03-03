@@ -33,6 +33,8 @@ function NoteTile(props: Props) {
     // Pass in the debounced values to be kept in sync with the backend API
     useNoteSync(note.id, debouncedTitle, debouncedContent);
 
+    console.log(note);
+
     return <Card withBorder>
         <Card.Section style={{ backgroundColor: 'ghostwhite' }}>
             <Group position='apart' direction='row'>
@@ -44,7 +46,7 @@ function NoteTile(props: Props) {
                         <Menu.Item color="red" icon={<TrashIcon />} onClick={() => deleteNote(note.id)}>Delete</Menu.Item>
                     </Menu>
                     <Box my='sm'>
-                        <ClickInput value={title} placeholder='Title...' callBack={(state) => setTitle(state)} />
+                        <ClickInput active={title.length === 0} value={title} placeholder='Title...' callBack={(state) => setTitle(state)} />
                     </Box>
                     {note.category && <Badge size='sm' variant="filled">{note.category.title}</Badge>}
                 </Group>
